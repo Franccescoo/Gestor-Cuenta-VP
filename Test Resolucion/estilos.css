@@ -1,0 +1,434 @@
+:root {
+  --primary: #1a0624;
+  --white: #e4e4e4;
+  --dark-blue: #003366;
+  --light-blue: #00b3e3;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #1a0624;
+}
+
+.header {
+  width: 100%;
+}
+
+.top-banner {
+  background-color: #1a0624;
+  color: white;
+  text-align: center;
+  padding: 0.1rem;
+  font-size: 0.9rem;
+}
+
+.main-header {
+  background-color: white;
+  padding: 1rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.main-header .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
+.navigation {
+  background-color: #5b28a5;
+  padding: 0.75rem;
+}
+
+.navigation .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+}
+
+.nav-links a.active,
+.nav-links a:hover {
+  color: var(--light-blue);
+  border-bottom: 2px solid var(--light-blue);
+  padding-bottom: 0.2rem;
+}
+
+
+.social-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.social-links a {
+  color: #ffffff;
+  font-size: 1.2rem;
+  transition: color 0.3s ease;
+}
+
+.social-links a:hover {
+  color: var(--light-blue);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .main-header .container {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .navigation .container {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+}
+
+.casino-banner {
+  width: 100vw; /* Asegura que ocupe el ancho completo de la ventana */
+  overflow: hidden;
+}
+
+.casino-banner img {
+  width: 100%;
+  height: 200px; /* Ajusta esta altura como desees (ej: 150px, 180px) */
+  object-fit: cover; /* Corta si es necesario para que no se deforme */
+  display: block;
+}
+
+
+/* ESTILO PARA LA CATEGORIA */
+
+.vip-club {
+  background-color: #24083d;
+  padding: 2rem 1rem;
+  color: #fff;
+  text-align: center;
+}
+
+.vip-club h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: #00b3e3;
+}
+
+.vip-description {
+  font-size: 1rem;
+  margin-bottom: 2rem;
+}
+
+.vip-progress {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.level {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+.progress-bar {
+  background-color: #444;
+  width: 200px;
+  height: 8px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #00b3e3, #5b28a5);
+  width: 0%;
+  transition: width 0.5s ease;
+}
+
+.vip-stats {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.stat-box {
+  background-color: #341757;
+  padding: 1rem;
+  border-radius: 8px;
+  width: 150px;
+  border: 1px solid #5b28a5;
+}
+
+.stat-box h4 {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #00b3e3;
+}
+
+.stat-box p {
+  font-size: 1.2rem;
+  margin: 0.5rem 0 0 0;
+}
+
+.vip-levels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.vip-card {
+  background-color: #3e1e67;
+  padding: 1rem;
+  width: 150px;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  transition: transform 0.3s ease;
+}
+
+.vip-card:hover {
+  transform: scale(1.05);
+}
+
+.vip-card h3 {
+  margin: 0 0 0.5rem 0;
+}
+
+.vip-card.silver { border-color: #c0c0c0; }
+.vip-card.gold { border-color: gold; }
+.vip-card.black { border-color: #333; }
+.vip-card.platinum { border-color: #e5e4e2; }
+.vip-card.diamond { border-color: #00eaff; }
+
+
+/* FOOTER DE LA PAGINA */
+
+.footer {
+  background-color: #180323;
+  color: #aaa;
+  padding: 2rem 1rem;
+  font-size: 0.9rem;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.footer-column {
+  flex: 1 1 200px;
+  margin: 1rem 0;
+}
+
+.footer-column h4 {
+  color: #fff;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.footer-column ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-column ul li {
+  margin-bottom: 0.5rem;
+}
+
+.footer-column ul li a {
+  color: #aaa;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-column ul li a:hover {
+  color: var(--light-blue); /* Ya definido en tu :root */
+}
+
+
+/* CSS DE BENEFICIOS.HTML */
+
+.benefits-section {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 1rem;
+  color: #e4e4e4;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: var(--light-blue);
+}
+
+.benefit-card {
+  background-color: #24063d;
+  border-radius: 10px;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+.benefit-card h3 {
+  margin-bottom: 1rem;
+  color: var(--light-blue);
+  text-transform: uppercase;
+}
+
+.benefit-card ul {
+  list-style: none;
+  padding: 0;
+}
+
+.benefit-card li {
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+.benefit-card i {
+  color: #00ffae;
+  margin-right: 0.5rem;
+}
+
+
+/* CSS DE CANJEAR.HTML */
+
+.redeem-section {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 1rem;
+  color: #e4e4e4;
+}
+
+.rewards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.reward-card {
+  background-color: #2b0743;
+  border-radius: 12px;
+  padding: 1rem;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(0,0,0,0.25);
+  transition: transform 0.3s ease;
+}
+
+.reward-card:hover {
+  transform: translateY(-5px);
+}
+
+.reward-card img {
+  max-width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.reward-card h3 {
+  margin: 0.5rem 0;
+  color: #fff;
+}
+
+.reward-card p {
+  margin: 0.5rem 0;
+  color: #ddd;
+}
+
+.redeem-btn {
+  background-color: var(--light-blue);
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.redeem-btn:hover {
+  background-color: #00d8ff;
+}
+
+.redeem-btn:disabled {
+  background-color: #666;
+  cursor: not-allowed;
+}
+
+/* CSS DE LOGROS.HTML */
+
+.achievements-section {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 1rem;
+  color: #e4e4e4;
+}
+
+.achievements-list {
+  list-style: none;
+  padding: 0;
+}
+
+.achievement-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  background-color: #2b0743;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 0 8px rgba(0,0,0,0.2);
+}
+
+.achievement-item i {
+  font-size: 2rem;
+  color: gold;
+  min-width: 40px;
+}
+
+.achievement-item h4 {
+  margin: 0;
+  color: #ffffff;
+}
+
+.achievement-item p {
+  margin: 0.2rem 0 0;
+  color: #ccc;
+}
