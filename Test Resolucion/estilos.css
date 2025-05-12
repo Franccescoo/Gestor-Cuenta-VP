@@ -3,6 +3,7 @@
   --white: #e4e4e4;
   --dark-blue: #003366;
   --light-blue: #00b3e3;
+  --color-azul: #00b67a;
 }
 
 body {
@@ -64,31 +65,114 @@ body {
 .nav-links a {
   color: #ffffff;
   text-decoration: none;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   transition: color 0.3s ease;
+  text-transform: uppercase;
 }
 
 .nav-links a.active,
 .nav-links a:hover {
-  color: var(--light-blue);
-  border-bottom: 2px solid var(--light-blue);
-  padding-bottom: 0.2rem;
-}
-
-
-.social-links {
-  display: flex;
-  gap: 1rem;
-}
-
-.social-links a {
+  background-color: #3d1c70;
   color: #ffffff;
+  padding: 0.4rem 0.5rem;
+  border-radius: 20px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+}
+
+
+.notification-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #3d1c70;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+  color: #ffffff;
+  font-size: 1rem;
+}
+
+.notification-icon i {
+  color: #00ffb2;
   font-size: 1.2rem;
   transition: color 0.3s ease;
 }
 
-.social-links a:hover {
+.notification-icon i:hover {
   color: var(--light-blue);
+}
+
+/* PANTALLA FLOTANTE */
+
+.notification-icon {
+  position: relative;
+  color: white;
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+
+.notification-panel {
+  position: absolute;
+  top: 70px;
+  right: 20px;
+  background-color: #2d1250;
+  color: #fff;
+  padding: 1rem;
+  border-radius: 10px;
+  width: 300px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+  z-index: 1000;
+}
+
+.notification-panel h4 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid #555;
+  padding-bottom: 0.5rem;
+}
+
+.notification-panel ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.notification-panel li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #444;
+  font-size: 0.9rem;
+}
+
+.notification-panel.hidden {
+  display: none;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: red;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 50%;
+}
+
+.notification-footer {
+  text-align: center;
+  margin-top: 0.75rem;
+  padding-top: 0.5rem;
+}
+
+.notification-footer a {
+  color: #00ffff;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.notification-footer a:hover {
+  text-decoration: underline;
 }
 
 /* Responsive */
@@ -112,16 +196,47 @@ body {
 }
 
 .casino-banner {
+  position: relative; /* Necesario para posicionar el logo encima */
   width: 100vw; /* Asegura que ocupe el ancho completo de la ventana */
   overflow: hidden;
 }
 
 .casino-banner img {
   width: 100%;
-  height: 200px; /* Ajusta esta altura como desees (ej: 150px, 180px) */
-  object-fit: cover; /* Corta si es necesario para que no se deforme */
+  height: 200px; /* Ajusta esta altura como desees */
+  object-fit: cover;
   display: block;
 }
+
+.casino-logo {
+  position: absolute; /* Posicionamiento absoluto */
+  top: 50%; /* Centrado vertical */
+  left: 50%; /* Centrado horizontal */
+  transform: translate(-50%, -50%); /* Ajusta para que esté perfectamente centrado */
+  max-width: 400px; /* Ajusta el tamaño del logo */
+  height: auto; /* Mantiene la relación de aspecto */
+  z-index: 10; /* Asegura que el logo esté encima del banner */
+  opacity: 0.9; /* Opcional: Agrega transparencia si es necesario */
+}
+
+
+
+.user-balance {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #ffffff;
+  font-size: 0.95rem;
+  background-color: #3d1c70;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+}
+
+.user-balance i {
+  color: #00ffb2;
+}
+
 
 
 /* ESTILO PARA LA CATEGORIA */
@@ -431,4 +546,431 @@ body {
 .achievement-item p {
   margin: 0.2rem 0 0;
   color: #ccc;
+}
+
+/* CSS DE MI PERFIL.HTML */
+
+.profile-section {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1rem;
+  color: #e4e4e4;
+}
+
+.section-title {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+}
+
+.profile-card {
+  background-color: #2b0743;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #fff;
+}
+
+.profile-header h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #fff;
+}
+
+.profile-details {
+  margin-top: 1.5rem;
+  font-size: 0.95rem;
+}
+
+.profile-details p {
+  margin: 0.5rem 0;
+  color: #ccc;
+}
+
+.profile-details i {
+  margin-right: 0.5rem;
+  color: #00b3e3;
+}
+
+.profile-balance {
+  margin-top: 2rem;
+  border-top: 1px solid #444;
+  padding-top: 1rem;
+}
+
+.profile-balance h4 {
+  color: #ffffff;
+  margin-bottom: 1rem;
+}
+
+.balance-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.balance-box div {
+  flex: 1;
+  min-width: 140px;
+}
+
+.balance-amount {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #00ffb3;
+}
+
+.bonus-amount {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #ffcc00;
+}
+
+.recharge-btn {
+  background-color: #5b28a5;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.recharge-btn:hover {
+  background-color: #7d3ad1;
+}
+
+.profile-actions {
+  margin-top: 2rem;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.profile-btn {
+  flex: 1;
+  min-width: 150px;
+  background-color: #3f0d69;
+  color: #fff;
+  border: none;
+  padding: 0.8rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.profile-btn:hover {
+  background-color: #5e1aa3;
+}
+
+.logout {
+  background-color: #8b1e1e;
+}
+
+.logout:hover {
+  background-color: #a83232;
+}
+
+/* CSS DE RECARGA.HTML */
+
+.recarga-section {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 1rem;
+  color: #e4e4e4;
+}
+
+.recarga-card {
+  background-color: #2b0743;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+.recarga-montos h4,
+.metodo-pago h4 {
+  margin-bottom: 0.8rem;
+  color: #ffffff;
+}
+
+.montos-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.monto-btn {
+  flex: 1 1 30%;
+  background-color: #5b28a5;
+  color: white;
+  border: none;
+  padding: 0.7rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background 0.3s ease;
+}
+
+.monto-btn:hover {
+  background-color: #7d3ad1;
+}
+
+.recarga-input {
+  margin-bottom: 1.5rem;
+}
+
+.recarga-input input {
+  width: 100%;
+  padding: 0.6rem;
+  border-radius: 6px;
+  border: none;
+  font-size: 1rem;
+}
+
+.metodo-pago select {
+  width: 100%;
+  padding: 0.6rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  border: none;
+  background-color: #fff;
+  color: #000;
+}
+
+.resumen-recarga {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.resumen-recarga p {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+#resumen-total {
+  font-weight: bold;
+  color: #00ffb3;
+}
+
+.btn-confirmar {
+  background-color: #00b67a;
+  color: white;
+  border: none;
+  padding: 0.9rem 2rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.btn-confirmar:hover {
+  background-color: #00e6a2;
+}
+
+/* CSS DE PROMOCION.HTML */
+
+.promo-section {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 1rem;
+  color: #e4e4e4;
+}
+
+.promo-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.promo-card {
+  background-color: #2b0743;
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 0 10px rgba(0,0,0,0.25);
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.promo-card:hover {
+  transform: translateY(-4px);
+}
+
+.promo-card h3 {
+  margin: 0 0 0.5rem;
+  color: #ffffff;
+}
+
+.promo-card p {
+  margin: 0 0 1rem;
+  color: #cccccc;
+}
+
+.promo-tag {
+  display: inline-block;
+  margin-top: 1rem;
+  background-color: #5b28a5;
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.promo-active {
+  background-color: #00b67a;
+}
+
+.promo-vip {
+  background-color: #ffc107;
+  color: #000;
+}
+
+/* CSS DE CASHBACK.HTML */
+
+.cashback-section {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 1rem;
+  color: #e4e4e4;
+}
+
+.cashback-summary {
+  background-color: #2b0743;
+  border-radius: 10px;
+  padding: 1.5rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  box-shadow: 0 0 10px rgba(0,0,0,0.25);
+}
+
+.cashback-summary p {
+  margin: 0;
+  font-size: 1rem;
+  color: #ccc;
+}
+
+.cashback-summary h3 {
+  font-size: 2rem;
+  margin: 0.5rem 0 1rem;
+  color: #00ffb2;
+}
+
+.btn-cashback {
+  background-color: #00b67a;
+  border: none;
+  padding: 0.6rem 1.5rem;
+  border-radius: 25px;
+  color: white;
+  font-size: 0.9rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.btn-cashback:hover {
+  background-color: #009e66;
+}
+
+.cashback-history {
+  background-color: #1f012f;
+  border-radius: 10px;
+  padding: 1.5rem;
+}
+
+.cashback-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.cashback-table th,
+.cashback-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #444;
+  color: #e4e4e4;
+}
+
+.cashback-table th {
+  background-color: #30094c;
+}
+
+/* CSS DE NOTIFICACION.HTML */
+
+.notification-page {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1rem;
+  background-color: #2d1250;
+  border-radius: 10px;
+  color: #ffffff;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+.notification-page h2 {
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #555;
+  padding-bottom: 0.5rem;
+  font-size: 1.4rem;
+  color: #00ffb2;
+}
+
+.notification-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.notification-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid #444;
+}
+
+.notification-list i {
+  font-size: 1.2rem;
+  color: #00ffb2;
+  margin-top: 0.2rem;
+}
+
+.notification-list div {
+  font-size: 0.95rem;
+}
+
+.notification-list .date {
+  display: block;
+  font-size: 0.75rem;
+  color: #bbb;
+  margin-top: 0.3rem;
+}
+
+.no-notifications {
+  text-align: center;
+  font-size: 1rem;
+  color: #ccc;
+  padding: 2rem 0;
+}
+
+.no-notifications.hidden {
+  display: none;
 }

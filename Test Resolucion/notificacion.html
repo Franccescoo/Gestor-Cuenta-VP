@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Notificaciones</title>
+  <link rel="stylesheet" href="estilos.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <header class="header">
+        <!-- Top Banner -->
+        <div class="top-banner">
+          <p>BONO ADICIONAL: Para recargas sobre $40.000</p>
+        </div>
+    
+        <div class="casino-banner">
+          <!-- Logo de la empresa encima del banner -->
+          <img src="../Image/logo-casino.png" alt="Logo Empresa" class="casino-logo">
+          <img src="../Image/banner-casino.jpg" alt="Banner Casino">
+        </div>
+        
+        <!-- Navigation -->
+        <nav class="navigation">
+          <div class="container">
+    
+            <ul class="nav-links">
+              <li><a href="/Test Resolucion/perfil.html">Mi Perfil</a></li>
+              <li><a href="/Test Resolucion/recarga.html">Recargas</a></li>
+              <li><a href="/Test Resolucion/promocion.html">Promociones</a></li>
+              <li><a href="/Test Resolucion/cashback.html">Cash Back</a></li>
+              <li><a href="/Test Resolucion/index.html">Club VIP</a></li>
+              <li><a href="/Test Resolucion/beneficios.html">Mis Beneficios</a></li>
+              <li><a href="/Test Resolucion/logros.html">Logros VIP</a></li>
+              <li><a href="/Test Resolucion/canjear.html">Canjear Puntos</a></li>
+            </ul>
+            
+    
+              <div class="user-balance">
+                <i class="fas fa-wallet"></i>
+                <span>Saldo: $85.000</span>
+                </div>
+    
+                <div class="notification-icon">
+                    <i class="fas fa-bell" onclick="toggleNotifications()"></i>
+                    <span class="notification-badge">1</span>
+                  </div>
+                  
+          </div>
+        </nav>
+    
+        <div id="notification-panel" class="notification-panel hidden">
+            <h4>Notificaciones</h4>
+            <ul>
+              <li><strong>Bono recibido:</strong> Has ganado 5.000 puntos.</li>
+              <li><strong>Recarga exitosa:</strong> $20.000 agregados.</li>
+              <li><strong>Nivel VIP:</strong> ¡Subiste a Gold!</li>
+            </ul>
+            <div class="notification-footer">
+              <a href="/Test Resolucion/notificacion.html">Ver todas →</a>
+            </div>
+          </div>
+               
+    
+      </header>
+
+  <main class="notification-page">
+    <section class="notification-list">
+      <h2>Mis Notificaciones</h2>
+
+      <ul>
+        <li>
+          <i class="fas fa-gift"></i>
+          <div>
+            <strong>Bono recibido:</strong> Has ganado 5.000 puntos.
+            <span class="date">Hace 2 horas</span>
+          </div>
+        </li>
+        <li>
+          <i class="fas fa-money-bill-wave"></i>
+          <div>
+            <strong>Recarga exitosa:</strong> $20.000 agregados.
+            <span class="date">Ayer</span>
+          </div>
+        </li>
+        <li>
+          <i class="fas fa-star"></i>
+          <div>
+            <strong>Nivel VIP:</strong> ¡Subiste a Gold!
+            <span class="date">Hace 3 días</span>
+          </div>
+        </li>
+      </ul>
+
+      <div class="no-notifications hidden">
+        <p>No tienes notificaciones nuevas por ahora.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-column">
+        <h4>TUCASINOENCASA</h4>
+        <p>&copy; 2025 Todos los derechos reservados.</p>
+      </div>
+      <div class="footer-column">
+        <h4>IDIOMA</h4>
+        <ul>
+          <li><a href="#">Español</a></li>
+          <li><a href="#">Inglés</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <ul>
+          <li><a href="#">Juegos populares</a></li>
+          <li><a href="#">Política de bonos</a></li>
+          <li><a href="#">Jackpot</a></li>
+          <li><a href="#">Reglamentos</a></li>
+          <li><a href="#">Apuestas deportivas</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+  
+  <script>
+    function toggleNotifications() {
+      const panel = document.getElementById('notification-panel');
+      panel.classList.toggle('hidden');
+    }
+  
+    // Cierra al hacer clic fuera
+    document.addEventListener('click', function(event) {
+      const bell = document.querySelector('.notification-icon i');
+      const panel = document.getElementById('notification-panel');
+  
+      if (!panel.contains(event.target) && event.target !== bell) {
+        panel.classList.add('hidden');
+      }
+    });
+  </script>
+  
+</body>
+</html>

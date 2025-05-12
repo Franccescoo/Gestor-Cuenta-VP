@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Perfil</title>
+  <link rel="stylesheet" href="estilos.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <header class="header">
+        <!-- Top Banner -->
+        <div class="top-banner">
+          <p>BONO ADICIONAL: Para recargas sobre $40.000</p>
+        </div>
+    
+        <div class="casino-banner">
+            <!-- Logo de la empresa encima del banner -->
+            <img src="../Image/logo-casino.png" alt="Logo Empresa" class="casino-logo">
+            <img src="../Image/banner-casino.jpg" alt="Banner Casino">
+          </div>
+    
+        <!-- Navigation -->
+        <nav class="navigation">
+          <div class="container">
+    
+            <ul class="nav-links">
+              <li><a href="/Test Resolucion/perfil.html"  class="active">Mi Perfil</a></li>
+              <li><a href="/Test Resolucion/recarga.html">Recargas</a></li>
+              <li><a href="/Test Resolucion/promocion.html">Promociones</a></li>
+              <li><a href="/Test Resolucion/cashback.html">Cash Back</a></li>
+              <li><a href="/Test Resolucion/index.html">Club VIP</a></li>
+              <li><a href="/Test Resolucion/beneficios.html">Mis Beneficios</a></li>
+              <li><a href="/Test Resolucion/logros.html">Logros VIP</a></li>
+              <li><a href="/Test Resolucion/canjear.html">Canjear Puntos</a></li>
+            </ul>
+
+            <div class="user-balance">
+            <i class="fas fa-wallet"></i>
+            <span>Saldo: $85.000</span>
+            </div>
+
+    
+                <div class="notification-icon">
+                    <i class="fas fa-bell" onclick="toggleNotifications()"></i>
+                    <span class="notification-badge">1</span>
+                  </div>
+                  
+          </div>
+        </nav>
+
+        <div id="notification-panel" class="notification-panel hidden">
+            <h4>Notificaciones</h4>
+            <ul>
+              <li><strong>Bono recibido:</strong> Has ganado 5.000 puntos.</li>
+              <li><strong>Recarga exitosa:</strong> $20.000 agregados.</li>
+              <li><strong>Nivel VIP:</strong> ¡Subiste a Gold!</li>
+            </ul>
+            <div class="notification-footer">
+              <a href="/Test Resolucion/notificacion.html">Ver todas →</a>
+            </div>
+          </div>
+               
+
+      </header>
+
+  <main class="profile-section">
+    <h2 class="section-title">Mi Perfil</h2>
+
+    <div class="profile-card">
+      <div class="profile-header">
+        <img src="/Image/foto-perfil.jfif" alt="Avatar" class="avatar">
+        <div>
+          <h3>Lucía Opazo</h3>
+          <p>VIP Nivel: <strong>Gold</strong></p>
+          <p>Puntos acumulados: <strong>2.350</strong></p>
+        </div>
+      </div>
+
+      <div class="profile-details">
+        <p><i class="fa-solid fa-envelope"></i> Correo: lucia.opazo@example.com</p>
+        <p><i class="fa-solid fa-phone"></i> Teléfono: +56 9 1234 5678</p>
+        <p><i class="fa-solid fa-calendar"></i> Miembro desde: Enero 2023</p>
+        <p><i class="fa-solid fa-location-dot"></i> País: Chile</p>
+      </div>
+
+      <div class="profile-balance">
+        <h4>Mi Saldo</h4>
+        <div class="balance-box">
+          <div>
+            <p>Saldo disponible</p>
+            <span class="balance-amount">$85.000</span>
+          </div>
+          <div>
+            <p>Bono activo</p>
+            <span class="bonus-amount">$10.000</span>
+          </div>
+          <div>
+            <a href="/Test Resolucion/recarga.html"> <button class="recharge-btn"><i class="fa-solid fa-plus"></i>Recargas</button></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="profile-actions">
+        <button class="profile-btn"><i class="fa-solid fa-pen"></i> Editar Datos</button>
+        <button class="profile-btn logout"><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</button>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-column">
+        <h4>TUCASINOENCASA</h4>
+        <p>&copy; 2025 Todos los derechos reservados.</p>
+      </div>
+      <div class="footer-column">
+        <h4>IDIOMA</h4>
+        <ul>
+          <li><a href="#">Español</a></li>
+          <li><a href="#">Inglés</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <ul>
+          <li><a href="#">Juegos populares</a></li>
+          <li><a href="#">Política de bonos</a></li>
+          <li><a href="#">Jackpot</a></li>
+          <li><a href="#">Reglamentos</a></li>
+          <li><a href="#">Apuestas deportivas</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function toggleNotifications() {
+      const panel = document.getElementById('notification-panel');
+      panel.classList.toggle('hidden');
+    }
+  
+    // Cierra al hacer clic fuera
+    document.addEventListener('click', function(event) {
+      const bell = document.querySelector('.notification-icon i');
+      const panel = document.getElementById('notification-panel');
+  
+      if (!panel.contains(event.target) && event.target !== bell) {
+        panel.classList.add('hidden');
+      }
+    });
+  </script>
+
+</body>
+</html>

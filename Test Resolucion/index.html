@@ -22,34 +22,53 @@
     </div>
 
     <div class="casino-banner">
+      <!-- Logo de la empresa encima del banner -->
+      <img src="../Image/logo-casino.png" alt="Logo Empresa" class="casino-logo">
       <img src="../Image/banner-casino.jpg" alt="Banner Casino">
     </div>
     
-    
-
     <!-- Navigation -->
     <nav class="navigation">
       <div class="container">
 
         <ul class="nav-links">
-          <li><a href="#">Mi Perfil</a></li>
-          <li><a href="#">Recargas</a></li>
-          <li><a href="#">Promociones</a></li>
-          <li><a href="#">Cash Back</a></li>
-          <li><a href="#" class="active">Club VIP</a></li>
+          <li><a href="/Test Resolucion/perfil.html">Mi Perfil</a></li>
+          <li><a href="/Test Resolucion/recarga.html">Recargas</a></li>
+          <li><a href="/Test Resolucion/promocion.html">Promociones</a></li>
+          <li><a href="/Test Resolucion/cashback.html">Cash Back</a></li>
+          <li><a href="/Test Resolucion/index.html" class="active">Club VIP</a></li>
           <li><a href="/Test Resolucion/beneficios.html">Mis Beneficios</a></li>
           <li><a href="/Test Resolucion/logros.html">Logros VIP</a></li>
           <li><a href="/Test Resolucion/canjear.html">Canjear Puntos</a></li>
         </ul>
         
 
-        <div class="social-links">
-          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-          <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
-          <a href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
-        </div>
+          <div class="user-balance">
+            <i class="fas fa-wallet"></i>
+            <span>Saldo: $85.000</span>
+            </div>
+
+            <div class="notification-icon">
+                <i class="fas fa-bell" onclick="toggleNotifications()"></i>
+                <span class="notification-badge">1</span>
+              </div>
+              
       </div>
     </nav>
+
+    <div id="notification-panel" class="notification-panel hidden">
+        <h4>Notificaciones</h4>
+        <ul>
+          <li><strong>Bono recibido:</strong> Has ganado 5.000 puntos.</li>
+          <li><strong>Recarga exitosa:</strong> $20.000 agregados.</li>
+          <li><strong>Nivel VIP:</strong> ¡Subiste a Gold!</li>
+        </ul>
+        <div class="notification-footer">
+          <a href="/Test Resolucion/notificacion.html">Ver todas →</a>
+        </div>
+      </div>
+           
+
   </header>
 
   <section class="vip-club">
@@ -139,6 +158,22 @@
     </div>
   </footer>
   
+  <script>
+    function toggleNotifications() {
+      const panel = document.getElementById('notification-panel');
+      panel.classList.toggle('hidden');
+    }
+  
+    // Cierra al hacer clic fuera
+    document.addEventListener('click', function(event) {
+      const bell = document.querySelector('.notification-icon i');
+      const panel = document.getElementById('notification-panel');
+  
+      if (!panel.contains(event.target) && event.target !== bell) {
+        panel.classList.add('hidden');
+      }
+    });
+  </script>
 
 </body>
 </html>
