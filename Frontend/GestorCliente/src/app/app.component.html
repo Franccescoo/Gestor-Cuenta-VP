@@ -1,33 +1,57 @@
 <ion-app>
-  <ion-split-pane contentId="main-content">
-    <ion-menu contentId="main-content" type="overlay">
+  <!-- Configurar el Split Pane para que no se muestre automáticamente en pantallas grandes -->
+  <ion-split-pane contentId="main-content" when="false">
+    <!-- Menú lateral -->
+    <ion-menu side="start" contentId="main-content">
+      <ion-header>
+        <ion-toolbar routerLink="/index" style="background-color: var(--paynes-gray); color: #ffffff;">
+          <ion-title>GestorCliente</ion-title>
+        </ion-toolbar>
+      </ion-header>
+
       <ion-content>
-        <ion-list id="inbox-list">
-          <ion-list-header>Inbox</ion-list-header>
-          <ion-note>hi&#64;ionicframework.com</ion-note>
+        <!-- Lista de opciones del menú -->
+        <ion-list>
 
-          @for (p of appPages; track p; let i = $index) {
-            <ion-menu-toggle auto-hide="false">
-              <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
-                <ion-icon aria-hidden="true" slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
-                <ion-label>{{ p.title }}</ion-label>
-              </ion-item>
-            </ion-menu-toggle>
-          }
+          <ion-item routerLink="/index" routerLinkActive="active-item" style="color: #4a4a4a;">
+            <ion-icon slot="start" name="home" style="color: #333333;"></ion-icon>
+            Inicio
+          </ion-item>
+
+          <ion-item routerLink="/catalogo" routerLinkActive="active-item" style="color: #4a4a4a;">
+            <ion-icon slot="start" name="albums" style="color: #333333;"></ion-icon>
+            Catálogo
+          </ion-item>
+
+          <ion-item routerLink="/contacto" routerLinkActive="active-item" style="color: #4a4a4a;">
+            <ion-icon slot="start" name="mail" style="color: #333333;"></ion-icon>
+            Contáctanos
+          </ion-item>
+
+          <ion-item routerLink="/informacion" routerLinkActive="active-item" style="color: #4a4a4a;">
+            <ion-icon slot="start" name="information-circle" style="color: #333333;"></ion-icon>
+            Información
+          </ion-item>
+
+          <ion-item routerLink="/sobre-nosotros" routerLinkActive="active-item" style="color: #4a4a4a;">
+            <ion-icon slot="start" name="people" style="color: #333333;"></ion-icon>
+            Sobre Nosotros
+          </ion-item>
+
         </ion-list>
 
-        <ion-list id="labels-list">
-          <ion-list-header>Labels</ion-list-header>
-
-          @for (label of labels; track label) {
-            <ion-item lines="none">
-              <ion-icon aria-hidden="true" slot="start" ios="bookmark-outline" md="bookmark-sharp"></ion-icon>
-              <ion-label>{{ label }}</ion-label>
-            </ion-item>
-          }
-        </ion-list>
+        <!-- Información de contacto al final -->
+        <div class="contact-info" style="color: #4a4a4a;">
+          <p><ion-icon name="mail-outline" style="color: #333333;"></ion-icon> contacto&#64;GestorCliente.cl</p>
+          <p><ion-icon name="call-outline" style="color: #333333;"></ion-icon> +56 2 552553433</p>
+          <p><ion-icon name="call-outline" style="color: #333333;"></ion-icon> +56 9 51512595</p>
+          <p><ion-icon name="location-outline" style="color: #333333;"></ion-icon> Diego de Meza 5026, San Joaquin, Santiago, Chile</p>
+          <p>Oficina SOLO RETIRO: (No sala de venta)</p>
+          <p><ion-icon name="time-outline" style="color: #333333;"></ion-icon> Lunes a Viernes 10:00 a 18:00 y Sábados 11:00 a 15:00</p>
+        </div>
       </ion-content>
     </ion-menu>
+
     <ion-router-outlet id="main-content"></ion-router-outlet>
   </ion-split-pane>
 </ion-app>

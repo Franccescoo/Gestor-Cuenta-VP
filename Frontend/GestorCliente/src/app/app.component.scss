@@ -1,119 +1,59 @@
-ion-menu ion-content {
-  --background: var(--ion-item-background, var(--ion-background-color, #fff));
+ion-app {
+  font-family: 'Poppins', sans-serif !important; /* Aplica la fuente Poppins */
 }
 
-ion-menu.md ion-content {
-  --padding-start: 8px;
-  --padding-end: 8px;
-  --padding-top: 20px;
-  --padding-bottom: 20px;
+ion-menu {
+  font-family: var(--main-font);
+  --width: 400px; /* Establece el ancho del menú */
+  --background: #dadada; /* Fondo claro consistente con el footer */
+  --color: #333333; /* Texto en un tono oscuro para mejor visibilidad */
+  --ion-background-color: #f5f5f5; /* Fondo general del menú */
+  --ion-text-color: #333333; /* Color del texto dentro del menú */
+
+  ion-toolbar {
+    --background: #1a1a1a; /* Color oscuro para el header */
+    --color: white; /* Color del texto del título */
+  }
+
+  ion-item {
+    --color: #4a4a4a; /* Texto en tono medio */
+    --background: transparent; /* Fondo transparente por defecto */
+    --background-hover: rgba(26, 26, 26, 0.1); /* Fondo oscuro suave y difuminado en hover */
+    
+    ion-icon {
+      color: #1a1a1a; /* Íconos en tono oscuro */
+    }
+
+    /* Estilos para el hover en los ion-items */
+    &:hover {
+      --background: rgba(26, 26, 26, 0.1) !important; /* Oscuro claro y sutil al pasar el cursor */
+      --color: #1a1a1a !important; /* Color del texto oscuro al hacer hover */
+    }
+  }
+
+  .spacer {
+    flex-grow: 1; /* Empuja los ítems hacia arriba dejando el logout al fondo */
+  }
 }
 
-ion-menu.md ion-list {
-  padding: 20px 0;
+.logout-item {
+  /* Aplicar los mismos estilos para el item de Cerrar Sesión */
+  ion-item {
+    --background-hover: rgba(26, 26, 26, 0.1); /* Fondo oscuro suave en hover */
+    --color: #333333; /* Texto oscuro por defecto */
+    
+    &:hover {
+      --background: rgba(26, 26, 26, 0.1) !important; /* Fondo oscuro suave y difuminado en hover */
+      --color: #1a1a1a !important; /* Mantén el color del texto oscuro al hacer hover */
+    }
+  }
 }
 
-ion-menu.md ion-note {
-  margin-bottom: 30px;
-}
-
-ion-menu.md ion-list-header,
-ion-menu.md ion-note {
-  padding-left: 10px;
-}
-
-ion-menu.md ion-list#inbox-list {
-  border-bottom: 1px solid var(--ion-background-color-step-150, #d7d8da);
-}
-
-ion-menu.md ion-list#inbox-list ion-list-header {
-  font-size: 22px;
-  font-weight: 600;
-
-  min-height: 20px;
-}
-
-ion-menu.md ion-list#labels-list ion-list-header {
-  font-size: 16px;
-
-  margin-bottom: 18px;
-
-  color: #757575;
-
-  min-height: 26px;
-}
-
-ion-menu.md ion-item {
-  --padding-start: 10px;
-  --padding-end: 10px;
-  border-radius: 4px;
-}
-
-ion-menu.md ion-item.selected {
-  --background: rgba(var(--ion-color-primary-rgb), 0.14);
-}
-
-ion-menu.md ion-item.selected ion-icon {
-  color: var(--ion-color-primary);
-}
-
-ion-menu.md ion-item ion-icon {
-  color: #616e7e;
-}
-
-ion-menu.md ion-item ion-label {
-  font-weight: 500;
-}
-
-ion-menu.ios ion-content {
-  --padding-bottom: 20px;
-}
-
-ion-menu.ios ion-list {
-  padding: 20px 0 0 0;
-}
-
-ion-menu.ios ion-note {
-  line-height: 24px;
-  margin-bottom: 20px;
-}
-
-ion-menu.ios ion-item {
-  --padding-start: 16px;
-  --padding-end: 16px;
-  --min-height: 50px;
-}
-
-ion-menu.ios ion-item.selected ion-icon {
-  color: var(--ion-color-primary);
-}
-
-ion-menu.ios ion-item ion-icon {
-  font-size: 24px;
-  color: #73849a;
-}
-
-ion-menu.ios ion-list#labels-list ion-list-header {
-  margin-bottom: 8px;
-}
-
-ion-menu.ios ion-list-header,
-ion-menu.ios ion-note {
-  padding-left: 16px;
-  padding-right: 16px;
-}
-
-ion-menu.ios ion-note {
-  margin-bottom: 8px;
-}
-
-ion-note {
-  display: inline-block;
-  font-size: 16px;
-
-  color: var(--ion-color-medium-shade);
-}
-
-ion-item.selected {
-  --color: var(--ion-color-primary);
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; /* Asegura que el contenido de contacto se alinee al fondo */
+  padding: 10px;
+  font-size: 14px;
+  color: #4a4a4a; /* Color de texto consistente con el footer */
 }

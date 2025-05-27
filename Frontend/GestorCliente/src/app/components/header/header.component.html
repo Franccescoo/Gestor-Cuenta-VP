@@ -1,0 +1,62 @@
+<header class="header">
+  <div class="main-header">
+    <div class="container">
+      <div class="logo">
+        <a href="index.html">
+          <ion-img src="assets/icon/logo-fondo-blanco.png" alt="Comercial Math spa Logo" class="logo-img"></ion-img>
+        </a>
+      </div>
+
+      <div class="search-bar">
+        <input 
+          type="text" 
+          placeholder="Busque productos aquí..." 
+          [(ngModel)]="searchQuery" 
+          (keyup.enter)="search()"
+        >
+        <button (click)="search()">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+
+      <div class="cart">
+        <a>
+          <i></i>
+          <span class="cart-text"></span>
+          <span class="cart-count"></span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <nav class="navigation">
+    <div class="container">
+      <button class="products-btn" (click)="onToggleMenu()">
+        <i class="fas fa-bars"></i>
+        Menú
+      </button>
+
+      <ul class="nav-links">
+        <li><a href="/index">Ofertas</a></li>
+        <li><a href="/catalogo">Catálogo</a></li>
+        <li><a href="/contacto">Contacto</a></li>
+        <li><a href="/preguntas-frecuentes">Preguntas Frecuentes</a></li>
+        <li><a href="/sobre-nosotros">Sobre Comercial Math spa</a></li>
+      </ul>
+      <div class="social-links">
+        <a href="https://www.instagram.com/" target="_blank" aria-label="Instagram">
+          <i class="fab fa-instagram fa-lg"></i>
+        </a>
+        <a href="https://x.com/" target="_blank" aria-label="Twitter">
+          <i class="fab fa-twitter fa-lg"></i>
+        </a>
+        <a href="https://www.facebook.com" target="_blank" aria-label="Facebook">
+          <i class="fab fa-facebook fa-lg"></i>
+        </a>
+        <a href="https://www.tiktok.com/es/" target="_blank" aria-label="tiktok">
+          <i class="fab fa-tiktok fa-lg"></i>
+        </a>
+      </div>
+    </div>
+  </nav>
+</header>

@@ -1,0 +1,19 @@
+<div class="carousel-container">
+  <!-- Main Carousel -->
+  <div class="main-carousel">
+    <button class="nav-button prev" (click)="prevSlide()">❮</button>
+    <div class="carousel-slide" [ngClass]="{'fade': transitioning}">
+      <img [src]="images[currentIndex].url" [alt]="images[currentIndex].title">
+      
+      <!-- Mostrar el contenedor solo si hay contenido en el título o descripción -->
+      <div class="slide-info" *ngIf="images[currentIndex].title.trim() || images[currentIndex].description.trim()">
+        <h2 *ngIf="images[currentIndex].title.trim()">{{ images[currentIndex].title }}</h2>
+        <p *ngIf="images[currentIndex].description.trim()">{{ images[currentIndex].description }}</p>
+      </div>
+      
+    </div>
+    
+    <button class="nav-button next" (click)="nextSlide()">❯</button>
+  </div>
+
+</div>

@@ -1,13 +1,25 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>index</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">index</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="fondo" [fullscreen]="true">
+  <div class="login-card-glass">
+    <div class="avatar-container">
+      <ion-avatar class="avatar-img">
+        <img src="assets/img/avatar.png" alt="Avatar" />
+      </ion-avatar>
+    </div>
+    <h2 class="login-title">LOGIN</h2>
+    <form>
+      <ion-item class="input-login" lines="none">
+        <ion-icon name="person-outline" slot="start"></ion-icon>
+        <ion-input type="text" placeholder="Username" required></ion-input>
+      </ion-item>
+      <ion-item class="input-login" lines="none">
+        <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+        <ion-input type="password" placeholder="Password" required></ion-input>
+      </ion-item>
+      <div class="login-options">
+        <ion-checkbox labelPlacement="end">Remember me</ion-checkbox>
+      </div>
+      <ion-button expand="block" class="boton-login" (click)="irAPagina()">LOGIN</ion-button>
+      <a class="forgot-link" href="#">Forgot Username / Password?</a>
+    </form>
+  </div>
 </ion-content>

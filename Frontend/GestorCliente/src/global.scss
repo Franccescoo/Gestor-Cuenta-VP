@@ -25,13 +25,24 @@
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
-/**
- * Ionic Dark Mode
- * -----------------------------------------------------
- * For more info, please see:
- * https://ionicframework.com/docs/theming/dark-mode
- */
+/* Estilos globales para forzar el tema claro */
+:root {
+    --ion-color-scheme: light;
+  }
 
-/* @import "@ionic/angular/css/palettes/dark.always.css"; */
-/* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import "@ionic/angular/css/palettes/dark.system.css";
+:root {
+--main-font: 'Poppins', sans-serif !important; /* Define la fuente principal */
+}
+
+ion-app, ion-content, ion-toolbar, ion-title, p, ion-item {
+font-family: var(--main-font); /* Aplica la fuente a todos los elementos */
+}
+
+:root {
+    --paynes-gray: #545f66ff;
+    --cadet-gray: #829399ff;
+    --mint-green: #d0f4eaff;
+    --tea-green: #e8fcc2ff;
+    --pistachio: #b1cc74ff;
+  }
+  

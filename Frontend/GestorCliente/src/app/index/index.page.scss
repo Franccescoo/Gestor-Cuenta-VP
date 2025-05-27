@@ -1,0 +1,103 @@
+.fondo {
+    --background: none !important;
+    background: 
+      linear-gradient(120deg, #101726e0 60%, #1b2439e0 100%), /* Más oscuro */
+      url('/assets/img/fondopantalla.jpg') no-repeat center center fixed;
+    background-size: cover;
+    min-height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .login-card-glass {
+    background: rgba(25, 45, 72, 0.72);
+    backdrop-filter: blur(7px);
+    border-radius: 28px;
+    box-shadow: 0 12px 36px 0 #001c3a44;
+    padding: 2.5rem 2.2rem 2rem 2.2rem;
+    max-width: 370px;
+    min-width: 300px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 160px;
+  }
+  
+  .avatar-container {
+    display: flex;
+    justify-content: center;
+    margin-top: -56px;
+    margin-bottom: 0.6rem;
+  }
+  
+  .avatar-img {
+    width: 84px;
+    height: 84px;
+    border: 4px solid #ffffffbb;
+    box-shadow: 0 3px 18px #2b416e77;
+    background: #eaeaea;
+  }
+  
+  .login-title {
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.45rem;
+    margin-bottom: 1.4rem;
+    text-align: center;
+    letter-spacing: 0.02em;
+  }
+  
+  .input-login {
+    margin-bottom: 1rem;
+    border-radius: 7px;
+    --background: #fff;
+    --highlight-background: transparent;
+    --border-radius: 7px;
+    box-shadow: 0 2px 8px #001c3a11;
+  }
+  
+  .input-login ion-input {
+    color: #1b2439;
+    font-size: 1rem;
+  }
+  
+  .input-login ion-icon {
+    color: #226dde;
+    font-size: 1.25rem;
+  }
+  
+  .login-options {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 1.25rem;
+    width: 100%;
+    color:#ffffff;
+  }
+  
+  .boton-login {
+    margin: 0.5rem 0 0.2rem 0;
+    --background: linear-gradient(90deg, #358ada 40%, #2f69be 100%);
+    --box-shadow: 0 3px 14px #2366b466;
+    font-weight: 600;
+    font-size: 1.1rem;
+    border-radius: 14px;
+    letter-spacing: 0.03em;
+  }
+  
+  .forgot-link {
+    display: block;
+    text-align: center;
+    margin-top: 0.8rem;
+    color: #b0c8e4;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: color 0.18s;
+  }
+  .forgot-link:hover {
+    color: #ffffff;
+  }
+  
