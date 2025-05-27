@@ -1,0 +1,7 @@
+{
+  "name": "GestorCliente",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
