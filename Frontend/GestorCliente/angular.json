@@ -32,9 +32,10 @@
               }
             ],
             "styles": [
-              "src/global.scss", 
+              "src/tailwind.css",
               "src/theme/variables.scss",
-              "src/tailwind.css"],
+              "src/global.scss"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -115,9 +116,10 @@
               }
             ],
             "styles": [
-              "src/global.scss", 
+              "src/tailwind.css",
               "src/theme/variables.scss",
-              "src/tailwind.css"],
+              "src/global.scss"
+            ],
             "scripts": []
           },
           "configurations": {
