@@ -1,62 +1,29 @@
-<header class="header">
-  <div class="main-header">
-    <div class="container">
-      <div class="logo">
-        <a href="index.html">
-          <ion-img src="assets/icon/logo-fondo-blanco.png" alt="Comercial Math spa Logo" class="logo-img"></ion-img>
-        </a>
-      </div>
-
-      <div class="search-bar">
-        <input 
-          type="text" 
-          placeholder="Busque productos aquí..." 
-          [(ngModel)]="searchQuery" 
-          (keyup.enter)="search()"
-        >
-        <button (click)="search()">
-          <i class="fas fa-search"></i>
-        </button>
-      </div>
-
-      <div class="cart">
-        <a>
-          <i></i>
-          <span class="cart-text"></span>
-          <span class="cart-count"></span>
-        </a>
-      </div>
-    </div>
-  </div>
-
+<ion-header>
+  <!-- Navigation -->
   <nav class="navigation">
     <div class="container">
-      <button class="products-btn" (click)="onToggleMenu()">
-        <i class="fas fa-bars"></i>
-        Menú
-      </button>
 
       <ul class="nav-links">
-        <li><a href="/index">Ofertas</a></li>
-        <li><a href="/catalogo">Catálogo</a></li>
-        <li><a href="/contacto">Contacto</a></li>
-        <li><a href="/preguntas-frecuentes">Preguntas Frecuentes</a></li>
-        <li><a href="/sobre-nosotros">Sobre Comercial Math spa</a></li>
+        <li><a href="/Test Resolucion/perfil.html">Mi Perfil</a></li>
+        <li><a href="/Test Resolucion/recarga.html">Recargas</a></li>
+        <li><a href="/Test Resolucion/promocion.html">Promociones</a></li>
+        <li><a href="/Test Resolucion/cashback.html">Cash Back</a></li>
+        <li><a href="/Test Resolucion/index.html" class="active">Club VIP</a></li>
+        <li><a href="/Test Resolucion/beneficios.html">Mis Beneficios</a></li>
+        <li><a href="/Test Resolucion/logros.html">Logros VIP</a></li>
+        <li><a href="/Test Resolucion/canjear.html">Canjear Puntos</a></li>
       </ul>
-      <div class="social-links">
-        <a href="https://www.instagram.com/" target="_blank" aria-label="Instagram">
-          <i class="fab fa-instagram fa-lg"></i>
-        </a>
-        <a href="https://x.com/" target="_blank" aria-label="Twitter">
-          <i class="fab fa-twitter fa-lg"></i>
-        </a>
-        <a href="https://www.facebook.com" target="_blank" aria-label="Facebook">
-          <i class="fab fa-facebook fa-lg"></i>
-        </a>
-        <a href="https://www.tiktok.com/es/" target="_blank" aria-label="tiktok">
-          <i class="fab fa-tiktok fa-lg"></i>
-        </a>
-      </div>
+      
+
+        <div class="user-balance">
+          <i class="fas fa-wallet"></i>
+          <span>Saldo: $85.000</span>
+          </div>
+
+          <div class="notification-icon">
+            <i class="fas fa-bell" onclick="toggleNotifications()"></i>
+          </div>
+            
     </div>
   </nav>
-</header>
+</ion-header>

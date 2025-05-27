@@ -45,4 +45,17 @@ font-family: var(--main-font); /* Aplica la fuente a todos los elementos */
     --tea-green: #e8fcc2ff;
     --pistachio: #b1cc74ff;
   }
+
+  .fondo {
+    --background: none !important;
+    background: 
+      linear-gradient(120deg, #101726e0 60%, #1b2439e0 100%), /* Más oscuro */
+      url('/assets/img/fondopantalla.jpg') no-repeat center center fixed;
+    background-size: cover;
+    min-height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
   
