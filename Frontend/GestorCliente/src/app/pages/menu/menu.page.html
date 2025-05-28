@@ -1,33 +1,52 @@
 <ion-content class="fondo" [fullscreen]="true">
   <app-header></app-header>
 
-  <div class="flex justify-center items-center min-h-[80vh]">
-    <div class="w-full max-w-xs bg-white bg-opacity-80 rounded-2xl shadow-xl p-8">
-      <h2 class="text-2xl font-bold text-center text-indigo-700 mb-8 tracking-wide">Menú Principal</h2>
-      <nav class="flex flex-col gap-3">
-        <a routerLink="/home" class="py-2 px-4 rounded-lg font-medium transition-all hover:bg-indigo-100 hover:text-indigo-700 flex items-center gap-2">
-          <ion-icon name="home-outline" class="text-xl"></ion-icon>
-          Inicio
-        </a>
-        <a routerLink="/usuarios" class="py-2 px-4 rounded-lg font-medium transition-all hover:bg-indigo-100 hover:text-indigo-700 flex items-center gap-2">
-          <ion-icon name="people-outline" class="text-xl"></ion-icon>
-          Usuarios
-        </a>
-        <a routerLink="/configuracion" class="py-2 px-4 rounded-lg font-medium transition-all hover:bg-indigo-100 hover:text-indigo-700 flex items-center gap-2">
-          <ion-icon name="settings-outline" class="text-xl"></ion-icon>
-          Configuración
-        </a>
-        <a routerLink="/logout" class="py-2 px-4 rounded-lg font-medium transition-all hover:bg-red-100 hover:text-red-700 flex items-center gap-2">
-          <ion-icon name="log-out-outline" class="text-xl"></ion-icon>
-          Salir
-        </a>
-      </nav>
+  <div class="profile-section">
+    <h2 class="section-title">Mi Perfil</h2>
+
+    <div class="profile-card">
+      <div class="profile-header">
+        <img src="/assets/img/foto-perfil.jfif" alt="Avatar" class="avatar">
+        <div>
+          <h3>Lucía Opazo</h3>
+          <p>VIP Nivel: <strong>Gold</strong></p>
+          <p>Puntos acumulados: <strong>2.350</strong></p>
+        </div>
+      </div>
+
+      <div class="profile-details">
+        <p><i class="fa-solid fa-envelope"></i> Correo: lucia.opazo&#64;example.com</p>
+        <p><i class="fa-solid fa-phone"></i> Teléfono: +56 9 1234 5678</p>
+        <p><i class="fa-solid fa-calendar"></i> Miembro desde: Enero 2023</p>
+        <p><i class="fa-solid fa-location-dot"></i> País: Chile</p>
+      </div>
+
+      <div class="profile-balance">
+        <h4>Mi Saldo</h4>
+        <div class="balance-box">
+          <div>
+            <p>Saldo disponible</p>
+            <span class="balance-amount">$85.000</span>
+          </div>
+          <div>
+            <p>Bono activo</p>
+            <span class="bonus-amount">$10.000</span>
+          </div>
+          <div>
+            <a href="/Test Resolucion/recarga.html"> <button class="recharge-btn"><i class="fa-solid fa-plus"></i>Recargas</button></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="profile-actions">
+        <button class="profile-btn"><i class="fa-solid fa-pen"></i> Editar Datos</button>
+        <button class="profile-btn logout"><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</button>
+      </div>
     </div>
   </div>
 
 
 
-  
   <app-footer></app-footer>
 </ion-content>
 
