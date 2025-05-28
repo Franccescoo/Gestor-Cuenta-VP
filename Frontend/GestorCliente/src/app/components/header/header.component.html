@@ -1,29 +1,51 @@
-<ion-header>
-  <!-- Navigation -->
-  <nav class="navigation">
-    <div class="container">
+<header class=" top-0 left-0 w-full z-50 backdrop-blur-md bg-black/70 shadow-lg font-montserrat">
+  <nav class="max-w-7xl mx-auto flex items-center justify-between px-4 md:px-8 h-16">
 
-      <ul class="nav-links">
-        <li><a href="/Test Resolucion/perfil.html">Mi Perfil</a></li>
-        <li><a href="/Test Resolucion/recarga.html">Recargas</a></li>
-        <li><a href="/Test Resolucion/promocion.html">Promociones</a></li>
-        <li><a href="/Test Resolucion/cashback.html">Cash Back</a></li>
-        <li><a href="/Test Resolucion/index.html" class="active">Club VIP</a></li>
-        <li><a href="/Test Resolucion/beneficios.html">Mis Beneficios</a></li>
-        <li><a href="/Test Resolucion/logros.html">Logros VIP</a></li>
-        <li><a href="/Test Resolucion/canjear.html">Canjear Puntos</a></li>
-      </ul>
-      
+    <!-- LOGO Dreams a la izquierda -->
+    <a href="/" class="flex items-center space-x-2">
+      <img src="/assets/img/PuntosVip.png" alt="Logo" class="h-10 w-auto" />
+    </a>
 
-        <div class="user-balance">
-          <i class="fas fa-wallet"></i>
-          <span>Saldo: $85.000</span>
-          </div>
+    <!-- Menú Desktop -->
+    <ul class="hidden md:flex items-center space-x-6">
+      <li><a href="#" class="text-white hover:text-yellow-400 transition font-medium">Inicio</a></li>
+      <li><a href="#" class="text-white hover:text-yellow-400 transition font-medium">Destinos</a></li>
+      <li><a href="#" class="text-white hover:text-yellow-400 transition font-medium">Casinos</a></li>
+      <li><a href="#" class="text-white hover:text-yellow-400 transition font-medium">Hoteles & Spa</a></li>
+      <li><a href="#" class="text-white hover:text-yellow-400 transition font-medium">Gastronomía</a></li>
+      <li><a href="#" class="text-white hover:text-yellow-400 transition font-medium">Shows</a></li>
+      <li><a href="#" class="text-yellow-400 font-semibold border-b-2 border-yellow-400 pb-1">Dreams Club</a></li>
+      <li><a href="#" class="text-white hover:text-yellow-400 transition font-medium">Novedades</a></li>
+    </ul>
 
-          <div class="notification-icon">
-            <i class="fas fa-bell" onclick="toggleNotifications()"></i>
-          </div>
-            
-    </div>
+    <!-- Menú Hamburguesa para móvil -->
+    <button id="menu-toggle" class="md:hidden text-white focus:outline-none ml-2">
+      <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2"
+           viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round"
+              d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+    </button>
   </nav>
-</ion-header>
+
+  <!-- Menú Mobile -->
+  <ul id="mobile-menu" class="md:hidden hidden flex-col bg-black/95 p-6 text-center space-y-4">
+    <li><a href="#" class="block text-white hover:text-yellow-400 font-medium transition">Inicio</a></li>
+    <li><a href="#" class="block text-white hover:text-yellow-400 font-medium transition">Destinos</a></li>
+    <li><a href="#" class="block text-white hover:text-yellow-400 font-medium transition">Casinos</a></li>
+    <li><a href="#" class="block text-white hover:text-yellow-400 font-medium transition">Hoteles & Spa</a></li>
+    <li><a href="#" class="block text-white hover:text-yellow-400 font-medium transition">Gastronomía</a></li>
+    <li><a href="#" class="block text-white hover:text-yellow-400 font-medium transition">Shows</a></li>
+    <li><a href="#" class="block text-yellow-400 font-semibold border-b-2 border-yellow-400 pb-1">Dreams Club</a></li>
+    <li><a href="#" class="block text-white hover:text-yellow-400 font-medium transition">Novedades</a></li>
+  </ul>
+</header>
+
+<!-- Script para mostrar/ocultar menú mobile -->
+<script>
+  const menuToggle = document.getElementById('menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+  menuToggle.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+  });
+</script>

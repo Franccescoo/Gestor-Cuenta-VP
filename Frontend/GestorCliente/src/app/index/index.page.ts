@@ -7,6 +7,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./index.page.scss'],
 })
 export class IndexPage implements OnInit {
+  showPassword = false;
+  password: string = '';  // <-- Agrega esta línea
 
   constructor(
     private router: Router
@@ -18,5 +20,11 @@ export class IndexPage implements OnInit {
   irAPagina() {
     this.router.navigate(['/menu']);
   }
+
+
+  togglePassword() {
+    this.showPassword = !this.showPassword;
+  }
+
 
 }

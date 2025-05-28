@@ -93,3 +93,14 @@
 .user-balance i {
   color: #00ffb2;
 }
+
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,600,700&display=swap');
+
+:host {
+  font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+}
+
+// Si quieres ser más específico, solo al header:
+header, .font-montserrat {
+  font-family: 'Montserrat', Arial, Helvetica, sans-serif;
+}

@@ -12,7 +12,7 @@
   }
   
   .login-card-glass {
-    background: rgba(25, 45, 72, 0.72);
+    background: rgba(11, 19, 31, 0.72);
     backdrop-filter: blur(7px);
     border-radius: 28px;
     box-shadow: 0 12px 36px 0 #001c3a44;
@@ -24,6 +24,8 @@
     flex-direction: column;
     align-items: center;
     margin-top: 160px;
+    border-color: #b4ab01;
+    border-width: 1px;
   }
   
   .avatar-container {

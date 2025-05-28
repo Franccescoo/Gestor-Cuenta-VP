@@ -5,21 +5,29 @@
         <img src="assets/img/avatar.png" alt="Avatar" />
       </ion-avatar>
     </div>
-    <h2 class="login-title">LOGIN</h2>
+    <h2 class="login-title">INICIAR SESIÓN</h2>
     <form>
       <ion-item class="input-login" lines="none">
         <ion-icon name="person-outline" slot="start"></ion-icon>
-        <ion-input type="text" placeholder="Username" required></ion-input>
+        <ion-input type="text" placeholder="Usuario" required></ion-input>
       </ion-item>
       <ion-item class="input-login" lines="none">
         <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
-        <ion-input type="password" placeholder="Password" required></ion-input>
+        <ion-input
+          [type]="showPassword ? 'text' : 'password'"
+          placeholder="Contraseña"
+          [(ngModel)]="password"
+          required
+        ></ion-input>
+        <ion-button fill="clear" slot="end" (click)="togglePassword()" type="button">
+          <ion-icon [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+        </ion-button>
       </ion-item>
       <div class="login-options">
-        <ion-checkbox labelPlacement="end">Remember me</ion-checkbox>
+        <ion-checkbox labelPlacement="end">Recuérdame</ion-checkbox>
       </div>
-      <ion-button expand="block" class="boton-login" (click)="irAPagina()">LOGIN</ion-button>
-      <a class="forgot-link" href="#">Forgot Username / Password?</a>
+      <ion-button expand="block" class="boton-login" (click)="irAPagina()">ENTRAR</ion-button>
+      <a class="forgot-link" href="#">Olvidé mi usuario/contraseña</a>
     </form>
   </div>
 </ion-content>
