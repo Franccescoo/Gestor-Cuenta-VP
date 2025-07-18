@@ -7,16 +7,16 @@
     </a>
 
     <!-- Menú Desktop -->
-    <ul class="hidden md:flex items-center space-x-6">
-      <li><a href="#" class="text-white hover:text-yellow-400 transition font-medium">Inicio</a></li>
-      <li><a href="#" class="text-white hover:text-yellow-400 transition font-medium">Destinos</a></li>
-      <li><a href="#" class="text-white hover:text-yellow-400 transition font-medium">Casinos</a></li>
-      <li><a href="#" class="text-white hover:text-yellow-400 transition font-medium">Hoteles & Spa</a></li>
-      <li><a href="#" class="text-white hover:text-yellow-400 transition font-medium">Gastronomía</a></li>
-      <li><a href="#" class="text-white hover:text-yellow-400 transition font-medium">Shows</a></li>
-      <li><a href="#" class="text-yellow-400 font-semibold border-b-2 border-yellow-400 pb-1">Dreams Club</a></li>
-      <li><a href="#" class="text-white hover:text-yellow-400 transition font-medium">Novedades</a></li>
+    <ul class="hidden md:flex items-center space-x-6" id="menu-desktop">
+      <li><a href="/inicio" class="menu-link text-white hover:text-yellow-400 transition font-medium">Inicio</a></li>
+      <li><a href="/perfil" class="menu-link text-white hover:text-yellow-400 transition font-medium">Mi Perfil</a></li>
+      <li><a href="/promociones" class="menu-link text-white hover:text-yellow-400 transition font-medium">Promociones</a></li>
+      <li><a href="/club-vip" class="menu-link text-white hover:text-yellow-400 transition font-medium">Club Vip</a></li>
+      <li><a href="/beneficios" class="menu-link text-white hover:text-yellow-400 transition font-medium">Mis Beneficios</a></li>
+      <li><a href="/logros" class="menu-link text-white hover:text-yellow-400 transition font-medium">Logros Vip</a></li>
+      <li><a href="/canjear-puntos" class="menu-link text-white hover:text-yellow-400 transition font-medium">Canjear Puntos</a></li>
     </ul>
+    
 
     <!-- Menú Hamburguesa para móvil -->
     <button id="menu-toggle" class="md:hidden text-white focus:outline-none ml-2">
@@ -43,9 +43,28 @@
 
 <!-- Script para mostrar/ocultar menú mobile -->
 <script>
-  const menuToggle = document.getElementById('menu-toggle');
-  const mobileMenu = document.getElementById('mobile-menu');
-  menuToggle.addEventListener('click', () => {
-    mobileMenu.classList.toggle('hidden');
+  const currentPath = window.location.pathname;
+  document.querySelectorAll('#menu-desktop .menu-link').forEach(link => {
+    if (link.getAttribute('href') === currentPath) {
+      link.classList.add(
+        'text-yellow-400', 
+        'font-semibold', 
+        'border-b-2', 
+        'border-yellow-400', 
+        'pb-1'
+      );
+      link.classList.remove('text-white');
+    } else {
+      link.classList.remove(
+        'text-yellow-400', 
+        'font-semibold', 
+        'border-b-2', 
+        'border-yellow-400', 
+        'pb-1'
+      );
+      link.classList.add('text-white');
+    }
   });
 </script>
+
+

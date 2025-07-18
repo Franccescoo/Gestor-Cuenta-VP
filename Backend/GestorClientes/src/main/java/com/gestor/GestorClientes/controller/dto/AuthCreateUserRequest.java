@@ -1,4 +1,11 @@
 package com.gestor.GestorClientes.controller.dto;
 
-public class AuthCreateUserRequest {
+import jakarta.validation.Valid;
+
+public record AuthCreateUserRequest(@Valid String username,
+                                    @Valid String password,
+                                    @Valid boolean isActivated,
+                                    @Valid AuthCreateRoleRequest authCreateRoleRequest
+) {
 }
+

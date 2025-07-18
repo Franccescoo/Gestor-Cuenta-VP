@@ -1,4 +1,9 @@
 package com.gestor.GestorClientes.controller.dto;
 
-public class LoginRequestDTO {
+import jakarta.validation.constraints.NotBlank;
+
+public record LoginRequestDTO(@NotBlank String username,
+                              @NotBlank String password) {
+
+
 }

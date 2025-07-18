@@ -1,52 +1,58 @@
 <ion-content class="fondo" [fullscreen]="true">
   <app-header></app-header>
-
-  <div class="profile-section">
-    <h2 class="section-title">Mi Perfil</h2>
-
-    <div class="profile-card">
-      <div class="profile-header">
-        <img src="/assets/img/foto-perfil.jfif" alt="Avatar" class="avatar">
-        <div>
-          <h3>Lucía Opazo</h3>
-          <p>VIP Nivel: <strong>Gold</strong></p>
-          <p>Puntos acumulados: <strong>2.350</strong></p>
+  <div class="user-dashboard">
+    <!-- Resumen de puntos -->
+    <section class="resumen-puntos">
+      <div class="puntos-actuales">
+        <h2>¡Hola, Franccesco!</h2>
+        <p>Puntos disponibles: <span>8500</span></p>
+        <div class="categoria-vip">
+          <span>Tu nivel: </span>
+          <strong>Gold</strong>
+          <ion-icon name="medal-outline"></ion-icon>
+        </div>
+        <div class="progreso-categoria">
+          <progress value="60" max="100"></progress>
+          <small>¡Solo te faltan 1500 puntos para subir a Platinum!</small>
         </div>
       </div>
+    </section>
 
-      <div class="profile-details">
-        <p><i class="fa-solid fa-envelope"></i> Correo: lucia.opazo&#64;example.com</p>
-        <p><i class="fa-solid fa-phone"></i> Teléfono: +56 9 1234 5678</p>
-        <p><i class="fa-solid fa-calendar"></i> Miembro desde: Enero 2023</p>
-        <p><i class="fa-solid fa-location-dot"></i> País: Chile</p>
-      </div>
-
-      <div class="profile-balance">
-        <h4>Mi Saldo</h4>
-        <div class="balance-box">
-          <div>
-            <p>Saldo disponible</p>
-            <span class="balance-amount">$85.000</span>
-          </div>
-          <div>
-            <p>Bono activo</p>
-            <span class="bonus-amount">$10.000</span>
-          </div>
-          <div>
-            <a href="/Test Resolucion/recarga.html"> <button class="recharge-btn"><i class="fa-solid fa-plus"></i>Recargas</button></a>
-          </div>
+    <!-- Catálogo de premios -->
+    <section class="catalogo-premios">
+      <ion-button expand="block" color="warning">Canjear Puntos</ion-button>
+      <h3>Catálogo de Premios</h3>
+      <div class="premios-grid">
+        <div class="premio-card">
+          <img src="/assets/img/giftcard.png" alt="Gift Card 10$">
+          <h4>Gift Card 10$</h4>
+          <p>4000 pts</p>
+          <ion-button size="small">Canjear</ion-button>
+        </div>
+        <div class="premio-card">
+          <img src="/assets/img/freespins.jpg" alt="Free Spins">
+          <h4>Free Spins</h4>
+          <p>12000 pts</p>
+          <ion-button size="small">Canjear</ion-button>
+        </div>
+        <div class="premio-card">
+          <img src="/assets/img/bonusextra.jpeg" alt="Bono Extra">
+          <h4>Bonus Extra</h4>
+          <p>2500 pts</p>
+          <ion-button size="small">Canjear</ion-button>
         </div>
       </div>
+    </section>
 
-      <div class="profile-actions">
-        <button class="profile-btn"><i class="fa-solid fa-pen"></i> Editar Datos</button>
-        <button class="profile-btn logout"><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</button>
-      </div>
-    </div>
+    <!-- Beneficios -->
+    <section class="beneficios-vip">
+      <h3>Beneficios de tu nivel</h3>
+      <ul>
+        <li>Descuentos en restaurantes</li>
+        <li>Acceso a eventos VIP</li>
+        <li>Estacionamiento preferencial</li>
+      </ul>
+    </section>
   </div>
-
-
-
   <app-footer></app-footer>
 </ion-content>
-
