@@ -23,6 +23,7 @@ public class UserDetailServiceImp implements UserDetailsService {
         UserEntity user = userRepository.findByUsername(usuario)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado: " + usuario));
 
+
         // Usamos sistema_id como rol
         String rol = "ROLE_" + user.getRolId(); // Ej: "ROLE_16"
 

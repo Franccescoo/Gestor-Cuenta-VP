@@ -51,6 +51,7 @@ public class AuthenticationService{
         UserEntity user = userRepository.findByUsername(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
 
+
         // Buscar el nombre del sistema
         String sistemaNombre = sistemaRepository.findById(user.getRolId())
                 .map(s -> s.getNombre())
