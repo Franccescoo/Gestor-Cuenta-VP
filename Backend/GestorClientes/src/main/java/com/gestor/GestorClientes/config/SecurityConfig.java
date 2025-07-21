@@ -42,7 +42,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(http -> {
 
                     // USUARIOS
-                    http.requestMatchers(HttpMethod.POST, "/auth/login").permitAll();
+                    http.requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll();
+
+                    //USER
+                    http.requestMatchers(HttpMethod.POST, "/api/usuarios/completar-registro").permitAll();
 
 
                     http.anyRequest().authenticated();
@@ -67,7 +70,7 @@ public class SecurityConfig {
     public CorsFilter corsFilter() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList(
-                "http://localhost:8201",
+                "http://localhost:8100",
                 "http://localhost:8080"
         ));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS")); // Métodos permitidos

@@ -8,10 +8,12 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
 import { SharedModule } from './components/components.module';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptorService } from './interceptors/auth-interceptor.service';
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule, 
@@ -19,11 +21,17 @@ import { SharedModule } from './components/components.module';
     AppRoutingModule,
     FormsModule,
     SharedModule,
+    HttpClientModule,
     ],
-  providers: [
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-  ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  bootstrap: [AppComponent],
-})
+    providers: [
+      { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+      {
+        provide: HTTP_INTERCEPTORS,
+        useClass: AuthInterceptorService,
+        multi: true
+      }
+    ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    bootstrap: [AppComponent],
+  })
 export class AppModule { }

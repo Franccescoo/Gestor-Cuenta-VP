@@ -9,7 +9,13 @@
     <form>
       <ion-item class="input-login" lines="none">
         <ion-icon name="person-outline" slot="start"></ion-icon>
-        <ion-input type="text" placeholder="Usuario" required></ion-input>
+        <ion-input
+          type="text"
+          placeholder="Usuario"
+          [(ngModel)]="usuario"
+          name="usuario"
+          required>
+        </ion-input>
       </ion-item>
       <ion-item class="input-login" lines="none">
         <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
@@ -17,8 +23,9 @@
           [type]="showPassword ? 'text' : 'password'"
           placeholder="Contraseña"
           [(ngModel)]="password"
-          required
-        ></ion-input>
+          name="password"  
+          required>
+        </ion-input>
         <ion-button fill="clear" slot="end" (click)="togglePassword()" type="button">
           <ion-icon [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
         </ion-button>

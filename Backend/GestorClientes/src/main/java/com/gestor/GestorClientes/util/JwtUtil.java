@@ -24,7 +24,8 @@ public class JwtUtil {
     @Value("${security.jwt.user.generator}")
     private String userGenerator;
 
-    public String createToken(Authentication authentication) {
+    public String createToken(Authentication authentication, String playerId, String sistema)
+ {
         Algorithm algorithm = Algorithm.HMAC256(this.privateKey);
 
         // Extraer el email del objeto principal
@@ -41,6 +42,8 @@ public class JwtUtil {
                 .withIssuer(this.userGenerator)
                 .withSubject(email)  // Usar el email como el sujeto
                 .withClaim("authorities", authorities)
+                .withClaim("playerId", playerId)
+                .withClaim("sistema", sistema)
                 .withIssuedAt(new Date())
                 .withExpiresAt(new Date(System.currentTimeMillis() + 86400000))  // Expiración en 1 dia
                 .withJWTId(UUID.randomUUID().toString())

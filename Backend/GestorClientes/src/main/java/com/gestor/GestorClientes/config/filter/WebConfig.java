@@ -10,7 +10,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedOrigins(
-                        "http://localhost:8201",  // Frontend Angular/Ionic
+                        "http://localhost:8100",  // Frontend Angular/Ionic
                         "http://localhost:4200",  // Otro frontend posible
                         "http://localhost:8080"   // Solo si es otro backend
                 )

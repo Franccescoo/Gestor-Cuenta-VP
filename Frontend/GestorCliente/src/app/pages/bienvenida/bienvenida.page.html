@@ -1,0 +1,94 @@
+<ion-content class="fondo" [fullscreen]="true">
+  <div class="bienvenida-card">
+    <h2>Bienvenido a <span class="sistema-title">{{ sistema }}</span></h2>
+    <p>¡Completa tu registro y gana <b class="puntos-oro">10 puntos</b>!</p>
+
+<form (ngSubmit)="guardarRegistro()" autocomplete="off" class="form-dos-col">
+      <!-- Nombre -->
+  <div class="col">
+    <label>Nombre</label>
+    <input type="text" [(ngModel)]="usuario.nombre_completo" name="nombre_completo" required>
+  </div>
+  <!-- Celular -->
+<div class="col">
+  <label>Celular</label>
+  <div class="celular-input-group">
+    <select [(ngModel)]="usuario.prefijo" name="prefijo" required class="celular-prefijo">
+      <option value="+56">🇨🇱 +56 (Chile)</option>
+      <option value="+51">🇵🇪 +51 (Perú)</option>
+    </select>
+    <input
+      type="tel"
+      [(ngModel)]="usuario.celular"
+      name="celular"
+      [pattern]="usuario.prefijo === '+56' ? '[0-9]{9}' : '[0-9]{9}'"
+      required
+      maxlength="9"
+      placeholder="123456789"
+      class="celular-input"
+    />
+  </div>
+  <small *ngIf="usuario.prefijo === '+56'">Ejemplo: 912345678</small>
+  <small *ngIf="usuario.prefijo === '+51'">Ejemplo: 912345678</small>
+</div>
+
+  
+  <!-- Apellido -->
+  <div class="col">
+    <label>Apellido</label>
+    <input type="text" [(ngModel)]="usuario.apellido_completo" name="apellido_completo" required>
+  </div>
+  <!-- RUT -->
+  <div class="col">
+    <label>RUT</label>
+    <input
+      type="text"
+      [(ngModel)]="usuario.rut"
+      name="rut"
+      required
+      maxlength="10"
+      pattern="^\d{7,8}-[0-9kK]{1}$"
+      placeholder="Ej: 21079618-5"
+    />
+  </div>
+  
+  <!-- Fecha de nacimiento -->
+<!-- Sustituye esto por tu campo de fecha -->
+<div class="col">
+  <label>Fecha de nacimiento</label>
+  <input
+  style="font-size:1.1rem;"
+  class="filtro-dateinput"
+  type="date"
+  [attr.min]="minNacimiento"
+  [attr.max]="maxNacimiento"
+  [(ngModel)]="usuario.fecha_cumpleanos"
+  required
+  />
+</div>
+
+  <!-- Email -->
+  <div class="col">
+    <label>Email</label>
+    <input
+      type="email"
+      [(ngModel)]="usuario.email"
+      name="email"
+      required
+      placeholder="ejemplo@email.com"
+    />
+  </div>
+  
+
+  <!-- Botón -->
+  <div class="col col-btn">
+    <button type="submit" class="guardar-btn">
+      GUARDAR Y GANAR 10 PUNTOS
+    </button>
+  </div>
+</form>
+
+    
+  </div>
+
+</ion-content>
