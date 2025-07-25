@@ -41,11 +41,14 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable) // Desactivar CSRF si es necesario                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(http -> {
 
-                    // USUARIOS
+                    //USER
                     http.requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll();
 
-                    //USER
-                    http.requestMatchers(HttpMethod.POST, "/api/usuarios/completar-registro").permitAll();
+                    //USUARIOS
+                    http.requestMatchers(HttpMethod.PUT, "/api/usuarios/actualizar").permitAll();
+                    http.requestMatchers(HttpMethod.GET, "/api/usuarios/me/player-id").permitAll();
+                    http.requestMatchers(HttpMethod.GET, "/api/usuarios/me/token-data").permitAll();
+                    http.requestMatchers(HttpMethod.POST, "/api/usuarios/validar-doc").permitAll();
 
 
                     http.anyRequest().authenticated();

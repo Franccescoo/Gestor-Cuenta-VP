@@ -1,10 +1,12 @@
 package com.gestor.GestorClientes.persistence.entity;
 
+import com.gestor.GestorClientes.persistence.id.UserEntityId;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "puntos_acumulados")
+@IdClass(UserEntityId.class)
 public class UserEntity {
 
     @Id
@@ -44,6 +46,7 @@ public class UserEntity {
     @Column(name = "fecha_ultima_actualizacion")
     private LocalDate fechaUltimaActualizacion;
 
+    @Id
     @Column(name = "sistema_id")
     private Integer rolId; // antes era sistemaId
 
@@ -56,7 +59,17 @@ public class UserEntity {
     @Column(name = "categoria_id")
     private Integer categoriaId;
 
+    @Column(name = "tipo_documento")
+    private String tipoDocumento;
+
     // Getters y Setters
+
+    public String getTipoDocumento() {
+        return tipoDocumento;
+    }
+    public void setTipoDocumento(String tipoDocumento) {
+        this.tipoDocumento = tipoDocumento;
+    }
 
     public String getPlayerId() {
         return playerId;

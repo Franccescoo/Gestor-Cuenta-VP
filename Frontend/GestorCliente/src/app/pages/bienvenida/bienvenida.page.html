@@ -2,93 +2,131 @@
   <div class="bienvenida-card">
     <h2>Bienvenido a <span class="sistema-title">{{ sistema }}</span></h2>
     <p>¡Completa tu registro y gana <b class="puntos-oro">10 puntos</b>!</p>
+    <form (ngSubmit)="guardarRegistro()" autocomplete="off" class="form-una-col">
 
-<form (ngSubmit)="guardarRegistro()" autocomplete="off" class="form-dos-col">
-      <!-- Nombre -->
-  <div class="col">
-    <label>Nombre</label>
-    <input type="text" [(ngModel)]="usuario.nombre_completo" name="nombre_completo" required>
-  </div>
-  <!-- Celular -->
-<div class="col">
-  <label>Celular</label>
-  <div class="celular-input-group">
-    <select [(ngModel)]="usuario.prefijo" name="prefijo" required class="celular-prefijo">
-      <option value="+56">🇨🇱 +56 (Chile)</option>
-      <option value="+51">🇵🇪 +51 (Perú)</option>
-    </select>
-    <input
-      type="tel"
-      [(ngModel)]="usuario.celular"
-      name="celular"
-      [pattern]="usuario.prefijo === '+56' ? '[0-9]{9}' : '[0-9]{9}'"
-      required
-      maxlength="9"
-      placeholder="123456789"
-      class="celular-input"
-    />
-  </div>
-  <small *ngIf="usuario.prefijo === '+56'">Ejemplo: 912345678</small>
-  <small *ngIf="usuario.prefijo === '+51'">Ejemplo: 912345678</small>
-</div>
+      <div class="col nombre-row">
+        <label>Nombre</label>
+        <input class="nombre-input" placeholder="Luis" type="text" [(ngModel)]="usuario.nombre_completo" name="nombre_completo" required>
+      </div>
 
-  
-  <!-- Apellido -->
-  <div class="col">
-    <label>Apellido</label>
-    <input type="text" [(ngModel)]="usuario.apellido_completo" name="apellido_completo" required>
-  </div>
-  <!-- RUT -->
-  <div class="col">
-    <label>RUT</label>
-    <input
-      type="text"
-      [(ngModel)]="usuario.rut"
-      name="rut"
-      required
-      maxlength="10"
-      pattern="^\d{7,8}-[0-9kK]{1}$"
-      placeholder="Ej: 21079618-5"
-    />
-  </div>
-  
-  <!-- Fecha de nacimiento -->
-<!-- Sustituye esto por tu campo de fecha -->
-<div class="col">
-  <label>Fecha de nacimiento</label>
-  <input
-  style="font-size:1.1rem;"
-  class="filtro-dateinput"
-  type="date"
-  [attr.min]="minNacimiento"
-  [attr.max]="maxNacimiento"
-  [(ngModel)]="usuario.fecha_cumpleanos"
-  required
-  />
-</div>
+      <div class="col apellido-row">
+        <label>Apellido</label>
+        <input class="apellido-input" placeholder="Lopéz" type="text" [(ngModel)]="usuario.apellido_completo" name="apellido_completo" required>
+      </div>
 
-  <!-- Email -->
-  <div class="col">
-    <label>Email</label>
-    <input
-      type="email"
-      [(ngModel)]="usuario.email"
-      name="email"
-      required
-      placeholder="ejemplo@email.com"
-    />
-  </div>
-  
+      <div class="col celular-row">
+        <label>Celular</label>
+        <div class="celular-input-group">
+          <select [(ngModel)]="usuario.prefijo" name="prefijo" required class="celular-prefijo" (change)="onChangePrefijo()">
+            <option value="+56">🇨🇱 +56 (Chile)</option>
+            <option value="+51">🇵🇪 +51 (Perú)</option>
+          </select>
+          <input
+            type="tel"
+            [(ngModel)]="usuario.celular"
+            name="celular"
+            required
+            maxlength="9"
+            placeholder="123456789"
+            class="celular-input"
+          />
+        </div>
+      </div>
 
-  <!-- Botón -->
-  <div class="col col-btn">
-    <button type="submit" class="guardar-btn">
-      GUARDAR Y GANAR 10 PUNTOS
-    </button>
-  </div>
-</form>
+      <div class="col documento-row">
+        <label>Documento</label>
+        <div class="documento-input-group">
+          <select 
+            class="documento-prefijo"
+            [(ngModel)]="usuario.tipoDocumento"
+            name="tipoDocumento"
+            required
+            (change)="resetDocumento()"
+          >
+            <option value="rut">RUT Chileno</option>
+            <option value="dni">DNI Peruano</option>
+            <option disabled>────────────</option>
+            <option value="extranjero-cl">Extranjero (Chile)</option>
+            <option value="extranjero-pe">Extranjero (Perú)</option>
+          </select>
+          <input 
+            type="text"
+            [(ngModel)]="usuario.numeroDocumento"
+            name="numeroDocumento"
+            required
+            [attr.maxlength]="getMaxLength()"
+            [pattern]="getPattern()"
+            [placeholder]="getPlaceholder()"
+            class="documento-input"
+          />
+        </div>
+        <small *ngIf="usuario.tipoDocumento === 'rut'">RUT chileno: 12345678-9</small>
+        <small *ngIf="usuario.tipoDocumento === 'dni'">DNI peruano: 12345678</small>        
+        <small *ngIf="usuario.tipoDocumento && usuario.tipoDocumento.startsWith('extranjero')">
+          Extranjeros: mínimo 4 caracteres
+        </small>        
+      </div>
 
-    
-  </div>
+      <div class="col nacimiento-row">
+        <label>Fecha de nacimiento</label>
+        <div class="fecha-select-group">
+          <select [(ngModel)]="fechaSeleccionada.dia" name="dia" class="fecha-select" required>
+            <option value="" disabled selected>Día</option>
+            <option *ngFor="let d of diasDisponibles" [value]="d">{{ d }}</option>
+          </select>
+          <select [(ngModel)]="fechaSeleccionada.mes" name="mes" class="fecha-select" required>
+            <option value="" disabled selected>Mes</option>
+            <option *ngFor="let m of mesesDisponibles; let i = index" [value]="i+1">{{ m }}</option>
+          </select>
+          <select [(ngModel)]="fechaSeleccionada.anio" name="anio" class="fecha-select" required>
+            <option value="" disabled selected>Año</option>
+            <option *ngFor="let a of aniosDisponibles" [value]="a">{{ a }}</option>
+          </select>
+        </div>
+        <small *ngIf="!fechaNacimientoValida && fechaSeleccionada.dia && fechaSeleccionada.mes && fechaSeleccionada.anio" style="color:#ffd700">
+          Debes tener al menos 18 años y máximo 100 años
+        </small>
+      </div>
+      
 
+      <div class="col email-row">
+        <label>Email</label>
+        <input
+          class="email-input"
+          type="email"
+          [(ngModel)]="usuario.email"
+          name="email"
+          required
+          placeholder="ejemplo@email.com"
+        />
+      </div>
+
+      <div class="col input-ocr-doc archivo-row">
+        <label>Foto de tu documento</label>
+        <input 
+          type="file"
+          accept="image/*"
+          (change)="onFileChange($event)"
+          required
+          class="archivo-input"
+        />
+        <button 
+          type="button"
+          class="btn-ocr"
+          [disabled]="!archivo"
+          (click)="validarDocumentoPorFoto()"
+        >Validar con foto</button>
+        <div *ngIf="ocrText">
+          <small><b>Texto reconocido:</b></small>
+          <pre class="ocr-preview">{{ ocrText }}</pre>
+        </div>
+      </div>
+
+      <div class="col col-btn">
+        <button type="submit" class="guardar-btn">
+          GUARDAR Y GANAR 10 PUNTOS
+        </button>
+      </div>
+    </form>
+  </div>
 </ion-content>

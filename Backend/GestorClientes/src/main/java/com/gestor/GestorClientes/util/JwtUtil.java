@@ -24,33 +24,32 @@ public class JwtUtil {
     @Value("${security.jwt.user.generator}")
     private String userGenerator;
 
-    public String createToken(Authentication authentication, String playerId, String sistema)
- {
+    public String createToken(Authentication authentication, String playerId, Integer sistemaId, String sistemaNombre) {
         Algorithm algorithm = Algorithm.HMAC256(this.privateKey);
 
-        // Extraer el email del objeto principal
         String email = ((org.springframework.security.core.userdetails.User) authentication.getPrincipal()).getUsername();
-
-        // Extraer las autoridades (roles)
         String authorities = authentication.getAuthorities()
                 .stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
 
-        // Crear el token JWT con el email como el sujeto
         String jwtToken = JWT.create()
                 .withIssuer(this.userGenerator)
-                .withSubject(email)  // Usar el email como el sujeto
+                .withSubject(email)
                 .withClaim("authorities", authorities)
                 .withClaim("playerId", playerId)
-                .withClaim("sistema", sistema)
+                .withClaim("sistemaId", sistemaId)
+                .withClaim("sistemaNombre", sistemaNombre)
                 .withIssuedAt(new Date())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 86400000))  // Expiración en 1 dia
+                .withExpiresAt(new Date(System.currentTimeMillis() + 86400000))
                 .withJWTId(UUID.randomUUID().toString())
                 .withNotBefore(new Date(System.currentTimeMillis()))
                 .sign(algorithm);
         return jwtToken;
     }
+
+
+
 
     public DecodedJWT validateToken(String token) {
         try {

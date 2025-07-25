@@ -46,23 +46,26 @@ public class AuthenticationService{
         Authentication authentication = this.authenticate(email, password);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        // 2. Buscar el usuario completo para obtener el playerId
+        // 2. Buscar el usuario completo para obtener el playerId y sistemaId
         UserEntity user = userRepository.findByUsername(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
 
-        // 3. Buscar el nombre del sistema (ajusta si tu UserEntity tiene getRolId() o getSistemaId())
-        String sistemaNombre = sistemaRepository.findById(user.getRolId())
+        // 3. Buscar el sistema
+        Integer sistemaId = user.getRolId();  // o getSistemaId()
+        String sistemaNombre = sistemaRepository.findById(sistemaId)
                 .map(s -> s.getNombre())
                 .orElse("Desconocido");
 
-        // 4. Genera el token con los datos correctos
+        // 4. Genera el token con los datos correctos (puedes agregar sistemaId como claim si quieres)
         String accessToken = jwtUtils.createToken(
                 authentication,
-                user.getPlayerId(),  // <-- Cambia esto
+                user.getPlayerId(),
+                sistemaId,
                 sistemaNombre
         );
 
-        // Lógica para saber si debe completar el registro (ajusta según tus reglas)
+
+        // 5. Lógica para saber si debe completar el registro (ajusta según tus reglas)
         boolean debeCompletarRegistro = (
                 isNullOrEmpty(user.getNombreCompleto()) ||
                         isNullOrEmpty(user.getApellidoCompleto()) ||
@@ -72,20 +75,24 @@ public class AuthenticationService{
                         isNullOrEmpty(user.getNumeroDocumento())
         );
 
+        // 6. Devuelve el AuthResponse con los 7 parámetros
         return new AuthResponse(
                 email,
                 "User logged in successfully",
                 accessToken,
                 true,
+                sistemaId,
                 sistemaNombre,
-                debeCompletarRegistro // <--- este nuevo campo
+                debeCompletarRegistro
         );
     }
+
 
     // Método utilitario para chequear nulos o vacíos
     private boolean isNullOrEmpty(String str) {
         return str == null || str.trim().isEmpty();
     }
+
 
 
     public Authentication authenticate(String email, String password) {
