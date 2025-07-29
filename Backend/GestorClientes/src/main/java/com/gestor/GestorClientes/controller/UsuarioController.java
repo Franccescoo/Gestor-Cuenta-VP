@@ -47,8 +47,6 @@ public class UsuarioController {
         return ResponseEntity.ok(actualizado);
     }
 
-
-
     // Helper para null o vacío
     private boolean isNullOrEmpty(String s) {
         return s == null || s.trim().isEmpty();

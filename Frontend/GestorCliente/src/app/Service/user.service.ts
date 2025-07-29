@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { TokenData } from '../models/TokenData.model';
 
@@ -9,8 +9,13 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
-  completarRegistro(data: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/completar-registro`, data);
+ // ACTUALIZAR DATOS DEL USUARIO
+  actualizarUsuario(playerId: string, sistemaId: number, body: any): Observable<any> {
+    const params = new HttpParams()
+      .set('playerId', playerId)
+      .set('sistemaId', sistemaId.toString());
+
+    return this.http.put(`${this.apiUrl}/actualizar`, body, { params });
   }
 
   obtenerPlayerId(): Observable<{ playerId: string }> {

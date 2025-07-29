@@ -14,24 +14,34 @@
         <input class="apellido-input" placeholder="Lopéz" type="text" [(ngModel)]="usuario.apellido_completo" name="apellido_completo" required>
       </div>
 
-      <div class="col celular-row">
-        <label>Celular</label>
-        <div class="celular-input-group">
-          <select [(ngModel)]="usuario.prefijo" name="prefijo" required class="celular-prefijo" (change)="onChangePrefijo()">
-            <option value="+56">🇨🇱 +56 (Chile)</option>
-            <option value="+51">🇵🇪 +51 (Perú)</option>
-          </select>
-          <input
-            type="tel"
-            [(ngModel)]="usuario.celular"
-            name="celular"
-            required
-            maxlength="9"
-            placeholder="123456789"
-            class="celular-input"
-          />
+              
+        <div class="col celular-row">
+          <label>Celular</label>
+          <div class="celular-input-group">
+            <span [ngClass]="getFlagClass()" style="font-size: 1.4em; margin-right: 8px;"></span>
+
+            <select
+              [(ngModel)]="usuario.prefijo"
+              name="prefijo"
+              required
+              class="celular-prefijo"
+              (change)="onChangePrefijo()"
+            >
+              <option *ngFor="let c of countryCodes" [value]="c.prefix">{{ c.prefix }} ({{ c.name }})</option>
+            </select>
+            <input
+              type="tel"
+              [(ngModel)]="usuario.celular"
+              name="celular"
+              required
+              maxlength="9"
+              placeholder="123456789"
+              class="celular-input"
+            />
+          </div>
         </div>
-      </div>
+
+
 
       <div class="col documento-row">
         <label>Documento</label>
