@@ -7,12 +7,14 @@ import { IonicModule } from '@ionic/angular';
 import { FooterComponent } from 'src/app/components/footer/footer.component';
 import { HeaderComponent } from 'src/app/components/header/header.component';
 import { CarruselComponent } from 'src/app/components/carrusel/carrusel.component';
+import { HeaderUsuarioComponent } from './header-usuario/header-usuario.component';
 
 @NgModule({
   declarations: [
     FooterComponent,
     HeaderComponent,
     CarruselComponent,
+    HeaderUsuarioComponent
   ],
   imports: [
     CommonModule,
@@ -23,6 +25,7 @@ import { CarruselComponent } from 'src/app/components/carrusel/carrusel.componen
     FooterComponent,
     HeaderComponent,
     CarruselComponent,
+    HeaderUsuarioComponent,
     FormsModule,
     ReactiveFormsModule
   ]

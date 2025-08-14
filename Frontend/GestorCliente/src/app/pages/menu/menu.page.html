@@ -1,58 +1,291 @@
 <ion-content class="fondo" [fullscreen]="true">
-  <app-header></app-header>
-  <div class="user-dashboard">
-    <!-- Resumen de puntos -->
+  <app-header-usuario></app-header-usuario>
+
+  <div class="user-dashboard" *ngIf="dash$ | async as d; else cargando">
+    <!-- Hero Section - Resumen de puntos -->
     <section class="resumen-puntos">
-      <div class="puntos-actuales">
-        <h2>¡Hola, Franccesco!</h2>
-        <p>Puntos disponibles: <span>8500</span></p>
+      <div class="puntos-header">
+        <div class="saludo-usuario">
+          <h2>¡Bienvenido de vuelta!</h2>
+          <h1>{{ d.nombre || 'Usuario' }}</h1>
+          <small *ngIf="d.email">({{ d.email }})</small>
+        </div>
+
+        <div class="puntos-display">
+          <div class="puntos-valor">
+            <small>Puntos disponibles</small>
+            <span class="numero-puntos">{{ (d.puntos || 0) | number }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hr-gold"></div>
+
+      <div class="estado-vip">
         <div class="categoria-vip">
-          <span>Tu nivel: </span>
-          <strong>Gold</strong>
-          <ion-icon name="medal-outline"></ion-icon>
+          <span class="nivel-texto">Nivel actual</span>
+          <div class="nivel-badge">
+            <ion-icon name="medal-outline"></ion-icon>
+            <strong>{{ d.nivel || 'Sin categoría' }}</strong>
+          </div>
         </div>
+
         <div class="progreso-categoria">
-          <progress value="60" max="100"></progress>
-          <small>¡Solo te faltan 1500 puntos para subir a Platinum!</small>
+          <div class="progreso-info">
+            <span class="progreso-label">
+              Progreso a {{ d.nivel ? 'siguiente nivel' : '—' }}
+            </span>
+            <span class="progreso-numeros">
+              {{ (d.puntos || 0) | number }} / {{ (d.metaNivel || 0) | number }}
+            </span>
+          </div>
+
+          <progress [value]="d.progreso || 0" max="100"></progress>
+
+          <small>
+            ¡Solo te faltan
+            <strong>{{ (d.puntosFaltantes || 0) | number }} puntos</strong>
+            para alcanzar el próximo nivel!
+          </small>
+
+          <div style="margin-top:.5rem;color:#9aa0a6">
+            <small>Última actualización: {{ d.ultimaActualizacion || '-' }}</small>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- Catálogo de premios -->
+    <!-- Acción Principal -->
+    <section class="accion-principal">
+      <ion-button expand="block" class="btn-gold" size="large">
+        <ion-icon name="gift-outline" slot="start"></ion-icon>
+        Canjear Puntos Ahora
+        <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+      </ion-button>
+    </section>
+
+    <!-- Catálogo de premios (estático por ahora) -->
     <section class="catalogo-premios">
-      <ion-button expand="block" color="warning">Canjear Puntos</ion-button>
-      <h3>Catálogo de Premios</h3>
+      <div class="seccion-header">
+        <h3 class="titulo-seccion">
+          <ion-icon name="storefront-outline"></ion-icon>
+          Catálogo de Premios
+        </h3>
+        <p class="subtitulo-seccion">Descubre lo que puedes obtener con tus puntos</p>
+      </div>
+
       <div class="premios-grid">
-        <div class="premio-card">
-          <img src="/assets/img/giftcard.png" alt="Gift Card 10$">
-          <h4>Gift Card 10$</h4>
-          <p>4000 pts</p>
-          <ion-button size="small">Canjear</ion-button>
-        </div>
-        <div class="premio-card">
-          <img src="/assets/img/freespins.jpg" alt="Free Spins">
-          <h4>Free Spins</h4>
-          <p>12000 pts</p>
-          <ion-button size="small">Canjear</ion-button>
-        </div>
-        <div class="premio-card">
-          <img src="/assets/img/bonusextra.jpeg" alt="Bono Extra">
-          <h4>Bonus Extra</h4>
-          <p>2500 pts</p>
-          <ion-button size="small">Canjear</ion-button>
-        </div>
+
+        <article class="premio-card premium coming-soon">
+          <!-- máscara centrada -->
+          <div class="mask-soon">
+            <span class="pill">
+              <ion-icon name="time-outline"></ion-icon>
+              PRÓXIMAMENTE
+            </span>
+          </div>
+
+          <div class="premio-imagen">
+            <img src="/assets/img/freespins.jpg" alt="Free Spins Premium">
+            <div class="premio-overlay">
+              <ion-icon name="refresh-circle-outline"></ion-icon>
+            </div>
+          </div>
+
+          <div class="premio-contenido">
+            <h4>Free Spins VIP</h4>
+            <p class="premio-descripcion">50 giros gratis en slots premium</p>
+            <div class="premio-footer">
+              <span class="precio-puntos">
+                <ion-icon name="diamond-outline"></ion-icon>
+                12,000 pts
+              </span>
+              <ion-button size="small" class="btn-canjear" fill="outline" disabled>
+                Pronto
+              </ion-button>
+            </div>
+          </div>
+        </article>
+
+
+        <article class="premio-card coming-soon">
+          <div class="mask-soon">
+            <span class="pill">
+              <ion-icon name="time-outline"></ion-icon>
+              PRÓXIMAMENTE
+            </span>
+          </div>
+          <div class="premio-imagen">
+            <img src="/assets/img/bonusextra.jpeg" alt="Bonus de Bienvenida">
+            <div class="premio-overlay">
+              <ion-icon name="star-outline"></ion-icon>
+            </div>
+          </div>
+          <div class="premio-contenido">
+            <h4>Bonus Extra</h4>
+            <p class="premio-descripcion">Bono adicional del 25% en tu próximo depósito</p>
+            <div class="premio-footer">
+              <span class="precio-puntos">
+                <ion-icon name="diamond-outline"></ion-icon>
+                2,500 pts
+              </span>
+              <ion-button size="small" class="btn-canjear" fill="outline">
+                Canjear
+              </ion-button>
+            </div>
+          </div>
+        </article>
+
+        <article class="premio-card exclusivo coming-soon">
+          <div class="mask-soon">
+            <span class="pill">
+              <ion-icon name="time-outline"></ion-icon>
+              PRÓXIMAMENTE
+            </span>
+          </div>
+          <div class="premio-badge exclusivo">Exclusivo</div>
+          <div class="premio-imagen">
+            <img src="/assets/prestige/cena1.jpg" alt="Experiencia VIP">
+            <div class="premio-overlay">
+              <ion-icon name="wine-outline"></ion-icon>
+            </div>
+          </div>
+          <div class="premio-contenido">
+            <h4>Experiencia VIP</h4>
+            <p class="premio-descripción">Cena exclusiva + evento privado</p>
+            <div class="premio-footer">
+              <span class="precio-puntos">
+                <ion-icon name="diamond-outline"></ion-icon>
+                15,000 pts
+              </span>
+              <ion-button size="small" class="btn-canjear" fill="outline">
+                Canjear
+              </ion-button>
+            </div>
+          </div>
+        </article>
       </div>
     </section>
 
-    <!-- Beneficios -->
-    <section class="beneficios-vip">
-      <h3>Beneficios de tu nivel</h3>
-      <ul>
-        <li>Descuentos en restaurantes</li>
-        <li>Acceso a eventos VIP</li>
-        <li>Estacionamiento preferencial</li>
-      </ul>
+    <!-- Beneficios DINAMICOS DE BASE DE DATOS 
+    <section class="beneficios-vip" *ngIf="vm$ | async as vm">
+      <div class="beneficios-header">
+        <h3>
+          <ion-icon name="shield-checkmark-outline"></ion-icon>
+          {{ vm.titulo }}
+        </h3>
+        <p class="beneficios-descripcion">{{ vm.descripcion }}</p>
+      </div>
+
+      <div class="beneficios-lista">
+        <div class="beneficio-item" *ngFor="let b of vm.beneficios">
+          <div class="beneficio-icono">
+            <ion-icon name="ribbon-outline"></ion-icon>
+          </div>
+          <div class="beneficio-texto">
+            <h4>{{ b.nombre }}</h4>
+            <p>{{ b.descripcion || '—' }}</p>
+          </div>
+        </div>
+
+        <div class="beneficio-item" *ngIf="!vm.beneficios.length">
+          <div class="beneficio-texto">
+            <h4>Sin beneficios disponibles</h4>
+            <p>Pronto agregaremos beneficios para tu categoría.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="upgrade-platinum">
+        <div class="upgrade-contenido">
+          <h4>¿Listo para más beneficios?</h4>
+          <p>Alcanza el nivel Diamante y desbloquea ventajas exclusivas</p>
+        </div>
+        <ion-button fill="outline" class="btn-upgrade">
+          Ver Diamante
+          <ion-icon name="arrow-forward-outline" slot="end"></ion-icon>
+        </ion-button>
+      </div>
     </section>
+                    -->
+
+    <!-- Beneficios Premium -->
+<section class="beneficios-vip coming-soon">
+  <!-- MÁSCARA PRÓXIMAMENTE -->
+    <div class="mask-soon">
+      <span class="pill">
+        <ion-icon name="time-outline"></ion-icon>
+        PRÓXIMAMENTE
+      </span>
+    </div>
+
+  <div class="beneficios-header">
+    <h3>
+      <ion-icon name="shield-checkmark-outline"></ion-icon>
+      Beneficios Exclusivos Gold
+    </h3>
+    <p class="beneficios-descripcion">Disfruta de ventajas únicas como miembro Gold</p>
   </div>
+
+  <div class="beneficios-lista">
+    <div class="beneficio-item">
+      <div class="beneficio-icono">
+        <ion-icon name="restaurant-outline"></ion-icon>
+      </div>
+      <div class="beneficio-texto">
+        <h4>Descuentos Gastronómicos</h4>
+        <p>Hasta 20% de descuento en restaurantes seleccionados</p>
+      </div>
+    </div>
+
+    <div class="beneficio-item">
+      <div class="beneficio-icono">
+        <ion-icon name="ticket-outline"></ion-icon>
+      </div>
+      <div class="beneficio-texto">
+        <h4>Acceso VIP Premium</h4>
+        <p>Invitaciones exclusivas a eventos privados y lanzamientos</p>
+      </div>
+    </div>
+
+    <div class="beneficio-item">
+      <div class="beneficio-icono">
+        <ion-icon name="car-outline"></ion-icon>
+      </div>
+      <div class="beneficio-texto">
+        <h4>Estacionamiento Preferencial</h4>
+        <p>Espacios reservados y acceso prioritario</p>
+      </div>
+    </div>
+
+    <div class="beneficio-item">
+      <div class="beneficio-icono">
+        <ion-icon name="headset-outline"></ion-icon>
+      </div>
+      <div class="beneficio-texto">
+        <h4>Soporte Prioritario</h4>
+        <p>Línea directa 24/7 con agentes especializados</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="upgrade-platinum">
+    <div class="upgrade-contenido">
+      <h4>¿Listo para más beneficios?</h4>
+      <p>Alcanza el nivel Diamante y desbloquea ventajas exclusivas</p>
+    </div>
+    <ion-button fill="outline" class="btn-upgrade" disabled>
+      Ver Diamante
+      <ion-icon name="arrow-forward-outline" slot="end"></ion-icon>
+    </ion-button>
+  </div>
+</section>
+
+  </div>
+
+  <ng-template #cargando>
+    <ion-spinner name="crescent" style="margin: 24px auto; display:block;"></ion-spinner>
+  </ng-template>
+
   <app-footer></app-footer>
 </ion-content>

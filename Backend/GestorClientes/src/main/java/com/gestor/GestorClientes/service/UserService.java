@@ -16,7 +16,7 @@ public class UserService {
     private UserRepository userRepository;
 
     public UserEntity actualizarDatosParciales(String playerId, Integer rolId, Map<String, Object> body) {
-        UserEntity user = userRepository.findByPlayerIdAndRolId(playerId, rolId)
+        UserEntity user = userRepository.findEntityByPlayerIdAndRolId(playerId, rolId)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
         // NO actualices playerId ni rolId aquí

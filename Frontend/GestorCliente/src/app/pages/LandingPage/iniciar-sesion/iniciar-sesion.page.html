@@ -1,0 +1,82 @@
+<ion-content [fullscreen]="true">
+  <app-header></app-header>
+
+  <section class="auth-section">
+    <!-- Formulario -->
+    <div class="auth-form">
+      <h2 class="title">INICIAR SESIÓN</h2>
+      <p class="subtitle">Ingresa tus credenciales para continuar.</p>
+
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <!-- Email -->
+        <label>Email</label>
+        <input
+          type="email"
+          placeholder="tu@email.com"
+          formControlName="email"
+          [class.invalid]="submitted && form.controls.email.invalid"
+        />
+        <small class="error" *ngIf="submitted && form.controls.email.errors?.['required']">
+          El email es obligatorio
+        </small>
+        <small class="error" *ngIf="submitted && form.controls.email.errors?.['email']">
+          Formato de email no válido
+        </small>
+
+        <!-- Password -->
+        <label>Contraseña</label>
+        <div class="password-field">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            placeholder="Tu contraseña"
+            formControlName="password"
+            [class.invalid]="submitted && form.controls.password.invalid"
+          />
+          <button type="button" class="eye" (click)="togglePassword()" aria-label="Mostrar/ocultar contraseña">
+            <ion-icon [name]="showPassword ? 'eye-off' : 'eye'"></ion-icon>
+          </button>
+        </div>
+        <small class="error" *ngIf="submitted && form.controls.password.errors?.['required']">
+          La contraseña es obligatoria
+        </small>
+        <small class="error" *ngIf="submitted && form.controls.password.errors?.['minlength']">
+          Mínimo 6 caracteres
+        </small>
+
+        <!-- Opciones -->
+        <div class="row">
+          <label class="remember">
+            <input type="checkbox" formControlName="remember" />
+            Recuérdame
+          </label>
+
+          <a class="link" [routerLink]="['/olvidar-pass']">¿Olvidaste tu contraseña?</a>
+        </div>
+
+        <!-- Botón -->
+        <small class="error" *ngIf="errorMessage">{{ errorMessage }}</small>
+        <button class="btn-primary" type="submit" [disabled]="loading">
+          {{ loading ? 'Ingresando…' : 'Ingresar' }}
+        </button>
+
+        <!-- Separador -->
+        <div class="divider">
+          <span>o</span>
+        </div>
+
+        <!-- Acción secundaria -->
+        <div class="row bottom">
+          <span>¿No tienes cuenta?</span>
+          <a class="link" [routerLink]="['/registrar']">Regístrate</a>
+        </div>
+      </form>
+    </div>
+
+    <!-- Imagen -->
+    <div class="auth-image">
+      <img src="/assets/prestige/girl1.jpeg" alt="Login" />
+    </div>
+  </section>
+
+  <app-footer></app-footer>
+</ion-content>

@@ -1,50 +1,41 @@
-<footer class="dreams-footer font-montserrat">
+<!-- Marcas asociadas -->
+<section class="brands-marquee">
+  <div class="marquee-track" aria-hidden="true">
+    <!-- Tira 1 -->
+    <div
+      class="brand brand-mask"
+      *ngFor="let b of brands"
+      [style.--logo]="'url(' + b.logo + ')'"
+      [attr.aria-label]="b.name"
+      role="img"
+    ></div>
 
-  <div class="footer-logo">
-    <img src="/assets/img/PuntosVip.png" alt="PuntosVip Logo">
+    <!-- Tira 2 (duplicada para loop perfecto) -->
+    <div
+      class="brand brand-mask"
+      *ngFor="let b of brands"
+      [style.--logo]="'url(' + b.logo + ')'"
+      [attr.aria-label]="b.name"
+      role="img"
+    ></div>
   </div>
+</section>
 
-  <div class="footer-main">
-    <div>
-      <h4 class="footer-title gold">PUNTOS VIP</h4>
-      <p>Expertos en productos de calidad para todos los sectores en Chile.</p>
-    </div>
-    <div>
-      <h4 class="footer-title gold">ENLACES RÁPIDOS</h4>
-      <ul>
-        <li><a href="/index">Inicio</a></li>
-        <li><a href="/catalogo">Catálogo</a></li>
-        <li><a href="/contacto">Contacto</a></li>
-        <li><a href="/sobre-nosotros">Sobre Nosotros</a></li>
-      </ul>
-    </div>
-    <div>
-      <h4 class="footer-title gold">CONTACTO</h4>
-      <ul>
-        <li>Diego de Meza 5026, San Joaquín, Santiago, Chile</li>
-        <li>+56 2 552553433</li>
-        <li>+56 9 51512595</li>
-        <li>contacto&#64;puntosvip.cl</li>
-      </ul>
-    </div>
-    <div>
-      <h4 class="footer-title gold">SÍGUENOS</h4>
-      <div class="footer-socials">
-        <a href="https://www.instagram.com/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-        <a href="https://x.com/" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-        <a href="https://www.facebook.com" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
-        <a href="https://www.tiktok.com/es/" target="_blank" aria-label="tiktok"><i class="fab fa-tiktok"></i></a>
-      </div>
-    </div>
-  </div>
 
-  <div class="footer-bottom">
-    <div>
-      © {{currentYear}} PuntosVip. Todos los derechos reservados.
-    </div>
-    <div>
-      <a href="/privacidad">Política de Privacidad</a>
-      <a href="/terminos">Términos y Condiciones</a>
+<!-- FOOTER -->
+<footer class="prestige-footer" id="contacto">
+  <div class="footer-inner">
+    <nav class="footer-links">
+      <a (click)="navigateTo('sobre-nosotros')">SOBRE NOSOTROS</a>
+      <a (click)="navigateTo('ayuda')">CENTRO DE AYUDA</a>
+      <a (click)="navigateTo('partners')">PROGRAMA PARTNERS</a>
+    </nav>
+
+    <div class="footer-social">
+      <ion-icon name="logo-facebook"></ion-icon>
+      <ion-icon name="logo-instagram"></ion-icon>
+      <ion-icon name="logo-tiktok"></ion-icon>
+      <ion-icon name="logo-whatsapp"></ion-icon>
     </div>
   </div>
 </footer>

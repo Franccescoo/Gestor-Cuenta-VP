@@ -86,23 +86,47 @@ public class UsuarioController {
 
 
 
-    @GetMapping("/me/player-id")
-    public ResponseEntity<?> obtenerPlayerId(@RequestHeader("Authorization") String authorizationHeader) {
-        try {
-            // Quita el "Bearer " si viene
-            String token = authorizationHeader.replace("Bearer ", "");
+    @GetMapping(value = "/me/player-id", produces = "application/json")
+    public ResponseEntity<Map<String, Object>> obtenerPlayerIdYSistema(
+            @RequestHeader(name = "Authorization", required = false) String authorizationHeader) {
 
-            // Valida y decodifica el token
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            return ResponseEntity.status(401).body(Map.of("error", "Falta Authorization Bearer"));
+        }
+
+        try {
+            // Quita "Bearer "
+            String token = authorizationHeader.substring(7);
+
+            // Valida y decodifica el JWT
             DecodedJWT decodedJWT = jwtUtil.validateToken(token);
 
-            // Extrae el playerId
+            // Extrae claims
             String playerId = decodedJWT.getClaim("playerId").asString();
 
-            return ResponseEntity.ok(Map.of("playerId", playerId));
+            Integer sistemaId = null;
+            var sistemaClaim = decodedJWT.getClaim("sistemaId");
+            if (!sistemaClaim.isNull()) {
+                try {
+                    sistemaId = sistemaClaim.asInt(); // caso típico
+                } catch (Exception ex) {
+                    // fallback si vino como string
+                    String s = sistemaClaim.asString();
+                    if (s != null && !s.isBlank()) {
+                        sistemaId = Integer.valueOf(s);
+                    }
+                }
+            }
+
+            return ResponseEntity.ok(Map.of(
+                    "playerId",  playerId,
+                    "sistemaId", sistemaId   // puede ser null si no está en el token
+            ));
         } catch (Exception e) {
-            return ResponseEntity.status(401).body("Token inválido");
+            return ResponseEntity.status(401).body(Map.of("error", "Token inválido o expirado"));
         }
     }
+
 
     @PostMapping("/validar-doc")
     public ResponseEntity<Map<String, Object>> validarDoc(@RequestParam("file") MultipartFile file) {

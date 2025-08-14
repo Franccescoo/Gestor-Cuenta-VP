@@ -1,0 +1,77 @@
+<ion-content [fullscreen]="true" class="register-content">
+  <app-header></app-header>
+
+  <section class="auth-shell">
+    <!-- Columna izquierda: formulario -->
+    <div class="left-pane">
+      <h1 class="title">CREAR CUENTA</h1>
+      <p class="subtitle">Complete sus datos</p>
+
+      <form [formGroup]="form" (ngSubmit)="submit()" novalidate class="form-grid">
+
+        <div class="field">
+          <label>Nombre</label>
+          <input type="text" formControlName="firstName" placeholder="Tu nombre" />
+          <small class="err" *ngIf="isInvalid('firstName')">Ingrese su nombre.</small>
+        </div>
+
+        <div class="field">
+          <label>Apellido</label>
+          <input type="text" formControlName="lastName" placeholder="Tu apellido" />
+          <small class="err" *ngIf="isInvalid('lastName')">Ingrese su apellido.</small>
+        </div>
+
+        <div class="field">
+          <label>Fecha de Nacimiento</label>
+          <input type="date" formControlName="birthDate" />
+          <small class="err" *ngIf="isInvalid('birthDate')">Seleccione una fecha válida.</small>
+        </div>
+
+        <div class="field">
+          <label>RUT</label>
+          <input type="text" formControlName="rut" placeholder="12.345.678-9" />
+          <small class="err" *ngIf="isInvalid('rut')">RUT inválido.</small>
+        </div>
+
+        <div class="field">
+          <label>Teléfono</label>
+          <input type="tel" formControlName="phone" placeholder="+56 9 1234 5678" />
+          <small class="err" *ngIf="isInvalid('phone')">Ingrese un teléfono válido.</small>
+        </div>
+
+        <div class="field">
+          <label>E-mail</label>
+          <input type="email" formControlName="email" placeholder="tu@correo.com" />
+          <small class="err" *ngIf="isInvalid('email')">E-mail inválido.</small>
+        </div>
+
+        <div class="field">
+          <label>Contraseña</label>
+          <input type="password" formControlName="password" placeholder="********" />
+          <small class="err" *ngIf="isInvalid('password')">Mínimo 8 caracteres.</small>
+        </div>
+
+        <div class="field">
+          <label>Confirmar Contraseña</label>
+          <input type="password" formControlName="confirm" placeholder="********" />
+          <small class="err" *ngIf="passwordMismatch">
+            Las contraseñas no coinciden.
+          </small>
+
+        </div>
+
+        <div class="actions">
+          <button type="button" class="link" (click)="goBack()">volver</button>
+          <button type="submit" class="cta" [disabled]="form.invalid">Finalizar Registro</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Columna derecha: imagen -->
+    <div class="right-pane">
+      <img src="/assets/prestige/girl4.jpeg" alt="Bienvenido a Prestige" />
+    </div>
+  </section>
+
+  <app-footer></app-footer>
+</ion-content>

@@ -4,25 +4,27 @@ import { inject } from '@angular/core';
 import { AuthService } from '../Service/auth.service';
 
 export const validarSesionRolGuard: CanActivateFn = (route, state) => {
-  const authService = inject(AuthService);
+  const auth = inject(AuthService);
   const router = inject(Router);
 
-  const requiredRoles = route.data['roles'] as Array<string>; // Lista de roles requeridos
-  const isAuthenticated = authService.isAuthenticated();
-  const userRole: string | null = authService.getRoleFromToken(); // userRole puede ser null
+  const expectedIssuer = route.data?.['issuer'] as string | undefined; // opcional por ruta
+  const payload = auth.getPayload();
 
-  if (!isAuthenticated) {
-    router.navigate(['/login']); // Redirige al login si no está autenticado
+  if (!auth.isPayloadValid(payload, expectedIssuer)) {
+    auth.logout();
+    router.navigate(['/iniciar-sesion']);
     return false;
   }
 
-  if (requiredRoles && (!userRole || !requiredRoles.includes(userRole))) {
-    // Si no tiene un rol válido o el rol no está en la lista, redirige
-    alert('No tienes permiso para acceder a esta sección.');
-
-    //router.navigate(['/']);
-    return false;
+  const required = route.data?.['roles'] as string[] | undefined;
+  if (required?.length) {
+    const roles = (payload?.authorities && (Array.isArray(payload.authorities) ? payload.authorities : [payload.authorities])) || [];
+    const ok = required.some(r => roles.map(x => x.toUpperCase()).includes(r.toUpperCase()));
+    if (!ok) {
+      alert('No tienes permiso para acceder a esta sección.');
+      return false;
+    }
   }
-
-  return true; // Si está autenticado y tiene uno de los roles requeridos, permite el acceso
+  return true;
 };
+

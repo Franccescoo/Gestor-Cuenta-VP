@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { TokenData } from '../models/TokenData.model';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {

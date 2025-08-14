@@ -14,6 +14,8 @@ export class HeaderComponent implements OnInit {
   cartItemCount: number = 0;
   currentIndex: number = 0;
   user: any = null;
+menuOpen = false;
+
 
   constructor(
     private menuController: MenuController,
@@ -23,6 +25,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
   }
 
+
   search(): void {
     if (this.searchQuery.trim()) {
       this.router.navigate(['/busqueda', this.searchQuery]);
@@ -31,11 +34,20 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  onToggleMenu(): void {
-    this.menuController.open().then(() => {
-      console.log('Menu opened');
-    }).catch(err => {
-      console.error('Error opening menu:', err);
-    });
-  }
+toggleMenu() {
+  this.menuOpen = !this.menuOpen;
+  document.body.classList.toggle('no-scroll', this.menuOpen);
+}
+
+closeMenu() {
+  this.menuOpen = false;
+  document.body.classList.remove('no-scroll');
+}
+
+goToLogin() {
+  // navega a tu ruta de login
+  this.router.navigate(['/iniciar-sesion']);
+}
+
+
 }

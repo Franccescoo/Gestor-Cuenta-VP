@@ -1,0 +1,54 @@
+<!-- Header -->
+
+<header>
+
+
+  <div class="header-nav">
+    <a href="/inicio">
+  <div class="logo">
+    <img src="/assets/prestige/logo.png" alt="Prestige" />
+  </div>
+</a>
+  <!-- NAV DESKTOP (visible >= 993px) -->
+  <nav class="nav-menu">
+    <a href="/menu" class="nav-item">PERFIL</a>
+    <a href="/beneficios" class="nav-item">BENEFICIOS</a>
+    <a href="/club-vip" class="nav-item">CLUB VIP</a>
+    <a href="/canjear-puntos" class="nav-item">CANJEAR PUNTOS</a>
+  </nav>
+
+  <div class="auth-section" (click)="goToLogin()">
+    <span class="register">CERRAR SESIÒN</span>
+    <ion-icon name="person" class="user-icon"></ion-icon>
+  </div>
+
+  <!-- Botón Hamburguesa (visible < 993px) -->
+  <div class="hamburger" (click)="toggleMenu()">
+    <ion-icon name="menu-outline"></ion-icon>
+  </div>
+</div>
+
+<!-- Menú lateral fullscreen (MÓVIL) -->
+<div class="mobile-menu" [class.open]="menuOpen">
+  <div class="menu-header">
+    <img src="/assets/prestige/logo.png" alt="Prestige" />
+    <ion-icon name="close-outline" class="close-btn" (click)="closeMenu()"></ion-icon>
+  </div>
+
+  <nav class="menu-links">
+    <a href="/inicio" (click)="closeMenu()">INICIO</a>
+    <a href="/prestige-club" (click)="closeMenu()">PRESTIGE CLUB</a>
+    <a href="/como-ser" (click)="closeMenu()">CÓMO SER PRESTIGE</a>
+    <a href="/contacto" (click)="closeMenu()">CONTACTO</a>
+  </nav>
+
+    
+  <div class="menu-login">
+    <a  href="/iniciar-sesion"><h3>Inicia Sesión</h3></a>
+    <p class="register-text">¿No tienes cuenta? Regístrate</p>
+  </div>
+  
+</div>
+
+
+</header>

@@ -14,12 +14,16 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Collections;
+import java.util.List;
 
 @Service
 public class AuthenticationService{
@@ -38,44 +42,65 @@ public class AuthenticationService{
     @Autowired
     private SistemaRepository sistemaRepository;
 
-    public AuthResponse loginUser(LoginRequestDTO authLoginRequest) {
-        String email = authLoginRequest.username();
-        String password = authLoginRequest.password();
+    public AuthResponse loginUser(LoginRequestDTO req) {
+        String email = req.email();
+        String password = req.password();
 
-        // 1. Autentica
-        Authentication authentication = this.authenticate(email, password);
+        // 1. Buscar todos los usuarios con ese email
+        List<UserEntity> users = userRepository.findAllByEmail(email);
+
+        if (users.isEmpty()) {
+            throw new UsernameNotFoundException("Email no encontrado");
+        }
+
+        UserEntity userFound = null;
+
+        // 2. Si hay más de uno, validar contraseña en cada uno
+        for (UserEntity u : users) {
+            if (passwordEncoder.matches(password, u.getPassword())) {
+                userFound = u;
+                break;
+            }
+        }
+
+        if (userFound == null) {
+            throw new BadCredentialsException("Contraseña incorrecta");
+        }
+
+        // 3. Autenticación (opcional si no usas AuthenticationManager)
+        UserDetails userDetails = new org.springframework.security.core.userdetails.User(
+                userFound.getEmail(),
+                userFound.getPassword(),
+                Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + userFound.getRolId()))
+        );
+        Authentication authentication =
+                new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        // 2. Buscar el usuario completo para obtener el playerId y sistemaId
-        UserEntity user = userRepository.findByUsername(email)
-                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
-
-        // 3. Buscar el sistema
-        Integer sistemaId = user.getRolId();  // o getSistemaId()
+        // 4. Datos del sistema
+        Integer sistemaId = userFound.getRolId(); // o getSistemaId() si tienes esa columna
         String sistemaNombre = sistemaRepository.findById(sistemaId)
                 .map(s -> s.getNombre())
                 .orElse("Desconocido");
 
-        // 4. Genera el token con los datos correctos (puedes agregar sistemaId como claim si quieres)
+        // 5. Token
         String accessToken = jwtUtils.createToken(
                 authentication,
-                user.getPlayerId(),
+                userFound.getPlayerId(),
                 sistemaId,
                 sistemaNombre
         );
 
-
-        // 5. Lógica para saber si debe completar el registro (ajusta según tus reglas)
+        // 6. Debe completar registro
         boolean debeCompletarRegistro = (
-                isNullOrEmpty(user.getNombreCompleto()) ||
-                        isNullOrEmpty(user.getApellidoCompleto()) ||
-                        user.getFechaCumpleanos() == null ||
-                        isNullOrEmpty(user.getEmail()) ||
-                        isNullOrEmpty(user.getCelular()) ||
-                        isNullOrEmpty(user.getNumeroDocumento())
+                isNullOrEmpty(userFound.getNombreCompleto()) ||
+                        isNullOrEmpty(userFound.getApellidoCompleto()) ||
+                        userFound.getFechaCumpleanos() == null ||
+                        isNullOrEmpty(userFound.getEmail()) ||
+                        isNullOrEmpty(userFound.getCelular()) ||
+                        isNullOrEmpty(userFound.getNumeroDocumento())
         );
 
-        // 6. Devuelve el AuthResponse con los 7 parámetros
         return new AuthResponse(
                 email,
                 "User logged in successfully",

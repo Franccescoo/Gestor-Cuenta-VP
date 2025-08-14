@@ -1,0 +1,486 @@
+:host {
+    --gold: #d4af37;
+}
+
+.prestige-content {
+    --background: #000000;
+    background: linear-gradient(180deg, #1a1a1a 0%, #000000 100%);
+}
+
+/* ===================== HERO ===================== */
+.hero-section {
+    position: relative;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* mueve contenido hacia la izquierda */
+    padding-left: 60px; /* espacio desde el borde izquierdo */
+    overflow: hidden;
+
+    .hero-content {
+        text-align: left; /* alinear texto a la izquierda */
+        z-index: 2;
+        position: relative;
+        background: rgba(0, 0, 0, .28);
+        backdrop-filter: blur(2px);
+
+        .hero-title {
+            font-size: 48px;
+            font-weight: 300;
+            color: var(--gold);
+            letter-spacing: 4px;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, .7);
+        }
+
+        .hero-subtitle {
+            font-size: 14px;
+            color: #fff;
+            margin: 10px 0 0 0;
+            letter-spacing: 2px;
+            opacity: .8;
+        }
+    }
+
+    .hero-image {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(.92) contrast(1.05);
+        }
+    }
+
+    &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        background: linear-gradient(45deg, rgba(0, 0, 0, .7), rgba(212, 175, 55, .1));
+    }
+}
+
+/* ===================== INTRO TEXT ===================== */
+.club-description {
+    padding: 40px 60px;
+    background: rgba(26, 26, 26, .8);
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    p {
+        color: #ccc;
+        font-size: 14px;
+        line-height: 1.8;
+        text-align: justify;
+        margin: 0;
+        letter-spacing: .3px;
+        max-width: 75%;
+    }
+}
+
+/* ===================== CARDS (GRID) ===================== */
+.cards-carousel {
+    background: linear-gradient(180deg, #1a1a1a 0%, #000 100%);
+    padding: 48px 0 32px;
+    display: flex;
+    justify-content: center;
+    overflow-x: clip;
+}
+
+.cards-carousel .carousel-container {
+    width: min(1400px, 100%);
+    margin-inline: auto;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 40px;
+    justify-items: center;
+    align-items: start;
+}
+
+.cards-carousel .card-item {
+    width: 250px;
+    /* tamaño “tarjeta” */
+    aspect-ratio: 16/10;
+    border-radius: 14px;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    transition: transform .25s ease, box-shadow .25s ease;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, .45);
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    &.active {
+        transform: translateY(-6px) scale(1.04);
+        box-shadow: 0 16px 48px rgba(212, 175, 55, .45);
+    }
+
+    &:hover:not(.active) {
+        transform: translateY(-4px);
+    }
+}
+
+/* Breakpoints: 4/3/2/1 columnas */
+@media (max-width: 1200px) {
+    .cards-carousel .carousel-container {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 992px) {
+    .cards-carousel .carousel-container {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .cards-carousel .carousel-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    .cards-carousel .carousel-container {
+        grid-template-columns: 1fr;
+    }
+
+    .cards-carousel .card-item {
+        width: min(92vw, 360px);
+    }
+}
+
+ion-content,
+.prestige-content {
+    overflow-x: hidden;
+}
+
+/* ===================== BANNER + OVERLAY ===================== */
+.banner-stack {
+    position: relative;
+    overflow: visible;
+}
+
+.banner-stack .banner-img {
+    width: 100%;
+    max-height: 420px;
+    height: clamp(220px, 34vw, 420px);
+    object-fit: cover;
+    display: block;
+    border-radius: 8px;
+    filter: saturate(.95) contrast(1.05);
+}
+
+/* Panel de detalles que flota sobre el banner */
+.details-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    opacity: 0;
+    transform: translateY(12px);
+    pointer-events: none;
+    transition: opacity .25s ease, transform .25s ease;
+}
+
+.details-overlay.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+
+
+/* Caja del detalle */
+.details-overlay .details-container {
+    width: min(1200px, 94vw);
+    display: grid;
+    grid-template-columns: 350px 1fr 300px;
+    gap: 32px;
+    padding: clamp(16px, 2vw, 28px);
+    border-radius: 14px;
+    background: rgba(0, 0, 0, .55);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(212, 175, 55, .18);
+    box-shadow: 0 18px 50px rgba(0, 0, 0, .45);
+}
+
+/* Contenidos del detalle (reutiliza estilos anteriores) */
+.details-container {
+
+    .profile-section .profile-image {
+        width: 100%;
+        height: 350px;
+        object-fit: cover;
+        border-radius: 8px;
+        filter: brightness(.9) contrast(1.08);
+    }
+
+    .card-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        padding-top: 8px;
+
+        .card-tier {
+            font-size: 36px;
+            font-weight: 300;
+            color: var(--gold);
+            letter-spacing: 3px;
+            margin: 0 0 10px 0;
+        }
+
+        .point-range {
+            font-size: 14px;
+            color: #ccc;
+            margin: 0 0 20px 0;
+            opacity: .8;
+        }
+
+        .card-description {
+            color: #ccc;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            text-align: justify;
+        }
+
+        .benefits-dropdown {
+            .benefits-button {
+                width: 100%;
+                background: transparent;
+                border: 1px solid var(--gold);
+                color: var(--gold);
+                padding: 12px 20px;
+                border-radius: 4px;
+                font-size: 14px;
+                cursor: pointer;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                transition: background .2s ease;
+
+                &:hover {
+                    background: rgba(212, 175, 55, .1);
+                }
+
+                ion-icon {
+                    transition: transform .3s ease;
+
+                    &.rotated {
+                        transform: rotate(180deg);
+                    }
+                }
+            }
+
+            .benefits-list {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height .4s cubic-bezier(0.4, 0, 0.2, 1), padding .2s;
+                background: rgba(26, 26, 26, .5);
+                border: 1px solid rgba(212, 175, 55, .3);
+                border-top: none;
+                border-radius: 0 0 4px 4px;
+                padding: 0;
+
+                &.show {
+                    max-height: 600px; // Permite más beneficios
+                    padding: 10px 0;
+                }
+
+                ul {
+                    list-style: none;
+                    padding: 0;
+                    margin: 0;
+
+                    li {
+                        padding: 10px 20px;
+                        color: #ccc;
+                        font-size: 13px;
+                        border-bottom: 1px solid rgba(212, 175, 55, .1);
+
+                        &:last-child {
+                            border-bottom: none;
+                        }
+
+                        &:before {
+                            content: '✓';
+                            color: var(--gold);
+                            margin-right: 10px;
+                            font-weight: 700;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .large-card {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .large-card-content {
+            width: 280px;
+            height: 170px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, .4);
+            background-size: contain;
+            /* <-- importante para que se vea completa la imagen */
+            background-color: #fff;
+            /* opcional: color de fondo si la imagen no ocupa todo */
+
+            &.silver {
+                background: linear-gradient(135deg, #c0c0c0 0%, #a8a8a8 100%);
+                color: #333;
+            }
+
+            &.gold {
+                background: linear-gradient(135deg, #ffd700 0%, #ffb347 100%);
+                color: #333;
+            }
+
+            &.black {
+                background: linear-gradient(135deg, #333 0%, #1a1a1a 100%);
+                color: var(--gold);
+                border: 2px solid var(--gold);
+            }
+
+            &.platinum {
+                background: linear-gradient(135deg, #e5e4e2 0%, #d3d3d3 100%);
+                color: #333;
+            }
+
+            &.diamond {
+                background: linear-gradient(135deg, #f0f8ff 0%, #e6f3ff 100%);
+                color: #333;
+            }
+
+            .card-tier-large {
+                font-size: 32px;
+                font-weight: 300;
+                letter-spacing: 4px;
+                text-align: center;
+            }
+        }
+    }
+}
+
+/* ===================== ANIMACIÓN UTIL ===================== */
+@keyframes shimmer {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+/* ===================== RESPONSIVE ===================== */
+@media (max-width: 768px) {
+    .hero-section {
+        height: 250px;
+
+        .hero-content .hero-title {
+            font-size: 32px;
+            letter-spacing: 2px;
+        }
+    }
+
+    .club-description {
+        padding: 30px 20px;
+
+        p {
+            font-size: 13px;
+            max-width: 100%;
+        }
+    }
+
+    /* overlay: 1 columna */
+    .details-overlay .details-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 16px;
+    }
+
+    .details-container .profile-section .profile-image {
+        height: 220px;
+    }
+
+    .details-container .large-card .large-card-content {
+        width: 250px;
+        height: 150px;
+    }
+}
+
+@media (max-width: 480px) {
+    .details-overlay {
+        padding: 10px;
+    }
+}
+
+
+.profile-section {
+    position: relative;
+
+    .edit-img-btn {
+        position: absolute;
+        right: 12px;
+        bottom: 12px;
+        padding: 8px 12px;
+        font-size: 12px;
+        border-radius: 8px;
+        border: 1px solid rgba(212, 175, 55, .7);
+        background: rgba(0, 0, 0, .55);
+        color: #f1f1f1;
+        cursor: pointer;
+        backdrop-filter: blur(3px);
+        transition: transform .15s ease, background .2s ease;
+
+        &:hover {
+            transform: translateY(-1px);
+            background: rgba(0, 0, 0, .7);
+        }
+    }
+}
+
+.large-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    /* ocupa todo el ancho disponible */
+    max-width: 300px;
+    /* ajusta el ancho máximo que quieras */
+    height: auto;
+}
+
+.large-card img {
+    max-width: 100%;
+    max-height: 100%;
+    height: auto;
+    width: auto;
+    object-fit: contain;
+    /* hace que la imagen se vea completa */
+    border-radius: 12px;
+    /* opcional, para mantener esquinas redondeadas */
+}

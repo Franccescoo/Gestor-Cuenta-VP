@@ -43,6 +43,7 @@ public class SecurityConfig {
 
                     //USER
                     http.requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll();
+                    http.requestMatchers(HttpMethod.POST, "/api/auth/send-credentials").permitAll();
 
                     //USUARIOS
                     http.requestMatchers(HttpMethod.PUT, "/api/usuarios/actualizar").permitAll();

@@ -1,0 +1,94 @@
+<ion-content [fullscreen]="true" class="prestige-content">
+
+  <app-header></app-header>
+
+  <section>
+    <!-- Sección principal con imagen de fondo -->
+    <div class="hero-section">
+      <div class="hero-content">
+        <h1 class="hero-title">ÚNETE A NUESTRO CLUB</h1>
+        <p class="hero-subtitle">Un programa que es cómodamente conseguir</p>
+      </div>
+      <div class="hero-image">
+        <img src="/assets/prestige/principal.png" alt="Prestige Club Members" />
+      </div>
+    </div>
+
+    <!-- Descripción del club -->
+    <div class="club-description">
+      <p>
+        Bienvenido al Club Prestige, un programa exclusivo diseñado para premiar la fidelidad y compromiso de nuestros
+        jugadores. A través de un sistema de puntos acumulables, accederás a beneficios únicos que aumentan según tu
+        categoría. Desde descuentos en comercios asociados hasta experiencias premium, el Club Prestige transforma tu
+        pasión por el juego en recompensas reales. Vive el privilegio de pertenecer a un club que reconoce tu constancia
+        y te
+        entrega más por cada jugada. Porque para nosotros, jugar con estilo también es jugar con beneficios.
+      </p>
+    </div>
+
+    <!-- Carrusel de tarjetas -->
+    <div class="cards-carousel">
+      <div class="carousel-container">
+        <div class="card-item" *ngFor="let card of cards; let i = index" [ngClass]="card.color"
+          [class.active]="card.active" (click)="selectCard(i)">
+          <img [src]="card.img" [alt]="card.level" />
+          <div class="card-content">
+            <div class="card-title">{{ card.name }}</div>
+            <div class="card-level">{{ card.level }}</div>
+            <div class="card-progress" *ngIf="card.progress">
+              <div class="progress-bar" [style.width.%]="card.progress"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Banner siempre presente -->
+    <div class="banner-stack">
+      <img class="banner-img" src="/assets/prestige/principal2.png" alt="Prestige Club" />
+
+      <!-- Panel de detalles encima del banner -->
+      <div class="details-overlay" [class.visible]="showCardDetails">
+        <div class="details-container">
+
+          <!-- Imagen -->
+          <!-- Imagen fija por tarjeta -->
+          <div class="profile-section">
+            <img [src]="getCurrentCard().detailImg || '/assets/img/SinImagen.jpg'" alt="Imagen del nivel"
+              class="profile-image" />
+          </div>
+
+
+          <!-- Info tarjeta -->
+          <div class="card-info">
+            <h2 class="card-tier">{{ getCurrentCard().level }}</h2>
+            <p class="point-range">{{ getPointRange(getCurrentCard().level) }}</p>
+            <p class="card-description">{{ getCardDescription(getCurrentCard().level) }}</p>
+
+            <div class="benefits-dropdown">
+              <button class="benefits-button" (click)="toggleBenefits()">
+                Beneficios {{ getCurrentCard().level }}
+                <ion-icon name="chevron-down" [class.rotated]="showBenefits"></ion-icon>
+              </button>
+              <div class="benefits-list" [class.show]="showBenefits">
+                <ul>
+                  <li *ngFor="let benefit of getCardBenefits(getCurrentCard().level)">{{ benefit }}</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tarjeta grande -->
+          <div class="large-card">
+            <div class="large-card-content" [style.backgroundImage]="'url(' + getCurrentCard().bg + ')'"></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <app-footer></app-footer>
+
+</ion-content>

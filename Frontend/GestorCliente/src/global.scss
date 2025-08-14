@@ -25,37 +25,84 @@
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
-/* Estilos globales para forzar el tema claro */
+/* ===== Tipografía y colores globales ===== */
 :root {
-    --ion-color-scheme: light;
-  }
+  --ion-color-scheme: light;
+  --gold: #d4af37;
+  --gold-light: #e4c14e;
+  --black: #000000;
+  --gray-light: #cccccc;
+  --white: #ffffff;
 
-:root {
---main-font: 'Poppins', sans-serif !important; /* Define la fuente principal */
+  /* Fuente global Ionic */
+  --ion-font-family: 'Poppins', sans-serif;
 }
 
-ion-app, ion-content, ion-toolbar, ion-title, p, ion-item {
-font-family: var(--main-font); /* Aplica la fuente a todos los elementos */
+/* Aplica Poppins a todo lo de Ionic y texto común */
+html, body, ion-app, ion-content, ion-toolbar, ion-title, p, ion-item {
+  font-family: var(--ion-font-family) !important;
 }
 
-:root {
-    --paynes-gray: #545f66ff;
-    --cadet-gray: #829399ff;
-    --mint-green: #d0f4eaff;
-    --tea-green: #e8fcc2ff;
-    --pistachio: #b1cc74ff;
-  }
+/* ===== Utilidades Prestige (para títulos/subtítulos) ===== */
+.prestige-heading {
+  font-family: var(--ion-font-family);
+  font-size: 48px;
+  font-weight: 300;              /* importante: usa peso 300 (cargado arriba) */
+  color: var(--gold);
+  letter-spacing: 4px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,.7);
+  margin: 0;
+  text-transform: uppercase;     /* igual que tus títulos */
+}
 
-  .fondo {
-    --background: none !important;
-    background: 
-      linear-gradient(120deg, #101726e0 60%, #1b2439e0 100%), /* Más oscuro */
-      url('/assets/img/fondopantalla.jpg') no-repeat center center fixed;
-    background-size: cover;
-    min-height: 100vh;
-    width: 100vw;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
+.prestige-subtitle {
+  font-family: var(--ion-font-family);
+  font-size: 14px;
+  color: #fff;
+  letter-spacing: 2px;
+  opacity: .8;
+  margin: .5rem 0 0 0;
+}
+
+/* Variante pequeña (como .card-tier) */
+.prestige-heading-small {
+  font-family: var(--ion-font-family);
+  font-size: 36px;
+  font-weight: 300;
+  color: var(--gold);
+  letter-spacing: 3px;
+  margin: 0;
+}
+
+/* CTA estilo Prestige (opcional) */
+.prestige-cta {
+  display: inline-block;
+  padding: 14px 28px;
+  background: var(--gold);
+  color: #1a1a1a;
+  border-radius: 12px;
+  font-weight: 600;
+  letter-spacing: .5px;
+  text-decoration: none;
+  transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+  box-shadow: 0 8px 18px rgba(212,175,55,.2);
+}
+.prestige-cta:hover {
+  background: var(--gold-light);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(212,175,55,.28);
+}
+
+/* Tu fondo reutilizable (lo dejo tal cual) */
+.fondo {
+  --background: none !important;
+  background:
+    linear-gradient(120deg, #101726e0 60%, #1b2439e0 100%),
+    url('/assets/img/fondopantalla.jpg') no-repeat center center fixed;
+  background-size: cover;
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

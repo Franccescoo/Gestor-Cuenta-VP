@@ -1,0 +1,43 @@
+<ion-content [fullscreen]="true">
+  <app-header></app-header>
+
+  <section class="contact-section">
+    <!-- Lado izquierdo: formulario -->
+    <div class="contact-form">
+      <h2 class="form-title">CONTÁCTANOS</h2>
+      <p class="form-subtitle">
+        Por favor, complete el formulario para enviarnos su consulta o comentario.
+      </p>
+
+      <form>
+        <!-- Email -->
+        <label for="email">Correo Electrónico</label>
+        <input type="email" id="email" name="email" placeholder="tu@email.com" required />
+
+        <!-- Asunto -->
+        <label for="subject">Asunto</label>
+        <select id="subject" name="subject" required>
+          <option value="">Seleccione un asunto</option>
+          <option value="soporte">Soporte Técnico</option>
+          <option value="ventas">Consultas de Ventas</option>
+          <option value="sugerencia">Sugerencias</option>
+          <option value="otros">Otros</option>
+        </select>
+
+        <!-- Mensaje -->
+        <label for="message">Mensaje</label>
+        <textarea id="message" name="message" rows="5" placeholder="Escriba su mensaje..." required></textarea>
+
+        <!-- Botón -->
+        <button type="submit" class="btn-send">Enviar Mensaje</button>
+      </form>
+    </div>
+
+    <!-- Lado derecho: imagen -->
+    <div class="contact-image">
+      <img src="/assets/prestige/girl3.jpeg" alt="Contacto" />
+    </div>
+  </section>
+
+  <app-footer></app-footer>
+</ion-content>
