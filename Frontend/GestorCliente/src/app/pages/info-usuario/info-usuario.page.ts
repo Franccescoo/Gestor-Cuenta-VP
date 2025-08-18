@@ -1,14 +1,14 @@
-  import { HttpClient } from '@angular/common/http';
-  import { Component, OnInit } from '@angular/core';
-  import { Router } from '@angular/router';
-  import { UserService } from 'src/app/Service/user.service';
+import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { UserService } from 'src/app/Service/user.service';
 
-  @Component({
-    selector: 'app-bienvenida',
-    templateUrl: './bienvenida.page.html',
-    styleUrls: ['./bienvenida.page.scss'],
-  })
-  export class BienvenidaPage implements OnInit {
+@Component({
+  selector: 'app-info-usuario',
+  templateUrl: './info-usuario.page.html',
+  styleUrls: ['./info-usuario.page.scss'],
+})
+export class InfoUsuarioPage implements OnInit {
     sistema: number | null = null;
     usuario: any = {};
     minNacimiento: string = '';
@@ -17,7 +17,7 @@
     archivo: File | null = null;
     ocrText: string = '';
     cargandoOCR: boolean = false;
-
+    menuOpen = false;
     fechaSeleccionada = { dia: '', mes: '', anio: '' };
   diasDisponibles: number[] = [];
   mesesDisponibles: string[] = [
@@ -121,20 +121,7 @@ guardarRegistro() {
       }
     }
 
-    validarDocumentoPorFoto() {
-      if (!this.archivo) return;
-      this.cargandoOCR = true;
-      this.userService.validarDocumentoPorFoto(this.archivo).subscribe(
-        res => {
-          this.ocrText = res.ocrText || '';
-          this.cargandoOCR = false;
-        },
-        err => {
-          this.ocrText = 'No se pudo leer el documento.';
-          this.cargandoOCR = false;
-        }
-      );
-    }
+
 
     // Helper para el input de documento
     getPattern() {
@@ -213,6 +200,22 @@ guardarRegistro() {
       const c = this.countryCodes.find(c => c.prefix === this.usuario.prefijo);
       return 'fi fi-' + (c?.code || 'cl');
     }
+
+    toggleMenu() {
+  this.menuOpen = !this.menuOpen;
+  document.body.classList.toggle('no-scroll', this.menuOpen);
+}
+
+closeMenu() {
+  this.menuOpen = false;
+  document.body.classList.remove('no-scroll');
+}
+
+goToLogin() {
+  // navega a tu ruta de login
+  this.router.navigate(['/iniciar-sesion']);
+}
+
 
 
   }

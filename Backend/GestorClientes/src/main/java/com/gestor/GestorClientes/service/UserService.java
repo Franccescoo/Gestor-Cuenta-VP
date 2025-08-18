@@ -4,6 +4,10 @@ import com.gestor.GestorClientes.persistence.entity.UserEntity;
 import com.gestor.GestorClientes.persistence.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.http.HttpStatus;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
+import java.util.LinkedHashMap;
 
 import java.time.LocalDate;
 import java.util.Map;
@@ -43,6 +47,49 @@ public class UserService {
 
         // Guarda solo con los datos nuevos
         return userRepository.save(user);
+    }
+
+    @Transactional(readOnly = true)
+    public Map<String, Object> obtenerPerfil(String playerId, Integer sistemaId) {
+        var u = userRepository.findEntityByPlayerIdAndRolId(playerId, sistemaId)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "No existe usuario para playerId=" + playerId + " en sistemaId=" + sistemaId
+                ));
+
+        Map<String, Object> out = new LinkedHashMap<>();
+        // claves
+        out.put("player_id", u.getPlayerId());
+        out.put("sistema_id", u.getRolId()); // (= sistemaId)
+
+        // principales
+        out.put("puntos_total", u.getPuntosTotal());
+        out.put("fecha_ultima_actualizacion",
+                u.getFechaUltimaActualizacion() != null ? u.getFechaUltimaActualizacion().toString() : null);
+
+        // identidad
+        out.put("nombre_completo", u.getNombreCompleto());
+        out.put("apellido_completo", u.getApellidoCompleto());
+        out.put("fecha_cumpleanos",
+                u.getFechaCumpleanos() != null ? u.getFechaCumpleanos().toString() : null);
+
+        // contacto
+        out.put("email", u.getEmail());
+        out.put("celular", u.getCelular());
+        out.put("login", u.getLogin());
+
+        // documento
+        out.put("tipo_documento", u.getTipoDocumento());
+        out.put("numero_documento", u.getNumeroDocumento());
+
+        // flags / otros
+        out.put("verificado", u.getVerificado());
+        out.put("activo", u.getActivo());
+        out.put("categoria_id", u.getCategoriaId());
+        out.put("usuarios", u.getUsername()); // columna 'usuarios'
+
+        // ¡ojo! password nunca se expone
+        return out;
     }
 
 

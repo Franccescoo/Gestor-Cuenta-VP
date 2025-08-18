@@ -1,7 +1,221 @@
 <ion-content class="fondo" [fullscreen]="true">
   <app-header-usuario></app-header-usuario>
 
-  
+  <div class="user-dashboard" *ngIf="cargado; else loadingTpl">
+    <!-- ENCABEZADO PERFIL -->
+    <section class="perfil-header">
+      <div class="avatar-box">
+        <img [src]="avatarPreview || perfil?.fotoUrl || defaultAvatar" (error)="onImgError($event)"
+          alt="Foto de perfil" />
+
+      </div>
+
+      <div class="perfil-resumen">
+        <h1>{{ perfil?.nombreCompleto || '-' }} {{ perfil?.apellidoCompleto || '' }}</h1>
+
+        <div class="mini">
+          <ion-chip color="warning" class="chip-nivel" *ngIf="perfil?.categoriaNombre">
+            <ion-icon name="medal-outline"></ion-icon>
+            <ion-label>{{ perfil?.categoriaNombre }}</ion-label>
+          </ion-chip>
+
+          <ion-chip class="chip-puntos">
+            <ion-icon name="diamond-outline"></ion-icon>
+            <ion-label>{{ (perfil?.puntosTotal || 0) | number }} pts</ion-label>
+          </ion-chip>
+        </div>
+
+        <p class="email" *ngIf="perfil?.email">
+          <ion-icon name="mail-outline"></ion-icon> {{ perfil?.email }}
+        </p>
+        <p class="small">
+          Última actualización: {{ perfil?.fechaUltimaActualizacion || '-' }}
+        </p>
+      </div>
+    </section>
+
+    <!-- DETALLE SOLO LECTURA -->
+    <ion-card class="perfil-card">
+      <ion-card-header>
+        <ion-card-title>Datos del usuario</ion-card-title>
+        <ion-card-subtitle>
+          Player ID: <b>{{ perfil?.playerId }}</b> — Sistema: <b>{{ perfil?.sistemaId }}</b>
+        </ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-grid class="perfil-grid">
+          <!-- PERSONALES -->
+          <ion-row class="bloque-titulo"><ion-col>Datos personales</ion-col></ion-row>
+          <ion-row>
+            <ion-col size-md="6">
+              <ion-item class="static-item">
+                <ion-label position="stacked">Nombres</ion-label>
+                <div class="static-value">{{ perfil?.nombreCompleto || '—' }}</div>
+              </ion-item>
+            </ion-col>
+            <ion-col size-md="6">
+              <ion-item class="static-item">
+                <ion-label position="stacked">Apellidos</ion-label>
+                <div class="static-value">{{ perfil?.apellidoCompleto || '—' }}</div>
+              </ion-item>
+            </ion-col>
+            <ion-col size-md="6">
+              <ion-item class="static-item">
+                <ion-label position="stacked">Fecha de cumpleaños</ion-label>
+                <div class="static-value">
+                  {{ perfil?.fechaCumpleanos || '—' }}
+                </div>
+              </ion-item>
+            </ion-col>
+            <ion-col size-md="6">
+              <ion-item class="static-item">
+                <ion-label position="stacked">Login</ion-label>
+                <div class="static-value">{{ perfil?.login || '—' }}</div>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <!-- CONTACTO -->
+          <ion-row class="bloque-titulo"><ion-col>Contacto</ion-col></ion-row>
+          <ion-row>
+            <ion-col size-md="6">
+              <ion-item class="static-item">
+                <ion-label position="stacked">Email</ion-label>
+                <div class="static-value">{{ perfil?.email || '—' }}</div>
+              </ion-item>
+            </ion-col>
+            <ion-col size-md="6">
+              <ion-item class="static-item">
+                <ion-label position="stacked">Celular</ion-label>
+                <div class="static-value">{{ perfil?.celular || '—' }}</div>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <!-- DOCUMENTO -->
+          <ion-row class="bloque-titulo"><ion-col>Documento</ion-col></ion-row>
+          <ion-row>
+            <ion-col size-md="6">
+              <ion-item class="static-item">
+                <ion-label position="stacked">Tipo de documento</ion-label>
+                <div class="static-value">{{ perfil?.tipoDocumento || '—' }}</div>
+              </ion-item>
+            </ion-col>
+            <ion-col size-md="6">
+              <ion-item class="static-item">
+                <ion-label position="stacked">Número de documento</ion-label>
+                <div class="static-value">{{ perfil?.numeroDocumento || '—' }}</div>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <!-- DIRECCIÓN (aún no en DTO: usamos $any) -->
+          <ion-row class="bloque-titulo"><ion-col>Dirección</ion-col></ion-row>
+          <ion-row>
+            <ion-col size-md="6">
+              <ion-item class="static-item">
+                <ion-label position="stacked">Calle</ion-label>
+                <div class="static-value">{{ $any(perfil)?.calle || '—' }}</div>
+              </ion-item>
+            </ion-col>
+            <ion-col size-md="3">
+              <ion-item class="static-item">
+                <ion-label position="stacked">Número</ion-label>
+                <div class="static-value">{{ $any(perfil)?.numero || '—' }}</div>
+              </ion-item>
+            </ion-col>
+            <ion-col size-md="3">
+              <ion-item class="static-item">
+                <ion-label position="stacked">Comuna</ion-label>
+                <div class="static-value">{{ $any(perfil)?.comuna || '—' }}</div>
+              </ion-item>
+            </ion-col>
+            <ion-col size-md="6">
+              <ion-item class="static-item">
+                <ion-label position="stacked">Región</ion-label>
+                <div class="static-value">{{ $any(perfil)?.region || '—' }}</div>
+              </ion-item>
+            </ion-col>
+            <ion-col size-md="6">
+              <ion-item class="static-item">
+                <ion-label position="stacked">País</ion-label>
+                <div class="static-value">{{ $any(perfil)?.pais || '—' }}</div>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <!-- OTROS -->
+          <ion-row class="bloque-titulo"><ion-col>Preferencias / Otros</ion-col></ion-row>
+          <ion-row>
+            <ion-col size-md="6">
+              <ion-item class="static-item">
+                <ion-label position="stacked">Verificado</ion-label>
+                <div class="static-value">
+                  <ion-chip color="success" *ngIf="perfil?.verificado; else noVerif">Verificado</ion-chip>
+                  <ng-template #noVerif><ion-chip color="medium">No verificado</ion-chip></ng-template>
+                </div>
+              </ion-item>
+            </ion-col>
+            <ion-col size-md="6">
+              <ion-item class="static-item">
+                <ion-label position="stacked">Activo</ion-label>
+                <div class="static-value">
+                  <ion-chip color="success" *ngIf="perfil?.activo; else inactivo">Activo</ion-chip>
+                  <ng-template #inactivo><ion-chip color="danger">Inactivo</ion-chip></ng-template>
+                </div>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12">
+              <ion-item class="static-item textarea-item">
+                <ion-label position="stacked">Nota de entrega</ion-label>
+                <div class="static-value multiline">{{ $any(perfil)?.notaEntrega || '—' }}</div>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <!-- SOLO LECTURA (resumen) -->
+          <ion-row class="bloque-titulo"><ion-col>Resumen</ion-col></ion-row>
+          <ion-row>
+            <ion-col size-md="4">
+              <ion-item class="static-item">
+                <ion-label position="stacked">Categoría ID</ion-label>
+                <div class="static-value">{{ perfil?.categoriaId ?? '—' }}</div>
+              </ion-item>
+            </ion-col>
+            <ion-col size-md="4">
+              <ion-item class="static-item">
+                <ion-label position="stacked">Puntos</ion-label>
+                <div class="static-value">{{ (perfil?.puntosTotal || 0) | number }}</div>
+              </ion-item>
+            </ion-col>
+            <ion-col size-md="4">
+              <ion-item class="static-item">
+                <ion-label position="stacked">Usuarios (ref)</ion-label>
+                <div class="static-value">{{ perfil?.usuarios || '—' }}</div>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- ACCIONES SECUNDARIAS -->
+    <div class="acciones-secundarias">
+      <ion-button fill="outline" color="warning" routerLink="/historial-canje">
+        <ion-icon name="time-outline" slot="start"></ion-icon>
+        Ver historial de canjes
+      </ion-button>
+      <ion-button fill="outline" color="medium" routerLink="/cambiar-password">
+        <ion-icon name="key-outline" slot="start"></ion-icon>
+        Cambiar contraseña
+      </ion-button>
+    </div>
+  </div>
+
+  <ng-template #loadingTpl>
+    <ion-spinner name="crescent" style="margin: 32px auto; display: block;"></ion-spinner>
+  </ng-template>
 
   <app-footer></app-footer>
 </ion-content>

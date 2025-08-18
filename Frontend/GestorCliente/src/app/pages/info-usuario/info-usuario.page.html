@@ -1,0 +1,129 @@
+<!-- Header -->
+
+<header>
+
+
+  <div class="header-nav">
+    <div class="logo">
+      <img src="/assets/prestige/logo.png" alt="Prestige" />
+    </div>
+
+
+    <!-- Botón Hamburguesa (visible < 993px) -->
+    <div class="hamburger" (click)="toggleMenu()">
+      <ion-icon name="menu-outline"></ion-icon>
+    </div>
+  </div>
+
+  <!-- Menú lateral fullscreen (MÓVIL) -->
+  <div class="mobile-menu" [class.open]="menuOpen">
+    <div class="menu-header">
+      <img src="/assets/prestige/logo.png" alt="Prestige" />
+      <ion-icon name="close-outline" class="close-btn" (click)="closeMenu()"></ion-icon>
+    </div>
+
+  </div>
+
+</header>
+
+
+<ion-content [fullscreen]="true" class="register-content">
+
+  <section class="auth-shell">
+    <!-- Izquierda: formulario -->
+    <div class="left-pane">
+      <h1 class="title">COMPLETA TU REGISTRO</h1>
+      <p class="subtitle">Gana 10 puntos por completar tus datos</p>
+
+      <form (ngSubmit)="guardarRegistro()" autocomplete="off" class="form-una-col" novalidate>
+        <div class="col nombre-row">
+          <label>Nombre</label>
+          <input class="nombre-input" placeholder="Luis" type="text" [(ngModel)]="usuario.nombre_completo"
+            name="nombre_completo" required />
+        </div>
+
+        <div class="col apellido-row">
+          <label>Apellido</label>
+          <input class="apellido-input" placeholder="Lopéz" type="text" [(ngModel)]="usuario.apellido_completo"
+            name="apellido_completo" required />
+        </div>
+
+        <div class="col celular-row">
+          <label>Celular</label>
+          <div class="celular-input-group">
+            <span [ngClass]="getFlagClass()" style="font-size: 1.4em; margin-right: 8px;"></span>
+
+            <select [(ngModel)]="usuario.prefijo" name="prefijo" required class="celular-prefijo"
+              (change)="onChangePrefijo()">
+              <option *ngFor="let c of countryCodes" [value]="c.prefix">
+                {{ c.prefix }} ({{ c.name }})
+              </option>
+            </select>
+
+            <input type="tel" [(ngModel)]="usuario.celular" name="celular" required maxlength="9"
+              placeholder="123456789" class="celular-input" />
+          </div>
+        </div>
+
+        <div class="col documento-row">
+          <label>Documento</label>
+          <div class="documento-input-group">
+            <select class="documento-prefijo" [(ngModel)]="usuario.tipoDocumento" name="tipoDocumento" required
+              (change)="resetDocumento()">
+              <option value="rut">RUT Chileno</option>
+              <option value="dni">DNI Peruano</option>
+              <option disabled>────────────</option>
+              <option value="extranjero-cl">Extranjero (Chile)</option>
+              <option value="extranjero-pe">Extranjero (Perú)</option>
+            </select>
+
+            <input type="text" [(ngModel)]="usuario.numeroDocumento" name="numeroDocumento" required
+              [attr.maxlength]="getMaxLength()" [pattern]="getPattern()" [placeholder]="getPlaceholder()"
+              class="documento-input" />
+          </div>
+          <small *ngIf="usuario.tipoDocumento === 'rut'">RUT chileno: 12345678-9</small>
+          <small *ngIf="usuario.tipoDocumento === 'dni'">DNI peruano: 12345678</small>
+          <small *ngIf="usuario.tipoDocumento && usuario.tipoDocumento.startsWith('extranjero')">
+            Extranjeros: mínimo 4 caracteres
+          </small>
+        </div>
+
+        <div class="col nacimiento-row">
+          <label>Fecha de nacimiento</label>
+          <div class="fecha-select-group">
+            <select [(ngModel)]="fechaSeleccionada.dia" name="dia" class="fecha-select" required>
+              <option value="" disabled selected>Día</option>
+              <option *ngFor="let d of diasDisponibles" [value]="d">{{ d }}</option>
+            </select>
+            <select [(ngModel)]="fechaSeleccionada.mes" name="mes" class="fecha-select" required>
+              <option value="" disabled selected>Mes</option>
+              <option *ngFor="let m of mesesDisponibles; let i = index" [value]="i+1">{{ m }}</option>
+            </select>
+            <select [(ngModel)]="fechaSeleccionada.anio" name="anio" class="fecha-select" required>
+              <option value="" disabled selected>Año</option>
+              <option *ngFor="let a of aniosDisponibles" [value]="a">{{ a }}</option>
+            </select>
+          </div>
+          <small
+            *ngIf="!fechaNacimientoValida && fechaSeleccionada.dia && fechaSeleccionada.mes && fechaSeleccionada.anio"
+            style="color:#ffd700">
+            Debes tener al menos 18 años y máximo 100 años
+          </small>
+        </div>
+
+        <div class="col col-btn">
+          <button type="submit" class="guardar-btn">
+            GUARDAR Y GANAR 10 PUNTOS
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Derecha: imagen -->
+    <div class="right-pane">
+      <img src="/assets/prestige/girl5.jpeg" alt="Bienvenido a Prestige" />
+    </div>
+  </section>
+
+  <app-footer></app-footer>
+</ion-content>

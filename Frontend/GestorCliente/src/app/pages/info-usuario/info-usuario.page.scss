@@ -1,0 +1,497 @@
+.register-content {
+  --background: #0a0a0a;
+  background: radial-gradient(1200px 600px at 80% 0%, #1a1a1a 0%, #0a0a0a 60%);
+  color: #eaeaea;
+}
+
+/* Shell dos columnas: izquierda formulario, derecha foto */
+.auth-shell {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  min-height: calc(100vh - 140px); /* header+footer margen */
+}
+
+/* ======== Columna izquierda (form) ======== */
+.left-pane {
+  padding: clamp(20px, 4vw, 48px) clamp(20px, 4vw, 60px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 760px;
+  margin-inline: auto;
+
+  .title {
+    margin: 0 0 6px 0;
+    font-size: clamp(22px, 3vw, 32px);
+    letter-spacing: 2px;
+    font-weight: 600;
+    color: #d4af37;
+  }
+
+  .subtitle {
+    margin: 0 0 24px 0;
+    opacity: .75;
+    font-size: 14px;
+  }
+
+  /* GRID del formulario: 2 cols en desktop, 1 en mobile */
+  .form-una-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px 22px;
+  }
+
+  /* por defecto cada .col ocupa 1 columna; las “largas” ocupan 2 */
+  .celular-row,
+  .documento-row,
+  .nacimiento-row,
+  .email-row,
+  .input-ocr-doc,
+  .col-btn {
+    grid-column: 1 / -1;
+  }
+
+  .col {
+    display: flex;
+    flex-direction: column;
+  }
+
+  label {
+    font-size: 12px;
+    letter-spacing: .4px;
+    margin-bottom: 6px;
+    color: #bbbbbb;
+  }
+
+  /* Inputs, selects, file */
+  input[type="text"],
+  input[type="tel"],
+  input[type="email"],
+  input[type="date"],
+  input[type="file"],
+  select {
+    height: 44px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,.08);
+    background: rgba(255,255,255,.04);
+    color: #fff;
+    padding: 0 14px;
+    outline: none;
+    transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+    appearance: none;
+
+    &::placeholder { color: rgba(255,255,255,.35); }
+    &:focus {
+      border-color: #d4af37;
+      box-shadow: 0 0 0 3px rgba(212,175,55,.15);
+      background: rgba(255,255,255,.06);
+    }
+  }
+
+  /* Grupo: Celular */
+  .celular-input-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .celular-prefijo {
+      width: 180px;
+      min-width: 160px;
+    }
+
+    .celular-input {
+      flex: 1;
+    }
+  }
+
+  /* Grupo: Documento */
+  .documento-input-group {
+    display: flex;
+    gap: 10px;
+
+    .documento-prefijo {
+      width: 220px;
+      min-width: 200px;
+    }
+
+    .documento-input {
+      flex: 1;
+    }
+  }
+
+  /* Grupo: Fecha (día/mes/año) */
+  .fecha-select-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+
+    .fecha-select {
+      height: 44px;
+    }
+  }
+
+  small {
+    font-size: 11px;
+    opacity: .85;
+    margin-top: 6px;
+  }
+
+  /* OCR */
+  .btn-ocr {
+    margin-top: 10px;
+    height: 40px;
+    padding: 0 16px;
+    border: 1px solid #d4af37;
+    background: linear-gradient(180deg, rgba(212,175,55,.18), rgba(212,175,55,.10));
+    color: #f8f3e1;
+    border-radius: 10px;
+    font-weight: 600;
+    letter-spacing: .3px;
+    cursor: pointer;
+    transition: transform .1s ease, box-shadow .2s ease, background .2s ease;
+
+    &:hover { box-shadow: 0 6px 20px rgba(212,175,55,.25); }
+    &:active { transform: translateY(1px); }
+    &:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+  }
+
+  .ocr-preview {
+    margin-top: 8px;
+    background: rgba(255,255,255,.03);
+    border: 1px dashed rgba(255,255,255,.15);
+    color: #eaeaea;
+    padding: 10px 12px;
+    border-radius: 8px;
+    max-height: 140px;
+    overflow: auto;
+    white-space: pre-wrap;
+  }
+
+  /* CTA principal */
+  .guardar-btn {
+    margin-top: 4px;
+    height: 48px;
+    padding: 0 22px;
+    border: 1px solid #d4af37;
+    background: linear-gradient(180deg, rgba(212,175,55,.22), rgba(212,175,55,.12));
+    color: #f8f3e1;
+    border-radius: 12px;
+    font-weight: 700;
+    letter-spacing: .6px;
+    cursor: pointer;
+    justify-self: end;
+    transition: transform .1s ease, box-shadow .2s ease;
+
+    &:hover { box-shadow: 0 10px 24px rgba(212,175,55,.28); }
+    &:active { transform: translateY(1px); }
+    &:disabled { opacity: .55; cursor: not-allowed; box-shadow: none; }
+  }
+}
+
+/* ======== Columna derecha (imagen) ======== */
+.right-pane {
+  position: relative;
+  overflow: hidden;
+
+  img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(.95) contrast(1.05);
+  }
+
+  /* viñeta oscura hacia la izquierda para contraste del form */
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(10,10,10,.65), transparent 35%, transparent);
+    pointer-events: none;
+  }
+}
+
+/* ======== Responsive ======== */
+@media (max-width: 1024px) {
+  .auth-shell { grid-template-columns: 1fr; }
+  .right-pane { display: none; }
+  .left-pane { max-width: 640px; }
+}
+
+@media (max-width: 640px) {
+  .left-pane .form-una-col { grid-template-columns: 1fr; }
+  .celular-input-group,
+  .documento-input-group { flex-direction: column; }
+  .left-pane .guardar-btn { justify-self: stretch; }
+}
+
+/* Fuerza estilo oscuro en selects nativos */
+.left-pane select,
+.celular-prefijo,
+.documento-prefijo {
+  background: rgba(255,255,255,.04);
+  color: #eaeaea;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 8px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  /* Hace que el control adopte dark UI en Chrome/Edge/Safari/Firefox modernos */
+  color-scheme: dark;
+}
+
+.left-pane select:focus {
+  border-color: #d4af37;
+  box-shadow: 0 0 0 3px rgba(212,175,55,.15);
+  outline: none;
+}
+
+/* Colores del menú de opciones */
+.left-pane select option {
+  background-color: #141414;
+  color: #eaeaea;
+}
+
+/* Hover / seleccionado dentro del menú */
+.left-pane select option:checked,
+.left-pane select option:hover {
+  background-color: #1f1f1f;
+  color: #fff;
+}
+
+
+/* ===============================
+   HEADER (desktop + base)
+   =============================== */
+.header-nav {
+  
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 32px 20px;
+  background: #000;
+  color: #fff;
+  border-bottom: 1px solid rgba(255, 255, 255, .06);
+
+  .logo img {
+    padding-left: 90px;
+    height: 50px;
+    display: block;
+  }
+
+  /* Navegación desktop */
+  .nav-menu {
+    display: flex;
+    gap: 42px;
+    
+    .nav-item {
+      font-family: var(--ion-font-family);
+      color: #fff;
+      text-decoration: none;
+      letter-spacing: .3px;
+      transition: color .2s ease, opacity .2s ease;
+
+      &:hover { color: var(--gold); }
+      &:active { opacity: .8; }
+    }
+  }
+
+  /* Botón de acceso (desktop) */
+  .auth-section {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+
+    span { user-select: none; }
+
+    .register { color: var(--gold); }
+
+    .user-icon {
+      background: var(--gold);
+      color: #000;
+      border-radius: 999px;
+      font-size: 18px;
+      padding: 6px;
+    }
+  }
+
+  /* Botón hamburguesa (oculto en desktop) */
+  .hamburger {
+    display: none;
+    font-size: 28px;
+    cursor: pointer;
+    color: #fff;
+    line-height: 1;
+  }
+}
+
+/* ===============================
+   MENÚ FULLSCREEN (móvil)
+   =============================== */
+.mobile-menu {
+  position: fixed;
+  inset: 0;                /* top/right/bottom/left: 0 */
+  background: #000;        /* Fondo sólido (no transparente) */
+  color: #fff;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 18px 28px;
+  overflow-y: auto;
+
+  /* Animación de entrada/desplazamiento */
+  transform: translateX(100%);
+  transition: transform .3s ease-in-out;
+  will-change: transform;
+
+  &.open {
+    transform: translateX(0);
+  }
+
+  /* Cabecera del menú */
+  .menu-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, .08);
+
+    img { height: 36px; }
+
+    .close-btn {
+      font-size: 32px;
+      color: var(--gold);
+      cursor: pointer;
+      line-height: 1;
+    }
+  }
+
+  /* Links */
+  .menu-links {
+    display: flex;
+    flex-direction: column;
+    padding: 14px 0;
+
+    a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 18px;
+      padding: 14px 4px;
+      border-bottom: 1px solid rgba(255, 255, 255, .06);
+      transition: color .2s ease, transform .15s ease;
+
+      &:hover { color: var(--gold); }
+      &:active { transform: translateX(2px); }
+    }
+  }
+
+  /* Bloque de login al final */
+  .menu-login {
+    margin-top: auto;   /* Empuja el login al fondo */
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, .08);
+
+    h3 {
+      margin: 6px 0 12px;
+      font-size: 18px;
+      color: var(--gold);
+      font-weight: 600;
+      letter-spacing: .3px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      input {
+        width: 100%;
+        padding: 12px 14px;
+        border: 1px solid rgba(255, 255, 255, .12);
+        border-radius: 8px;
+        background: #151515;
+        color: #fff;
+        outline: none;
+        transition: border-color .2s ease, background .2s ease;
+
+        &::placeholder { color: rgba(255,255,255,.55); }
+        &:focus { border-color: var(--gold); background: #111; }
+      }
+
+      button {
+        margin-top: 4px;
+        padding: 12px 14px;
+        background: var(--gold);
+        color: #000;
+        font-weight: 700;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: transform .06s ease, background .2s ease;
+
+        &:hover { background: var(--gold-light); }
+        &:active { transform: translateY(1px); }
+      }
+    }
+
+    .register-text {
+      font-size: 14px;
+      margin-top: 10px;
+
+      a {
+        color: var(--gold);
+        text-decoration: none;
+
+        &:hover { text-decoration: underline; }
+      }
+    }
+  }
+}
+
+/* ===============================
+   RESPONSIVE
+   =============================== */
+/* Solo móvil */
+@media (max-width: 992px) {
+  .header-nav .nav-menu,
+  .header-nav .auth-section { display: none; }  /* se ocultan dentro del off-canvas */
+  .header-nav .hamburger { display: block; }
+}
+
+
+/* ===============================
+   (Opcional) bloquear scroll del body
+   cuando el menú está abierto
+   =============================== */
+/* Agrega/remueve la clase no-scroll al body desde TS al abrir/cerrar */
+body.no-scroll {
+  overflow: hidden;
+}
+
+/* ===== Desktop explícito (>= 993px) ===== */
+@media (min-width: 993px) {
+  .header-nav .nav-menu,
+  .header-nav .auth-section {
+    display: flex !important;    /* muestra menú y login */
+  }
+
+  .header-nav .hamburger {
+    display: none !important;    /* oculta el botón hamburguesa */
+  }
+
+  .mobile-menu {
+    display: none !important;    /* por si quedó abierto */
+    transform: none !important;
+  }
+}
+

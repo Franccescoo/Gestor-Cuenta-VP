@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { BienvenidaPageRoutingModule } from './bienvenida-routing.module';
+import { InfoUsuarioPageRoutingModule } from './info-usuario-routing.module';
 
-import { BienvenidaPage } from './bienvenida.page';
+import { InfoUsuarioPage } from './info-usuario.page';
 import { SharedModule } from 'src/app/components/components.module';
 
 @NgModule({
@@ -14,9 +14,9 @@ import { SharedModule } from 'src/app/components/components.module';
     CommonModule,
     FormsModule,
     IonicModule,
-    BienvenidaPageRoutingModule,
+    InfoUsuarioPageRoutingModule,
     SharedModule
   ],
-  declarations: [BienvenidaPage]
+  declarations: [InfoUsuarioPage]
 })
-export class BienvenidaPageModule {}
+export class InfoUsuarioPageModule {}

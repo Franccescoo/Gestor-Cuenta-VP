@@ -54,7 +54,7 @@ onSubmit() {
           localStorage.setItem('email', email!);
         }
         if (res.debeCompletarRegistro) {
-          this.router.navigate(['/bienvenida']);
+          this.router.navigate(['/info-usuario']);
         } else {
           this.router.navigate(['/menu']);
         }

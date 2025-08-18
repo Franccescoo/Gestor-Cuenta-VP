@@ -13,10 +13,6 @@ const routes: Routes = [
     loadChildren: () => import('./index/index.module').then( m => m.IndexPageModule)
   },
   {
-    path: 'bienvenida',
-    loadChildren: () => import('./pages/bienvenida/bienvenida.module').then( m => m.BienvenidaPageModule)
-  },
-  {
     path: 'menu',
     loadChildren: () => import('./pages/menu/menu.module').then( m => m.MenuPageModule),
     canActivate: [validarSesionRolGuard],
@@ -74,6 +70,11 @@ const routes: Routes = [
     canActivate: [validarSesionRolGuard],
     data: { issuer: 'AUTH-backend' }
   },
+  {
+    path: 'info-usuario',
+    loadChildren: () => import('./pages/info-usuario/info-usuario.module').then( m => m.InfoUsuarioPageModule)
+  },
+
 
 
 

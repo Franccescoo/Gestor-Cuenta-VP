@@ -1,12 +1,20 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
+import { UserPerfilDTOResponse, mapUserPerfilResponse } from '../models/UserPerfilDTOResponse.model';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
   private apiUrl = 'http://localhost:8080/api/usuarios';
 
   constructor(private http: HttpClient) {}
+
+getPerfil(playerId: string, sistemaId: number) {
+  const params = new HttpParams().set('playerId', playerId).set('sistemaId', sistemaId.toString());
+  return this.http.get<UserPerfilDTOResponse>(`${this.apiUrl}/perfil`, { params })
+    .pipe(map(mapUserPerfilResponse)); // => Observable<UserPerfilDTO>
+}
+
 
  // ACTUALIZAR DATOS DEL USUARIO
   actualizarUsuario(playerId: string, sistemaId: number, body: any): Observable<any> {

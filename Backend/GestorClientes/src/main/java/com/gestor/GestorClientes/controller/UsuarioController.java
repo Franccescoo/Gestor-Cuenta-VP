@@ -53,6 +53,11 @@ public class UsuarioController {
     }
 
 
+    @GetMapping("/perfil")
+    public ResponseEntity<Map<String,Object>> getPerfil(@RequestParam String playerId,
+                                                        @RequestParam Integer sistemaId) {
+        return ResponseEntity.ok(userService.obtenerPerfil(playerId, sistemaId));
+    }
 
 
 
