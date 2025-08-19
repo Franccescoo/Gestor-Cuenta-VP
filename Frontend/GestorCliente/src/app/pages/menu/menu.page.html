@@ -6,7 +6,13 @@
     <section class="resumen-puntos">
       <div class="puntos-header">
         <div class="saludo-usuario">
-          <h2>¡Bienvenido de vuelta!</h2>
+          <h2>
+            ¡Bienvenido de vuelta!
+            <ion-chip class="casino-pill" color="warning">
+              <ion-icon name="home-outline"></ion-icon>
+              <ion-label>{{ (casinoNombre$ | async) }}</ion-label>
+            </ion-chip>
+          </h2>
           <h1>{{ d.nombre || 'Usuario' }}</h1>
           <small *ngIf="d.email">({{ d.email }})</small>
         </div>
@@ -210,76 +216,76 @@
                     -->
 
     <!-- Beneficios Premium -->
-<section class="beneficios-vip coming-soon">
-  <!-- MÁSCARA PRÓXIMAMENTE -->
-    <div class="mask-soon">
-      <span class="pill">
-        <ion-icon name="time-outline"></ion-icon>
-        PRÓXIMAMENTE
-      </span>
-    </div>
+    <section class="beneficios-vip coming-soon">
+      <!-- MÁSCARA PRÓXIMAMENTE -->
+      <div class="mask-soon">
+        <span class="pill">
+          <ion-icon name="time-outline"></ion-icon>
+          PRÓXIMAMENTE
+        </span>
+      </div>
 
-  <div class="beneficios-header">
-    <h3>
-      <ion-icon name="shield-checkmark-outline"></ion-icon>
-      Beneficios Exclusivos Gold
-    </h3>
-    <p class="beneficios-descripcion">Disfruta de ventajas únicas como miembro Gold</p>
-  </div>
+      <div class="beneficios-header">
+        <h3>
+          <ion-icon name="shield-checkmark-outline"></ion-icon>
+          Beneficios Exclusivos Gold
+        </h3>
+        <p class="beneficios-descripcion">Disfruta de ventajas únicas como miembro Gold</p>
+      </div>
 
-  <div class="beneficios-lista">
-    <div class="beneficio-item">
-      <div class="beneficio-icono">
-        <ion-icon name="restaurant-outline"></ion-icon>
-      </div>
-      <div class="beneficio-texto">
-        <h4>Descuentos Gastronómicos</h4>
-        <p>Hasta 20% de descuento en restaurantes seleccionados</p>
-      </div>
-    </div>
+      <div class="beneficios-lista">
+        <div class="beneficio-item">
+          <div class="beneficio-icono">
+            <ion-icon name="restaurant-outline"></ion-icon>
+          </div>
+          <div class="beneficio-texto">
+            <h4>Descuentos Gastronómicos</h4>
+            <p>Hasta 20% de descuento en restaurantes seleccionados</p>
+          </div>
+        </div>
 
-    <div class="beneficio-item">
-      <div class="beneficio-icono">
-        <ion-icon name="ticket-outline"></ion-icon>
-      </div>
-      <div class="beneficio-texto">
-        <h4>Acceso VIP Premium</h4>
-        <p>Invitaciones exclusivas a eventos privados y lanzamientos</p>
-      </div>
-    </div>
+        <div class="beneficio-item">
+          <div class="beneficio-icono">
+            <ion-icon name="ticket-outline"></ion-icon>
+          </div>
+          <div class="beneficio-texto">
+            <h4>Acceso VIP Premium</h4>
+            <p>Invitaciones exclusivas a eventos privados y lanzamientos</p>
+          </div>
+        </div>
 
-    <div class="beneficio-item">
-      <div class="beneficio-icono">
-        <ion-icon name="car-outline"></ion-icon>
-      </div>
-      <div class="beneficio-texto">
-        <h4>Estacionamiento Preferencial</h4>
-        <p>Espacios reservados y acceso prioritario</p>
-      </div>
-    </div>
+        <div class="beneficio-item">
+          <div class="beneficio-icono">
+            <ion-icon name="car-outline"></ion-icon>
+          </div>
+          <div class="beneficio-texto">
+            <h4>Estacionamiento Preferencial</h4>
+            <p>Espacios reservados y acceso prioritario</p>
+          </div>
+        </div>
 
-    <div class="beneficio-item">
-      <div class="beneficio-icono">
-        <ion-icon name="headset-outline"></ion-icon>
+        <div class="beneficio-item">
+          <div class="beneficio-icono">
+            <ion-icon name="headset-outline"></ion-icon>
+          </div>
+          <div class="beneficio-texto">
+            <h4>Soporte Prioritario</h4>
+            <p>Línea directa 24/7 con agentes especializados</p>
+          </div>
+        </div>
       </div>
-      <div class="beneficio-texto">
-        <h4>Soporte Prioritario</h4>
-        <p>Línea directa 24/7 con agentes especializados</p>
-      </div>
-    </div>
-  </div>
 
-  <div class="upgrade-platinum">
-    <div class="upgrade-contenido">
-      <h4>¿Listo para más beneficios?</h4>
-      <p>Alcanza el nivel Diamante y desbloquea ventajas exclusivas</p>
-    </div>
-    <ion-button fill="outline" class="btn-upgrade" disabled>
-      Ver Diamante
-      <ion-icon name="arrow-forward-outline" slot="end"></ion-icon>
-    </ion-button>
-  </div>
-</section>
+      <div class="upgrade-platinum">
+        <div class="upgrade-contenido">
+          <h4>¿Listo para más beneficios?</h4>
+          <p>Alcanza el nivel Diamante y desbloquea ventajas exclusivas</p>
+        </div>
+        <ion-button fill="outline" class="btn-upgrade" disabled>
+          Ver Diamante
+          <ion-icon name="arrow-forward-outline" slot="end"></ion-icon>
+        </ion-button>
+      </div>
+    </section>
 
   </div>
 

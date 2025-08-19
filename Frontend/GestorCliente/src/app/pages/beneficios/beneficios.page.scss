@@ -18,3 +18,101 @@
   padding-bottom: 2rem;
   background: rgba(26, 26, 26, .8);
 }
+
+/* Paleta */
+$bg: #0b0b0b;
+$card: #111214;
+$gold-1: #d4af37;
+$gold-2: #f3d98b;
+$gold-soft: rgba(212, 175, 55, 0.35);
+
+.benefits {
+  padding: 18px 12px 30px;
+
+  .section-title {
+    margin: 8px 0 18px;
+    text-align: center;
+    font-weight: 800;
+    letter-spacing: .5px;
+    background: linear-gradient(90deg, $gold-2, $gold-1);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+/* Tarjeta de beneficio */
+.benefit-card {
+  background: linear-gradient(180deg, #141416, $card 70%);
+  border-radius: 18px;
+  border: 1px solid $gold-soft;
+  box-shadow: 0 0 0 1px rgba(255,255,255,.02) inset, 0 10px 30px rgba(0,0,0,.45);
+  overflow: hidden;
+  transition: transform .25s ease, box-shadow .25s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 36px rgba(0,0,0,.55), 0 0 0 1px rgba(243,217,139,.15) inset;
+  }
+
+  .card-header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 18px 8px;
+
+    .tier-badge {
+      padding: 6px 12px;
+      font-weight: 700;
+      border-radius: 999px;
+      color: #1b1b1b;
+      background: linear-gradient(135deg, $gold-2, $gold-1 70%);
+      box-shadow: 0 0 0 1px rgba(0,0,0,.35) inset, 0 6px 18px rgba(243,217,139,.22);
+    }
+
+    .tier-icon {
+      font-size: 24px;
+      color: $gold-2;
+      filter: drop-shadow(0 2px 8px rgba(243,217,139,.3));
+    }
+  }
+
+  .benefit-list {
+    list-style: none;
+    margin: 6px 0 18px;
+    padding: 0 18px 16px 18px;
+
+    li {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px dashed rgba(255,255,255,.06);
+
+      &:last-child { border-bottom: none; }
+
+      ion-icon {
+        min-width: 22px;
+        font-size: 20px;
+        color: $gold-2;
+      }
+      span {
+        color: #e8e8e8;
+        font-size: 0.95rem;
+      }
+    }
+  }
+}
+
+/* Acentos por nivel: se cambia sólo el brillo del borde/sombra */
+.benefit-card.silver   { box-shadow: 0 0 0 1px rgba(192,192,192,.18) inset, 0 10px 30px rgba(0,0,0,.45); }
+.benefit-card.gold     { box-shadow: 0 0 0 1px rgba(243,217,139,.22) inset, 0 10px 30px rgba(0,0,0,.45); }
+.benefit-card.black    { box-shadow: 0 0 0 1px rgba(243,217,139,.28) inset, 0 10px 30px rgba(0,0,0,.5); }
+.benefit-card.platinum { box-shadow: 0 0 0 1px rgba(230,209,122,.26) inset, 0 10px 30px rgba(0,0,0,.5); }
+.benefit-card.diamond  { box-shadow: 0 0 0 1px rgba(255,245,185,.3) inset, 0 10px 34px rgba(0,0,0,.55); }
+
+/* Ajustes grid */
+ion-col {
+  padding: 10px;
+}

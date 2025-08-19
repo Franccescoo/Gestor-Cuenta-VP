@@ -1,4 +1,6 @@
+// ============================
 // Respuesta cruda del backend (snake_case)
+// ============================
 export interface UserPerfilDTOResponse {
   player_id: string;
   sistema_id: number;
@@ -22,12 +24,23 @@ export interface UserPerfilDTOResponse {
   categoria_id: number | null;
   usuarios: string | null;
 
+  // --- NUEVOS: dirección / otros ---
+  calle?: string | null;
+  numero?: string | null;           // string por si hay letras (p.ej. "742B")
+  comuna?: string | null;
+  region?: string | null;
+  pais?: string | null;
+  nota_entrega?: string | null;
+
   // opcionales si luego los agregas en el backend
   categoria_nombre?: string | null;
   foto_url?: string | null;
+  sistema_nombre?: string | null;
 }
 
+// ============================
 // Modelo normalizado para la app (camelCase)
+// ============================
 export interface UserPerfilDTO {
   playerId: string;
   sistemaId: number;
@@ -51,12 +64,23 @@ export interface UserPerfilDTO {
   categoriaId: number | null;
   usuarios: string | null;
 
+  // --- NUEVOS: dirección / otros ---
+  calle?: string | null;
+  numero?: string | null;
+  comuna?: string | null;
+  region?: string | null;
+  pais?: string | null;
+  notaEntrega?: string | null;
+
   // opcionales
   categoriaNombre?: string | null;
   fotoUrl?: string | null;
+  sistemaNombre: string | null;
 }
 
+// ============================
 // Mapper: snake_case -> camelCase
+// ============================
 export function mapUserPerfilResponse(r: UserPerfilDTOResponse): UserPerfilDTO {
   return {
     playerId: r.player_id,
@@ -81,24 +105,44 @@ export function mapUserPerfilResponse(r: UserPerfilDTOResponse): UserPerfilDTO {
     categoriaId: r.categoria_id,
     usuarios: r.usuarios,
 
-    categoriaNombre: r.categoria_nombre,
-    fotoUrl: r.foto_url,
+    // --- NUEVOS ---
+    calle: r.calle ?? null,
+    numero: r.numero ?? null,
+    comuna: r.comuna ?? null,
+    region: r.region ?? null,
+    pais: r.pais ?? null,
+    notaEntrega: r.nota_entrega ?? null,
+
+    // opcionales
+    categoriaNombre: r.categoria_nombre ?? null,
+    fotoUrl: r.foto_url ?? null,
+    sistemaNombre: r.sistema_nombre ?? null,
   };
 }
 
+// ============================
 // Payload para el PUT /actualizar (camelCase)
+// ============================
 export type ActualizarUsuarioRequest = Partial<{
   nombreCompleto: string | null;
   apellidoCompleto: string | null;
   fechaCumpleanos: string | null;
-  email: string | null;
+  email: string | null;           // normalmente readonly, pero lo dejamos por compatibilidad
   celular: string | null;
-  numeroDocumento: string | null;
-  tipoDocumento: string | null;
+  numeroDocumento: string | null; // normalmente readonly
+  tipoDocumento: string | null;   // normalmente readonly
   login: string | null;
   puntosTotal: number | null;
   fechaUltimaActualizacion: string | null;
   verificado: boolean | null;
   activo: boolean | null;
   categoriaId: number | null;
+
+  // --- NUEVOS: dirección / otros ---
+  calle: string | null;
+  numero: string | null;
+  comuna: string | null;
+  region: string | null;
+  pais: string | null;
+  notaEntrega: string | null;
 }>;

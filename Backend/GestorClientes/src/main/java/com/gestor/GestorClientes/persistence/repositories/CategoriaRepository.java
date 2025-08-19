@@ -4,9 +4,13 @@ package com.gestor.GestorClientes.persistence.repositories;
 import com.gestor.GestorClientes.persistence.entity.CategoriaEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface CategoriaRepository extends JpaRepository<CategoriaEntity, Integer> {
+
+    List<CategoriaEntity> findBySistemaIdAndActivoTrueOrderByNivelAscNombreAsc(Integer sistemaId);
+
 
     // Categoría actual por id + sistema
     Optional<CategoriaEntity> findByIdAndSistemaId(Integer id, Integer sistemaId);

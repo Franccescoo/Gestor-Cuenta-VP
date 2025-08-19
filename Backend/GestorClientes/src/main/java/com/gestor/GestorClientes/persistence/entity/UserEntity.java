@@ -62,6 +62,24 @@ public class UserEntity {
     @Column(name = "tipo_documento")
     private String tipoDocumento;
 
+    @Column(name = "calle")
+    private String calle;
+
+    @Column(name = "numero")
+    private String numero;     // String por si hay letras (ej: "742B")
+
+    @Column(name = "comuna")
+    private String comuna;
+
+    @Column(name = "region")
+    private String region;
+
+    @Column(name = "pais")
+    private String pais;
+
+    @Column(name = "nota_entrega")
+    private String notaEntrega;
+
     // Getters y Setters
 
     public String getTipoDocumento() {
@@ -198,4 +216,24 @@ public class UserEntity {
     public void setCategoriaId(Integer categoriaId) {
         this.categoriaId = categoriaId;
     }
+
+    public String getCalle() { return calle; }
+    public void setCalle(String calle) { this.calle = calle; }
+
+    public String getNumero() { return numero; }
+    public void setNumero(String numero) { this.numero = numero; }
+
+    public String getComuna() { return comuna; }
+    public void setComuna(String comuna) { this.comuna = comuna; }
+
+    public String getRegion() { return region; }
+    public void setRegion(String region) { this.region = region; }
+
+    public String getPais() { return pais; }
+    public void setPais(String pais) { this.pais = pais; }
+
+    public String getNotaEntrega() { return notaEntrega; }
+    public void setNotaEntrega(String notaEntrega) { this.notaEntrega = notaEntrega; }
+
+
 }

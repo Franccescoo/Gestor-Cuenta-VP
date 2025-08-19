@@ -1,13 +1,13 @@
 <ion-content class="fondo" [fullscreen]="true">
   <app-header-usuario></app-header-usuario>
 
-  <div class="user-dashboard" *ngIf="cargado; else loadingTpl">
-    <!-- ENCABEZADO PERFIL -->
+  <div class="user-dashboard" [class.editing]="isEditing" *ngIf="cargado; else loadingTpl">
+    <!-- ===== ENCABEZADO PERFIL ===== -->
     <section class="perfil-header">
       <div class="avatar-box">
         <img [src]="avatarPreview || perfil?.fotoUrl || defaultAvatar" (error)="onImgError($event)"
           alt="Foto de perfil" />
-
+        <input #fileInput type="file" accept="image/*" hidden (change)="onFotoSeleccionada($event)" />
       </div>
 
       <div class="perfil-resumen">
@@ -28,18 +28,17 @@
         <p class="email" *ngIf="perfil?.email">
           <ion-icon name="mail-outline"></ion-icon> {{ perfil?.email }}
         </p>
-        <p class="small">
-          Última actualización: {{ perfil?.fechaUltimaActualizacion || '-' }}
-        </p>
+        <p class="small">Última actualización: {{ perfil?.fechaUltimaActualizacion || '-' }}</p>
       </div>
     </section>
 
-    <!-- DETALLE SOLO LECTURA -->
-    <ion-card class="perfil-card">
+    <!-- ===== DETALLE (LECTURA/EDICIÓN) ===== -->
+    <ion-card class="perfil-card" [formGroup]="form">
       <ion-card-header>
         <ion-card-title>Datos del usuario</ion-card-title>
         <ion-card-subtitle>
-          Player ID: <b>{{ perfil?.playerId }}</b> — Sistema: <b>{{ perfil?.sistemaId }}</b>
+          Casino:
+          <b>{{ ($any(perfil)?.sistema_nombre) || perfil?.sistemaNombre || ('#' + perfil?.sistemaId) }}</b>
         </ion-card-subtitle>
       </ion-card-header>
 
@@ -48,29 +47,68 @@
           <!-- PERSONALES -->
           <ion-row class="bloque-titulo"><ion-col>Datos personales</ion-col></ion-row>
           <ion-row>
+            <!-- Nombres -->
             <ion-col size-md="6">
-              <ion-item class="static-item">
+              <ion-item class="static-item" *ngIf="!isEditing; else edNombre">
                 <ion-label position="stacked">Nombres</ion-label>
                 <div class="static-value">{{ perfil?.nombreCompleto || '—' }}</div>
               </ion-item>
+              <ng-template #edNombre>
+                <ion-item>
+                  <ion-label position="floating">Nombres</ion-label>
+                  <ion-input formControlName="nombreCompleto"></ion-input>
+                </ion-item>
+              </ng-template>
             </ion-col>
+
+            <!-- Apellidos -->
             <ion-col size-md="6">
-              <ion-item class="static-item">
+              <ion-item class="static-item" *ngIf="!isEditing; else edApellido">
                 <ion-label position="stacked">Apellidos</ion-label>
                 <div class="static-value">{{ perfil?.apellidoCompleto || '—' }}</div>
               </ion-item>
+              <ng-template #edApellido>
+                <ion-item>
+                  <ion-label position="floating">Apellidos</ion-label>
+                  <ion-input formControlName="apellidoCompleto"></ion-input>
+                </ion-item>
+              </ng-template>
             </ion-col>
+
+            <!-- Fecha Nacimiento -->
             <ion-col size-md="6">
-              <ion-item class="static-item">
-                <ion-label position="stacked">Fecha de cumpleaños</ion-label>
-                <div class="static-value">
-                  {{ perfil?.fechaCumpleanos || '—' }}
-                </div>
+              <ion-item class="static-item" *ngIf="!isEditing; else edFecha">
+                <ion-label position="stacked">Fecha de nacimiento</ion-label>
+                <div class="static-value">{{ perfil?.fechaCumpleanos || '—' }}</div>
               </ion-item>
+              <ng-template #edFecha>
+                <ion-item>
+                  <ion-label position="stacked">Fecha de nacimiento</ion-label>
+                  <div class="fecha-select-group">
+                    <select class="fecha-select" formControlName="fechaDia">
+                      <option value="" disabled>Día</option>
+                      <option *ngFor="let d of diasDisponibles" [value]="d">{{ d }}</option>
+                    </select>
+                    <select class="fecha-select" formControlName="fechaMes">
+                      <option value="" disabled>Mes</option>
+                      <option *ngFor="let m of mesesDisponibles; let i = index" [value]="i + 1">{{ m }}</option>
+                    </select>
+                    <select class="fecha-select" formControlName="fechaAnio">
+                      <option value="" disabled>Año</option>
+                      <option *ngFor="let a of aniosDisponibles" [value]="a">{{ a }}</option>
+                    </select>
+                  </div>
+                  <small *ngIf="fechaSeleccionadaCompleta && !fechaNacimientoValida" style="color:#f3d98b">
+                    Debes tener al menos 18 años y máximo 100 años
+                  </small>
+                </ion-item>
+              </ng-template>
             </ion-col>
+
+            <!-- Usuario (no editable) -->
             <ion-col size-md="6">
-              <ion-item class="static-item">
-                <ion-label position="stacked">Login</ion-label>
+              <ion-item class="static-item no-edit">
+                <ion-label position="stacked">Usuario</ion-label>
                 <div class="static-value">{{ perfil?.login || '—' }}</div>
               </ion-item>
             </ion-col>
@@ -79,17 +117,26 @@
           <!-- CONTACTO -->
           <ion-row class="bloque-titulo"><ion-col>Contacto</ion-col></ion-row>
           <ion-row>
+            <!-- Email (NO editable) -->
             <ion-col size-md="6">
-              <ion-item class="static-item">
+              <ion-item class="static-item no-edit">
                 <ion-label position="stacked">Email</ion-label>
                 <div class="static-value">{{ perfil?.email || '—' }}</div>
               </ion-item>
             </ion-col>
+
+            <!-- Celular -->
             <ion-col size-md="6">
-              <ion-item class="static-item">
+              <ion-item class="static-item" *ngIf="!isEditing; else edCel">
                 <ion-label position="stacked">Celular</ion-label>
                 <div class="static-value">{{ perfil?.celular || '—' }}</div>
               </ion-item>
+              <ng-template #edCel>
+                <ion-item>
+                  <ion-label position="floating">Celular</ion-label>
+                  <ion-input formControlName="celular"></ion-input>
+                </ion-item>
+              </ng-template>
             </ion-col>
           </ion-row>
 
@@ -97,115 +144,145 @@
           <ion-row class="bloque-titulo"><ion-col>Documento</ion-col></ion-row>
           <ion-row>
             <ion-col size-md="6">
-              <ion-item class="static-item">
+              <ion-item class="static-item no-edit">
                 <ion-label position="stacked">Tipo de documento</ion-label>
                 <div class="static-value">{{ perfil?.tipoDocumento || '—' }}</div>
               </ion-item>
             </ion-col>
             <ion-col size-md="6">
-              <ion-item class="static-item">
+              <ion-item class="static-item no-edit">
                 <ion-label position="stacked">Número de documento</ion-label>
                 <div class="static-value">{{ perfil?.numeroDocumento || '—' }}</div>
               </ion-item>
             </ion-col>
           </ion-row>
 
-          <!-- DIRECCIÓN (aún no en DTO: usamos $any) -->
+          <!-- DIRECCIÓN -->
           <ion-row class="bloque-titulo"><ion-col>Dirección</ion-col></ion-row>
           <ion-row>
-            <ion-col size-md="6">
-              <ion-item class="static-item">
-                <ion-label position="stacked">Calle</ion-label>
-                <div class="static-value">{{ $any(perfil)?.calle || '—' }}</div>
-              </ion-item>
-            </ion-col>
-            <ion-col size-md="3">
-              <ion-item class="static-item">
-                <ion-label position="stacked">Número</ion-label>
-                <div class="static-value">{{ $any(perfil)?.numero || '—' }}</div>
-              </ion-item>
-            </ion-col>
-            <ion-col size-md="3">
-              <ion-item class="static-item">
-                <ion-label position="stacked">Comuna</ion-label>
-                <div class="static-value">{{ $any(perfil)?.comuna || '—' }}</div>
-              </ion-item>
-            </ion-col>
-            <ion-col size-md="6">
-              <ion-item class="static-item">
-                <ion-label position="stacked">Región</ion-label>
-                <div class="static-value">{{ $any(perfil)?.region || '—' }}</div>
-              </ion-item>
-            </ion-col>
-            <ion-col size-md="6">
-              <ion-item class="static-item">
-                <ion-label position="stacked">País</ion-label>
-                <div class="static-value">{{ $any(perfil)?.pais || '—' }}</div>
-              </ion-item>
-            </ion-col>
-          </ion-row>
 
-          <!-- OTROS -->
-          <ion-row class="bloque-titulo"><ion-col>Preferencias / Otros</ion-col></ion-row>
-          <ion-row>
-            <ion-col size-md="6">
-              <ion-item class="static-item">
-                <ion-label position="stacked">Verificado</ion-label>
-                <div class="static-value">
-                  <ion-chip color="success" *ngIf="perfil?.verificado; else noVerif">Verificado</ion-chip>
-                  <ng-template #noVerif><ion-chip color="medium">No verificado</ion-chip></ng-template>
-                </div>
-              </ion-item>
-            </ion-col>
-            <ion-col size-md="6">
-              <ion-item class="static-item">
-                <ion-label position="stacked">Activo</ion-label>
-                <div class="static-value">
-                  <ion-chip color="success" *ngIf="perfil?.activo; else inactivo">Activo</ion-chip>
-                  <ng-template #inactivo><ion-chip color="danger">Inactivo</ion-chip></ng-template>
-                </div>
-              </ion-item>
-            </ion-col>
-            <ion-col size="12">
-              <ion-item class="static-item textarea-item">
-                <ion-label position="stacked">Nota de entrega</ion-label>
-                <div class="static-value multiline">{{ $any(perfil)?.notaEntrega || '—' }}</div>
-              </ion-item>
-            </ion-col>
-          </ion-row>
+<!-- PAÍS -->
+<ion-col size-md="6">
+  <ion-item [class.static-item]="!isEditing">
+    <ion-label position="stacked">País</ion-label>
+    <ng-container *ngIf="!isEditing; else paisEdit">
+      <div class="static-value">{{ perfil?.pais || '—' }}</div>
+    </ng-container>
+    <ng-template #paisEdit>
+      <ion-select formControlName="pais" interface="popover">
+        <ion-select-option value="Chile">Chile</ion-select-option>
+        <ion-select-option value="Perú" disabled>Perú (pronto)</ion-select-option>
+      </ion-select>
+    </ng-template>
+  </ion-item>
+</ion-col>
 
-          <!-- SOLO LECTURA (resumen) -->
-          <ion-row class="bloque-titulo"><ion-col>Resumen</ion-col></ion-row>
-          <ion-row>
-            <ion-col size-md="4">
-              <ion-item class="static-item">
-                <ion-label position="stacked">Categoría ID</ion-label>
-                <div class="static-value">{{ perfil?.categoriaId ?? '—' }}</div>
-              </ion-item>
-            </ion-col>
-            <ion-col size-md="4">
-              <ion-item class="static-item">
-                <ion-label position="stacked">Puntos</ion-label>
-                <div class="static-value">{{ (perfil?.puntosTotal || 0) | number }}</div>
-              </ion-item>
-            </ion-col>
-            <ion-col size-md="4">
-              <ion-item class="static-item">
-                <ion-label position="stacked">Usuarios (ref)</ion-label>
-                <div class="static-value">{{ perfil?.usuarios || '—' }}</div>
-              </ion-item>
-            </ion-col>
+<!-- REGIÓN -->
+<ion-col size-md="6">
+  <ion-item [class.static-item]="!isEditing">
+    <ion-label position="stacked">Región</ion-label>
+    <ng-container *ngIf="!isEditing; else regEdit">
+      <div class="static-value">{{ perfil?.region || '—' }}</div>
+    </ng-container>
+    <ng-template #regEdit>
+      <ion-select formControlName="regionCodigo" interface="popover" [disabled]="form.value.pais !== 'Chile'">
+        <ion-select-option *ngFor="let r of (regiones$ | async); trackBy: trByCodigo" [value]="r.codigo">
+          {{ r.nombre }}
+        </ion-select-option>
+      </ion-select>
+    </ng-template>
+  </ion-item>
+</ion-col>
+
+<!-- COMUNA -->
+<ion-col size-md="6">
+  <ion-item [class.static-item]="!isEditing">
+    <ion-label position="stacked">Comuna</ion-label>
+    <ng-container *ngIf="!isEditing; else comEdit">
+      <div class="static-value">{{ perfil?.comuna || '—' }}</div>
+    </ng-container>
+    <ng-template #comEdit>
+      <ion-select formControlName="comunaCodigo" interface="popover" [disabled]="!form.value.regionCodigo">
+        <ion-select-option *ngFor="let c of (comunas$ | async); trackBy: trByCodigo" [value]="c.codigo">
+          {{ c.nombre }}
+        </ion-select-option>
+      </ion-select>
+    </ng-template>
+  </ion-item>
+</ion-col>
+
+<!-- CALLE -->
+<ion-col size-md="6">
+  <ion-item class="static-item" *ngIf="!isEditing; else edCalle">
+    <ion-label position="stacked">Calle</ion-label>
+    <div class="static-value">{{ perfil?.calle || '—' }}</div>
+  </ion-item>
+  <ng-template #edCalle>
+    <ion-item>
+      <ion-label position="floating">Calle</ion-label>
+      <ion-input formControlName="calle"></ion-input>
+    </ion-item>
+  </ng-template>
+</ion-col>
+
+<!-- NÚMERO -->
+<ion-col size-md="6">
+  <ion-item class="static-item" *ngIf="!isEditing; else edNumero">
+    <ion-label position="stacked">Número</ion-label>
+    <div class="static-value">{{ perfil?.numero || '—' }}</div>
+  </ion-item>
+  <ng-template #edNumero>
+    <ion-item>
+      <ion-label position="floating">Número</ion-label>
+      <ion-input formControlName="numero"></ion-input>
+    </ion-item>
+  </ng-template>
+</ion-col>
+
+<!-- NOTA ENTREGA -->
+<ion-col size="12">
+  <ion-item class="static-item textarea-item" *ngIf="!isEditing; else edNota">
+    <ion-label position="stacked">Nota de entrega</ion-label>
+    <div class="static-value multiline">{{ perfil?.notaEntrega || '—' }}</div>
+  </ion-item>
+  <ng-template #edNota>
+    <ion-item class="textarea-item">
+      <ion-label position="stacked">Nota de entrega</ion-label>
+      <ion-textarea autoGrow="true" formControlName="notaEntrega" rows="3" maxlength="300"></ion-textarea>
+    </ion-item>
+  </ng-template>
+</ion-col>
+
           </ion-row>
         </ion-grid>
       </ion-card-content>
     </ion-card>
 
-    <!-- ACCIONES SECUNDARIAS -->
+    <!-- ACCIONES -->
     <div class="acciones-secundarias">
+      <ng-container *ngIf="!isEditing; else editBtns">
+        <ion-button fill="outline" color="warning" (click)="toggleEditar()">
+          <ion-icon name="create-outline" slot="start"></ion-icon>
+          Editar perfil
+        </ion-button>
+      </ng-container>
+
+      <ng-template #editBtns>
+        <ion-button fill="outline" color="success" (click)="guardar()">
+          <ion-icon name="save-outline" slot="start"></ion-icon>
+          Guardar cambios
+        </ion-button>
+        <ion-button fill="outline" color="medium" (click)="cancelar()">
+          <ion-icon name="close-outline" slot="start"></ion-icon>
+          Cancelar
+        </ion-button>
+      </ng-template>
+
       <ion-button fill="outline" color="warning" routerLink="/historial-canje">
         <ion-icon name="time-outline" slot="start"></ion-icon>
         Ver historial de canjes
       </ion-button>
+
       <ion-button fill="outline" color="medium" routerLink="/cambiar-password">
         <ion-icon name="key-outline" slot="start"></ion-icon>
         Cambiar contraseña

@@ -49,4 +49,13 @@ public class UserPerfilDTO {
 
     /** Columna 'usuarios' en tu tabla (username) */
     private String usuarios;
+
+    private String sistemaNombre;
+
+    private String calle;
+    private String numero;
+    private String comuna;
+    private String region;
+    private String pais;
+    private String notaEntrega;
 }

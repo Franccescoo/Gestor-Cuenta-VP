@@ -1,6 +1,8 @@
 package com.gestor.GestorClientes.service;
 
+import com.gestor.GestorClientes.persistence.entity.SistemaEntity;
 import com.gestor.GestorClientes.persistence.entity.UserEntity;
+import com.gestor.GestorClientes.persistence.repositories.SistemaRepository;
 import com.gestor.GestorClientes.persistence.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,9 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private SistemaRepository sistemaRepository;
 
     public UserEntity actualizarDatosParciales(String playerId, Integer rolId, Map<String, Object> body) {
         UserEntity user = userRepository.findEntityByPlayerIdAndRolId(playerId, rolId)
@@ -44,6 +49,13 @@ public class UserService {
         if (body.containsKey("verificado")) user.setVerificado((Boolean) body.get("verificado"));
         if (body.containsKey("activo")) user.setActivo((Boolean) body.get("activo"));
         if (body.containsKey("categoriaId")) user.setCategoriaId((Integer) body.get("categoriaId"));
+
+        if (body.containsKey("calle"))       user.setCalle((String) body.get("calle"));
+        if (body.containsKey("numero"))      user.setNumero((String) body.get("numero"));
+        if (body.containsKey("comuna"))      user.setComuna((String) body.get("comuna"));
+        if (body.containsKey("region"))      user.setRegion((String) body.get("region"));
+        if (body.containsKey("pais"))        user.setPais((String) body.get("pais"));
+        if (body.containsKey("notaEntrega")) user.setNotaEntrega((String) body.get("notaEntrega"));
 
         // Guarda solo con los datos nuevos
         return userRepository.save(user);
@@ -87,6 +99,18 @@ public class UserService {
         out.put("activo", u.getActivo());
         out.put("categoria_id", u.getCategoriaId());
         out.put("usuarios", u.getUsername()); // columna 'usuarios'
+
+        out.put("calle",  u.getCalle());
+        out.put("numero", u.getNumero());
+        out.put("comuna", u.getComuna());
+        out.put("region", u.getRegion());
+        out.put("pais",   u.getPais());
+        out.put("nota_entrega", u.getNotaEntrega());
+
+        String sistemaNombre = sistemaRepository.findById(sistemaId)
+                .map(SistemaEntity::getNombre)
+                .orElse("Sistema " + sistemaId);
+        out.put("sistema_nombre", sistemaNombre);
 
         // ¡ojo! password nunca se expone
         return out;

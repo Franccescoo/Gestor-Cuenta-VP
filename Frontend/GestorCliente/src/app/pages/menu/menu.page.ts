@@ -1,15 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, of, combineLatest } from 'rxjs';
+import { Observable, of, combineLatest, Subject } from 'rxjs';
 import { catchError, switchMap, tap, shareReplay, map, startWith } from 'rxjs/operators';
 import { UserDashboardDTO } from '../../models/UserDashboardDTO.model';
 import { BeneficioDTO } from '../../models/BeneficioDTO.model';
 import { DashboardService } from 'src/app/Service/DashboardService.service';
+import { AuthService } from 'src/app/Service/auth.service';
 
-type Vm = {
-  beneficios: BeneficioDTO[];
-  titulo: string;
-  descripcion: string;
-};
+type Vm = { beneficios: BeneficioDTO[]; titulo: string; descripcion: string; };
 
 @Component({
   selector: 'app-menu',
@@ -20,17 +17,36 @@ export class MenuPage implements OnInit {
   dash$!: Observable<UserDashboardDTO>;
   beneficios$!: Observable<BeneficioDTO[]>;
   vm$!: Observable<Vm>;
+  casinoNombre$!: Observable<string>;
 
-  constructor(private dashboard: DashboardService) {}
+  /** Disparador de recargas (al entrar a la vista o tras logout/login) */
+  private reload$ = new Subject<void>();
+
+  constructor(
+    private dashboard: DashboardService,
+    private auth: AuthService,
+  ) {}
 
   ngOnInit(): void {
-    // 1) Reutilizamos playerId/sistemaId
-    const token$ = this.dashboard.getMeTokenData().pipe(
+    this.buildStreams();
+    this.reload$.next(); // primera carga
+  }
+
+  /** Ionic vuelve a llamar esto cada vez que la página entra al frente */
+  ionViewWillEnter() {
+    this.reload$.next();
+  }
+
+  private buildStreams(): void {
+    // 1) playerId/sistemaId — se recalcula en cada reload
+    const token$ = this.reload$.pipe(
+      startWith(void 0),
+      switchMap(() => this.dashboard.getMeTokenData()),
       tap(({ playerId, sistemaId }) => {
         localStorage.setItem('playerId', playerId);
-        localStorage.setItem('sistema', String(sistemaId));
+        localStorage.setItem('sistemaId', String(sistemaId));
       }),
-      shareReplay(1)
+      shareReplay({ bufferSize: 1, refCount: true })
     );
 
     // 2) Dashboard
@@ -41,13 +57,13 @@ export class MenuPage implements OnInit {
       catchError(() =>
         of({
           playerId: localStorage.getItem('playerId') || '',
-          sistemaId: Number(localStorage.getItem('sistema') || 0),
+          sistemaId: Number(localStorage.getItem('sistemaId') || 0),
           nombre: null, email: null, puntos: 0,
           nivel: null, metaNivel: null, puntosFaltantes: null,
           progreso: 0, ultimaActualizacion: null
         } as UserDashboardDTO)
       ),
-      shareReplay(1)
+      shareReplay({ bufferSize: 1, refCount: true })
     );
 
     // 3) Beneficios
@@ -55,25 +71,40 @@ export class MenuPage implements OnInit {
       switchMap(({ playerId, sistemaId }) =>
         this.dashboard.getBeneficios(playerId, sistemaId)
       ),
-      catchError(() => of([])),
-      shareReplay(1)
+      catchError(() => of([] as BeneficioDTO[])),
+      shareReplay({ bufferSize: 1, refCount: true })
     );
 
-    // 4) View-model para el template
+    // 4) Nombre del casino (JWT -> storage -> fallback)
+    this.casinoNombre$ = token$.pipe(
+      map(({ sistemaId }) => {
+        const fromJwt = this.auth.getPayload?.()?.sistemaNombre as string | undefined;
+        const fromStorage = localStorage.getItem('sistemaNombre') || undefined;
+        const isText = (v?: string) => !!v && isNaN(Number(v));
+        if (isText(fromJwt)) return fromJwt!;
+        if (isText(fromStorage)) return fromStorage!;
+        return `Sistema ${sistemaId}`; // o `#${sistemaId}`
+      }),
+      startWith(localStorage.getItem('sistemaNombre') || ''),
+      shareReplay({ bufferSize: 1, refCount: true })
+    );
+
+    // 5) View-model para la UI
     this.vm$ = combineLatest([
-      this.dash$.pipe(startWith(null)),
+      this.dash$.pipe(startWith(null as UserDashboardDTO | null)),
       this.beneficios$.pipe(startWith([] as BeneficioDTO[]))
     ]).pipe(
       map(([d, beneficios]) => {
         const nivel = d?.nivel?.trim();
-        const titulo = nivel
-          ? `Beneficios Exclusivos ${nivel}`
-          : 'Beneficios por categoría';
-        const descripcion = nivel
-          ? `Disfruta de ventajas únicas como miembro ${nivel}`
-          : 'Aún no tienes categoría asignada';
-        return { beneficios, titulo, descripcion };
-      })
+        return {
+          beneficios,
+          titulo: nivel ? `Beneficios Exclusivos ${nivel}` : 'Beneficios por categoría',
+          descripcion: nivel
+            ? `Disfruta de ventajas únicas como miembro ${nivel}`
+            : 'Aún no tienes categoría asignada',
+        } as Vm;
+      }),
+      shareReplay({ bufferSize: 1, refCount: true })
     );
   }
 }
