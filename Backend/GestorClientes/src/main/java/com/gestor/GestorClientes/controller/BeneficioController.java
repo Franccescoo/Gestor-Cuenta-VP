@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/beneficio")
+@RequestMapping("/api")
 public class BeneficioController {
 
     private final BeneficioCatalogoService catalogoService;

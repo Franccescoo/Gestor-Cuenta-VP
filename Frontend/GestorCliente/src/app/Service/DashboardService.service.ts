@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { UserDashboardDTO } from '../models/UserDashboardDTO.model';
 import { BeneficioDTO } from '../models/BeneficioDTO.model';
+import { CatalogoBeneficiosResponse } from '../models/CatalogoBeneficiosResponse.model';
 
 type MeTokenData = { playerId: string; sistemaId: number };
 
@@ -28,5 +29,10 @@ getBeneficios(playerId: string, rolId: number) {
   const url = `${this.base}/players/${encodeURIComponent(playerId)}/systems/${rolId}/beneficios`;
   return this.http.get<BeneficioDTO[]>(url); // el interceptor ya añade el Bearer
 }
+
+  getBeneficiosCatalogo(playerId: string, rolId: number): Observable<CatalogoBeneficiosResponse> {
+    const url = `${this.base}/players/${encodeURIComponent(playerId)}/systems/${rolId}/beneficios/catalogo`;
+    return this.http.get<CatalogoBeneficiosResponse>(url);
+  }
 
 }

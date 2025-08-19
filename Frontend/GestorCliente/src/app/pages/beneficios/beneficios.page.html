@@ -1,51 +1,83 @@
 <ion-content class="fondo" [fullscreen]="true">
   <app-header-usuario></app-header-usuario>
 
+  <!-- TABLA BENEFICIOS (negro + dorado) -->
+  <div class="tabla-beneficios" *ngIf="categorias?.length; else cargandoTpl">
 
-  <!-- Cargando -->
-  <div class="loading" *ngIf="cargando">
-    <ion-spinner name="crescent"></ion-spinner>
+    <div class="tabla-head v2" aria-labelledby="titulo-beneficios">
+      <div class="left">
+        <div class="medal">
+          <ion-icon name="trophy-outline" aria-hidden="true"></ion-icon>
+        </div>
+        <div class="titles">
+          <h2 id="titulo-beneficios">Catálogo de Beneficios</h2>
+          <p>Elige un beneficio disponible según tu nivel.</p>
+        </div>
+      </div>
+
+      <div class="right" *ngIf="categorias?.length">
+        <div class="legend">
+          <span class="pill" *ngFor="let c of categorias">{{ c.nombre }}</span>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="tabla-wrap">
+      <table class="tabla">
+        <thead>
+          <tr>
+            <th>Nivel</th>
+            <th>Beneficio</th>
+            <th>Descripción</th>
+            <th>Estado</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <!-- Grupo por categoría -->
+          <ng-container *ngFor="let cat of categorias">
+            <!-- Fila cabecera de categoría (opcional) -->
+            <tr>
+              <td data-label="Nivel">
+                <span class="chip-nivel">{{ cat.nombre }}</span>
+              </td>
+              <td data-label="Beneficio" colspan="4">
+                <span class="muted">{{ cat.descripcion || '—' }}</span>
+              </td>
+            </tr>
+
+            <!-- Beneficios de la categoría -->
+            <tr *ngFor="let b of cat.beneficios">
+              <td class="hide-desktop" data-label="Nivel">
+                <span class="chip-nivel">{{ cat.nombre }}</span>
+              </td>
+              <td data-label="Beneficio">{{ b.nombre }}</td>
+              <td data-label="Descripción">
+                <span class="muted">{{ b.descripcion || '—' }}</span>
+              </td>
+              <td data-label="Estado">
+                <span class="badge">Disponible</span>
+              </td>
+              <td data-label="Acción">
+                <button class="btn-canjear">
+                  <ion-icon name="sparkles-outline"></ion-icon>
+                  Canjear
+                </button>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
   </div>
 
-  <!-- Sección de beneficios -->
-  <section class="benefits" *ngIf="!cargando">
-    <h2 class="section-title">Mis Beneficios VIP</h2>
-
-    <ion-grid fixed>
-      <ion-row>
-        <ion-col
-          size="12"
-          size-md="6"
-          size-lg="4"
-          *ngFor="let t of tiersVM; trackBy: trById"
-        >
-          <ion-card class="benefit-card" [ngClass]="t.class">
-            <div class="card-header">
-              <div class="tier-badge">{{ t.name }}</div>
-              <ion-icon class="tier-icon" name="trophy-outline"></ion-icon>
-            </div>
-
-            <ul class="benefit-list" *ngIf="t.items.length; else emptyTier">
-              <li *ngFor="let b of t.items; trackBy: trBenId">
-                <ion-icon name="checkmark-circle-outline"></ion-icon>
-                <div class="benefit-line">
-                  <span class="title">{{ titleOf(b) }}</span>
-                  <small *ngIf="descOf(b)">{{ descOf(b) }}</small>
-                </div>
-              </li>
-            </ul>
-
-            <ng-template #emptyTier>
-              <div class="empty">
-                <ion-icon name="ellipsis-horizontal-circle-outline"></ion-icon>
-                <span>Sin beneficios en este nivel por ahora</span>
-              </div>
-            </ng-template>
-          </ion-card>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </section>
+  <ng-template #cargandoTpl>
+    <div style="display:grid;place-items:center;padding:2rem">
+      <ion-spinner name="crescent"></ion-spinner>
+    </div>
+  </ng-template>
 
   <app-footer></app-footer>
 </ion-content>
