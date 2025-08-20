@@ -1,7 +1,131 @@
 <ion-content class="fondo" [fullscreen]="true">
   <app-header-usuario></app-header-usuario>
 
-  
+  <section class="shop-shell" [class.filters-open]="filtersOpen">
+    <!-- HEADER -->
+    <header class="shop-top">
+      <div class="titles">
+        <ion-icon name="sparkles-outline" aria-hidden="true"></ion-icon>
+        <h2>Canjear Puntos</h2>
+        <p>Explora productos y canjéalos con tus puntos.</p>
+      </div>
+
+      <div class="actions">
+        <div class="search">
+          <ion-icon name="search-outline" aria-hidden="true"></ion-icon>
+          <input type="text" placeholder="Buscar producto…" [(ngModel)]="term" (input)="applyFilters()">
+        </div>
+
+        <div class="sort">
+          <label>Ordenar</label>
+          <select [(ngModel)]="sortBy" (change)="applyFilters()">
+            <option value="recomendado">Recomendados</option>
+            <option value="puntos-asc">Menor a mayor puntos</option>
+            <option value="puntos-desc">Mayor a menor puntos</option>
+            <option value="nombre-asc">Nombre A–Z</option>
+            <option value="nombre-desc">Nombre Z–A</option>
+          </select>
+        </div>
+
+        <button class="btn-filters" (click)="filtersOpen = !filtersOpen">
+          <ion-icon name="options-outline" aria-hidden="true"></ion-icon>
+          Filtros
+        </button>
+      </div>
+    </header>
+
+    <div class="shop-grid">
+      <!-- SIDEBAR -->
+      <aside class="filters">
+        <div class="filters-head">
+          <h3>Filtros</h3>
+          <button class="close" (click)="filtersOpen=false"><ion-icon name="close-outline"></ion-icon></button>
+        </div>
+
+        <div class="fblock">
+          <label class="fblock-title">Categorías</label>
+          <div class="cat-list">
+            <label class="chk">
+              <input type="checkbox" [checked]="selectedCats.size===0" (change)="clearCats()" />
+              <span class="pill">Todas</span>
+            </label>
+
+            <label class="chk" *ngFor="let c of categorias">
+              <input type="checkbox"
+                     [checked]="selectedCats.has(c.id)"
+                     (change)="onCatChange(c.id, $event)" />
+              <span class="pill">{{ c.nombre }}</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="fblock" *ngIf="maxPts>0">
+          <label class="fblock-title">Puntos requeridos</label>
+          <div class="range">
+            <div class="range-values">
+              <span>{{ ptsLower | number:'1.0-0' }} pts</span>
+              <span>{{ ptsUpper | number:'1.0-0' }} pts</span>
+            </div>
+            <ion-range [dualKnobs]="true"
+                       [min]="minPts" [max]="maxPts" [step]="stepPts"
+                       [value]="{lower: ptsLower, upper: ptsUpper}"
+                       (ionChange)="onRangeChange($event)">
+            </ion-range>
+          </div>
+        </div>
+
+        <div class="fblock">
+          <label class="chk-line">
+            <input type="checkbox" [(ngModel)]="onlyActive" (change)="applyFilters()">
+            <span>Solo disponibles</span>
+          </label>
+        </div>
+
+        <div class="fblock">
+          <button class="btn-reset" (click)="resetFilters()">
+            <ion-icon name="refresh-outline"></ion-icon> Limpiar filtros
+          </button>
+        </div>
+      </aside>
+
+      <!-- LISTADO -->
+      <main class="results">
+        <div *ngIf="loading" class="skeletons">
+          <div class="card sk" *ngFor="let i of skeletons"></div>
+        </div>
+
+        <div *ngIf="!loading && filtered.length===0" class="empty">
+          <ion-icon name="bag-outline"></ion-icon>
+          <p>No hay productos que coincidan con los filtros.</p>
+        </div>
+
+        <div class="grid" *ngIf="!loading && filtered.length">
+          <article class="card" *ngFor="let p of filtered" (click)="verDetalle(p)">
+            <div class="imgwrap">
+              <img [src]="getImg(p)" [alt]="p.nombre" loading="lazy" (error)="fallbackImg($event)">
+              <span class="cat-pill">{{ p.categoria?.nombre }}</span>
+            </div>
+
+            <div class="info">
+              <h4 class="name" [title]="p.nombre">{{ p.nombre }}</h4>
+              <p class="desc">{{ p.descripcion || '—' }}</p>
+            </div>
+
+            <div class="meta">
+              <div class="price">
+                <span class="pts">{{ p.puntosCanje || 0 | number:'1.0-0' }} pts</span>
+                <span class="money" *ngIf="p.costo">{{ formatMoney(p.costo, p.moneda) }}</span>
+              </div>
+              <button class="btn-canjear" (click)="$event.stopPropagation(); canjear(p)">
+                <ion-icon name="flash-outline"></ion-icon>
+                Canjear
+              </button>
+            </div>
+          </article>
+        </div>
+      </main>
+    </div>
+  </section>
 
   <app-footer></app-footer>
 </ion-content>

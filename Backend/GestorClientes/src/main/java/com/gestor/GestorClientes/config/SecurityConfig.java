@@ -1,10 +1,10 @@
 package com.gestor.GestorClientes.config;
 
+import com.gestor.GestorClientes.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -16,15 +16,13 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
-import com.gestor.GestorClientes.util.JwtUtil;
 
-import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -35,34 +33,51 @@ public class SecurityConfig {
     private JwtUtil jwtUtils;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity
-                .cors(Customizer.withDefaults()) // Activar CORS en Spring Security
-                .csrf(AbstractHttpConfigurer::disable) // Desactivar CSRF si es necesario                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(http -> {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .cors(Customizer.withDefaults())
+                .csrf(AbstractHttpConfigurer::disable)
+                .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
-                    //USER
-                    http.requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll();
-                    http.requestMatchers(HttpMethod.POST, "/api/auth/send-credentials").permitAll();
+                .authorizeHttpRequests(auth -> {
+                    // --- PUBLICO: auth
+                    auth.requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll();
+                    auth.requestMatchers(HttpMethod.POST, "/api/auth/send-credentials").permitAll();
 
-                    //USUARIOS
-                    http.requestMatchers(HttpMethod.PUT, "/api/usuarios/actualizar").permitAll();
-                    http.requestMatchers(HttpMethod.GET, "/api/usuarios/me/player-id").permitAll();
-                    http.requestMatchers(HttpMethod.GET, "/api/usuarios/me/token-data").permitAll();
-                    http.requestMatchers(HttpMethod.POST, "/api/usuarios/validar-doc").permitAll();
+                    // --- PUBLICO: estáticos / imágenes (ajusta a tus rutas reales)
+                    auth.requestMatchers(HttpMethod.GET, "/productos/**", "/files/**", "/assets/**").permitAll();
 
+                    // --- PUBLICO: APIs para el front
+                    auth.requestMatchers(HttpMethod.GET, "/api/productos").permitAll();
+                    auth.requestMatchers(HttpMethod.GET, "/api/players/*/systems/*/beneficios/catalogo").permitAll();
+                    auth.requestMatchers(HttpMethod.GET, "/api/players/*/systems/*/dashboard").permitAll();
+                    auth.requestMatchers(HttpMethod.GET, "/api/players/*/systems/*/beneficios").permitAll();
 
-                    http.anyRequest().authenticated();
+                    // --- PUBLICO: helpers de usuario que ya usas en el front
+                    auth.requestMatchers(HttpMethod.PUT, "/api/usuarios/actualizar").permitAll();
+                    auth.requestMatchers(HttpMethod.GET, "/api/usuarios/me/player-id").permitAll();
+                    auth.requestMatchers(HttpMethod.GET, "/api/usuarios/me/token-data").permitAll();
+                    auth.requestMatchers(HttpMethod.POST, "/api/usuarios/validar-doc").permitAll();
+
+                    // Si quieres hacer público /api/usuarios/perfil coméntalo aquí:
+                    // auth.requestMatchers(HttpMethod.GET, "/api/usuarios/perfil").permitAll();
+
+                    // --- lo demás: requiere JWT
+                    auth.anyRequest().authenticated();
                 })
 
-                .addFilterBefore(new JwtValidation(jwtUtils), BasicAuthenticationFilter.class)
-                .httpBasic(Customizer.withDefaults())
-                .build();
+                // Desactiva HTTP Basic para que no salga el popup del navegador
+                .httpBasic(AbstractHttpConfigurer::disable)
+
+                // Filtro JWT
+                .addFilterBefore(new JwtValidation(jwtUtils), UsernamePasswordAuthenticationFilter.class);
+
+        return http.build();
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration cfg) throws Exception {
+        return cfg.getAuthenticationManager();
     }
 
     @Bean
@@ -70,21 +85,21 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+    // CORS para Ionic/Angular dev
     @Bean
     public CorsFilter corsFilter() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList(
-                "http://localhost:8100",
-                "http://localhost:8080"
+        CorsConfiguration cfg = new CorsConfiguration();
+        cfg.setAllowedOrigins(Arrays.asList(
+                "http://localhost:8100", // Ionic
+                "http://localhost:8080"  // backend / mismo host para imágenes
+                // agrega "http://localhost:4200" si usas ng serve
         ));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS")); // Métodos permitidos
-        configuration.setAllowedHeaders(Arrays.asList("*")); // Permitir cualquier encabezado
-        configuration.setAllowCredentials(true); // Permitir cookies o autenticación basada en tokens
+        cfg.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE","OPTIONS"));
+        cfg.setAllowedHeaders(List.of("*"));
+        cfg.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration); // Aplicar a todas las rutas
+        source.registerCorsConfiguration("/**", cfg);
         return new CorsFilter(source);
     }
-
 }
-

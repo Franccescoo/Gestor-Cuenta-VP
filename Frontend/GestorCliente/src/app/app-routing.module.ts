@@ -59,12 +59,6 @@ const routes: Routes = [
     data: { issuer: 'AUTH-backend' }
   },
   {
-    path: 'club-vip',
-    loadChildren: () => import('./pages/club-vip/club-vip.module').then( m => m.ClubVipPageModule),
-    canActivate: [validarSesionRolGuard],
-    data: { issuer: 'AUTH-backend' }
-  },
-  {
     path: 'canjear-puntos',
     loadChildren: () => import('./pages/canjear-puntos/canjear-puntos.module').then( m => m.CanjearPuntosPageModule),
     canActivate: [validarSesionRolGuard],
