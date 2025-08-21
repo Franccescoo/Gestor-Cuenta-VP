@@ -66,8 +66,17 @@ const routes: Routes = [
   },
   {
     path: 'info-usuario',
-    loadChildren: () => import('./pages/info-usuario/info-usuario.module').then( m => m.InfoUsuarioPageModule)
+    loadChildren: () => import('./pages/info-usuario/info-usuario.module').then( m => m.InfoUsuarioPageModule),
+    canActivate: [validarSesionRolGuard],
+    data: { issuer: 'AUTH-backend' }
   },
+  {
+    path: 'detalle-producto/:id',
+    loadChildren: () => import('./pages/detalle-producto/detalle-producto.module').then( m => m.DetalleProductoPageModule),
+    canActivate: [validarSesionRolGuard],
+    data: { issuer: 'AUTH-backend' }
+  },
+
 
 
 

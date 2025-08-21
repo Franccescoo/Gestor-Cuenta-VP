@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ProductoDTO } from 'src/app/models/ProductoDTO.model';
 import { ProductoService } from 'src/app/Service/producto.service';
 import { environment } from 'src/environments/environment';
@@ -31,7 +32,7 @@ export class CanjearPuntosPage implements OnInit {
 
   skeletons = Array.from({ length: 10 });
 
-  constructor(private productoSrv: ProductoService) {}
+  constructor(private productoSrv: ProductoService,private router: Router,) {}
 
   ngOnInit() {
     this.cargar();
@@ -126,15 +127,24 @@ export class CanjearPuntosPage implements OnInit {
       });
   }
 
-  getImg(p: ProductoDTO): string {
-    const file = p.foto1 || p.foto2 || p.foto3;
-    // ajusta filesBase a donde sirves las imágenes (S3, CDN, /assets, etc.)
-    return file ? `${environment.filesBase}/productos/${file}` : '/assets/img/placeholder-product.png';
-  }
+getImg(p: ProductoDTO): string {
+  const raw = p.foto1 || p.foto2 || p.foto3;
+  if (!raw) return '/assets/img/SinImagen.jpg';
+  if (/^(data:image\/|https?:\/\/|blob:|\/assets\/)/i.test(raw)) return raw;
+  if (/^[A-Za-z0-9+/=]+$/.test(raw) && raw.length > 200) return `data:image/jpeg;base64,${raw}`;
+  const base = (environment.filesBase || '').replace(/\/$/, '');
+  const file = raw.replace(/^\//, '');
+  return `${base}/productos/${file}`;
+}
 
-  fallbackImg(ev: Event) {
-    (ev.target as HTMLImageElement).src = '/assets/img/placeholder-product.png';
-  }
+fallbackImg(ev: Event) {
+  const img = ev.target as HTMLImageElement;
+  img.onerror = null;                    
+  img.src = '/assets/img/SinImagen.jpg'; 
+}
+
+
+
 
   formatMoney(costo: number, moneda?: string | null) {
     const curr = moneda || 'CLP';
@@ -152,8 +162,8 @@ export class CanjearPuntosPage implements OnInit {
   }
 
   verDetalle(p: ProductoDTO) {
-    // navegación opcional al detalle
-    // this.router.navigate(['/producto', p.id]);
+  this.router.navigate(['/detalle-producto', p.id], { state: { producto: p } });
+
   }
 
   onCatChange(id: number, ev: Event) {

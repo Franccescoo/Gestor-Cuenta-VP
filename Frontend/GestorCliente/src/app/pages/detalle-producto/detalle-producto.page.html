@@ -1,0 +1,74 @@
+<ion-content class="fondo" [fullscreen]="true">
+  <app-header-usuario></app-header-usuario>
+
+  <section class="det-shell">
+    <header class="det-head">
+      <ion-button fill="clear" class="back" (click)="goBack()">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+        Volver
+      </ion-button>
+      <h1 class="title">{{ producto?.nombre || 'Producto' }}</h1>
+    </header>
+
+    <div class="det-grid">
+      <!-- GALERÍA -->
+      <div class="gallery">
+        <!-- Miniaturas verticales (desktop) -->
+        <div class="thumbs-vert" *ngIf="imgs.length > 1">
+          <button
+            class="thumb"
+            *ngFor="let s of imgs; let i = index"
+            [class.active]="i===idx"
+            (click)="set(i)">
+            <img [src]="s" (error)="onImageError($event)" [alt]="producto?.nombre + ' miniatura ' + (i+1)">
+          </button>
+        </div>
+
+        <!-- Imagen principal -->
+        <div class="main-wrap">
+          <button class="nav prev" *ngIf="imgs.length>1" (click)="prev()" aria-label="Anterior">
+            <ion-icon name="chevron-back-outline"></ion-icon>
+          </button>
+
+          <img class="main" [src]="activeImg" (error)="onImageError($event)" [alt]="producto?.nombre">
+
+          <button class="nav next" *ngIf="imgs.length>1" (click)="next()" aria-label="Siguiente">
+            <ion-icon name="chevron-forward-outline"></ion-icon>
+          </button>
+        </div>
+
+        <!-- Miniaturas horizontales (móvil) -->
+        <div class="thumbs-h" *ngIf="imgs.length > 1">
+          <button
+            class="thumb"
+            *ngFor="let s of imgs; let i = index"
+            [class.active]="i===idx"
+            (click)="set(i)">
+            <img [src]="s" (error)="onImageError($event)" alt="">
+          </button>
+        </div>
+      </div>
+
+      <!-- DATOS -->
+      <div class="panel">
+        <h2 class="pname">{{ producto?.nombre }}</h2>
+        <p class="pdesc">{{ producto?.descripcion || '—' }}</p>
+
+        <ul class="facts">
+          <li><strong>Categoría:</strong> <span class="value">{{ producto?.categoria?.nombre || '—' }}</span></li>
+          <li><strong>Puntos requeridos:</strong> <span class="value">{{ producto?.puntosCanje || 0 | number:'1.0-0' }} pts</span></li>
+          <li><strong>Costo:</strong> <span class="value">{{ formatMoney(producto?.costo || 0, producto?.moneda) }}</span></li>
+          <li><strong>Estado:</strong> <span class="value" [class.ok]="producto?.activo">{{ producto?.activo ? 'Disponible' : 'No disponible' }}</span></li>
+        </ul>
+
+        <ion-button expand="block" color="warning" class="btn-gold"
+                    [disabled]="!producto?.activo" (click)="canjear(producto!)">
+          <ion-icon name="flash-outline" slot="start"></ion-icon>
+          Canjear
+        </ion-button>
+      </div>
+    </div>
+  </section>
+
+  <app-footer></app-footer>
+</ion-content>
