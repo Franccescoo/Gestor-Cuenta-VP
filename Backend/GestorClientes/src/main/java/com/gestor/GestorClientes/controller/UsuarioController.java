@@ -1,7 +1,9 @@
 package com.gestor.GestorClientes.controller;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.gestor.GestorClientes.controller.dto.ChangePasswordRequest;
 import com.gestor.GestorClientes.controller.dto.CompletarRegistroRequest;
+import com.gestor.GestorClientes.controller.dto.UserPerfilDTO;
 import com.gestor.GestorClientes.persistence.entity.UserEntity;
 import com.gestor.GestorClientes.persistence.repositories.UserRepository;
 import com.gestor.GestorClientes.service.UserService;
@@ -37,15 +39,24 @@ public class UsuarioController {
     @Autowired
     private UserService userService;
 
+    @PutMapping("/cambiar-password")
+    public ResponseEntity<?> cambiarPassword(@RequestBody ChangePasswordRequest req) {
+        userService.cambiarPassword(req.playerId(), req.sistemaId(), req.newPassword());
+        return ResponseEntity.noContent().build(); // 204 OK sin body
+    }
+
+    // UsuarioController.java
     @PutMapping("/actualizar")
-    public ResponseEntity<?> actualizarUsuario(
+    public ResponseEntity<UserPerfilDTO> actualizarUsuario(
             @RequestParam String playerId,
             @RequestParam Integer sistemaId,
             @RequestBody Map<String, Object> body
     ) {
-        UserEntity actualizado = userService.actualizarDatosParciales(playerId, sistemaId, body);
-        return ResponseEntity.ok(actualizado);
+        UserPerfilDTO dto = userService.actualizarDatosParciales(playerId, sistemaId, body);
+        return ResponseEntity.ok(dto);
     }
+
+
 
     // Helper para null o vacío
     private boolean isNullOrEmpty(String s) {

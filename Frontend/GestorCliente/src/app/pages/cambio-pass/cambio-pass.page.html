@@ -1,0 +1,80 @@
+<ion-content class="fondo" [fullscreen]="true">
+  <app-header-usuario></app-header-usuario>
+
+  <section class="det-shell">
+    <header class="det-head">
+      <ion-button fill="clear" class="back" (click)="goBack()">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+        Volver
+      </ion-button>
+      <h1 class="title">Cambiar contraseña</h1>
+    </header>
+
+    <div class="form-grid">
+      <div class="panel form-card">
+        <h2 class="subtitle">Actualiza tu contraseña</h2>
+
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+          <!-- Nueva -->
+          <div class="field">
+            <label for="newPassword">Nueva contraseña</label>
+            <div class="control">
+              <input
+                id="newPassword"
+                [type]="showPass ? 'text':'password'"
+                formControlName="newPassword"
+                placeholder="••••••••"
+                autocomplete="new-password"
+                required
+              />
+              <button type="button" class="eye" (click)="showPass = !showPass">
+                <ion-icon [name]="showPass ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+              </button>
+            </div>
+            <small class="error" *ngIf="isTouched('newPassword') && form.get('newPassword')?.hasError('required')">
+              La contraseña es requerida.
+            </small>
+            <small class="error" *ngIf="isTouched('newPassword') && form.get('newPassword')?.hasError('minlength')">
+              Debe tener al menos 8 caracteres.
+            </small>
+          </div>
+
+          <!-- Confirmar -->
+          <div class="field">
+            <label for="confirmPassword">Confirmar contraseña</label>
+            <div class="control">
+              <input
+                id="confirmPassword"
+                [type]="showConfirm ? 'text':'password'"
+                formControlName="confirmPassword"
+                placeholder="••••••••"
+                autocomplete="new-password"
+                required
+              />
+              <button type="button" class="eye" (click)="showConfirm = !showConfirm">
+                <ion-icon [name]="showConfirm ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
+              </button>
+            </div>
+            <small class="error" *ngIf="isTouched('confirmPassword') && form.get('confirmPassword')?.hasError('required')">
+              Confirma tu contraseña.
+            </small>
+            <small class="error" *ngIf="isTouched('confirmPassword') && form.get('confirmPassword')?.hasError('mismatch')">
+              Las contraseñas no coinciden.
+            </small>
+          </div>
+
+          <ion-button
+            class="btn-gold"
+            expand="block"
+            type="submit"
+            [disabled]="form.invalid || form.get('confirmPassword')?.hasError('mismatch') || loading">
+            <ion-icon slot="start" name="key-outline"></ion-icon>
+            {{ loading ? 'Guardando…' : 'Actualizar contraseña' }}
+          </ion-button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <app-footer></app-footer>
+</ion-content>

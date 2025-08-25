@@ -161,97 +161,102 @@
           <ion-row class="bloque-titulo"><ion-col>Dirección</ion-col></ion-row>
           <ion-row>
 
-<!-- PAÍS -->
-<ion-col size-md="6">
-  <ion-item [class.static-item]="!isEditing">
-    <ion-label position="stacked">País</ion-label>
-    <ng-container *ngIf="!isEditing; else paisEdit">
-      <div class="static-value">{{ perfil?.pais || '—' }}</div>
-    </ng-container>
-    <ng-template #paisEdit>
-      <ion-select formControlName="pais" interface="popover">
-        <ion-select-option value="Chile">Chile</ion-select-option>
-        <ion-select-option value="Perú" disabled>Perú (pronto)</ion-select-option>
-      </ion-select>
-    </ng-template>
-  </ion-item>
-</ion-col>
+            <!-- PAÍS -->
+            <ion-col size-md="6">
+              <ion-item [class.static-item]="!isEditing">
+                <ion-label position="stacked">País</ion-label>
+                <ng-container *ngIf="!isEditing; else paisEdit">
+                  <div class="static-value">{{ perfil?.pais || '—' }}</div>
+                </ng-container>
+                <ng-template #paisEdit>
+                  <ion-select formControlName="pais" interface="popover">
+                    <ion-select-option value="Chile">Chile</ion-select-option>
+                    <ion-select-option value="Perú" disabled>Perú (pronto)</ion-select-option>
+                  </ion-select>
+                </ng-template>
+              </ion-item>
+            </ion-col>
 
-<!-- REGIÓN -->
-<ion-col size-md="6">
-  <ion-item [class.static-item]="!isEditing">
-    <ion-label position="stacked">Región</ion-label>
-    <ng-container *ngIf="!isEditing; else regEdit">
-      <div class="static-value">{{ perfil?.region || '—' }}</div>
-    </ng-container>
-    <ng-template #regEdit>
-      <ion-select formControlName="regionCodigo" interface="popover" [disabled]="form.value.pais !== 'Chile'">
-        <ion-select-option *ngFor="let r of (regiones$ | async); trackBy: trByCodigo" [value]="r.codigo">
-          {{ r.nombre }}
-        </ion-select-option>
-      </ion-select>
-    </ng-template>
-  </ion-item>
-</ion-col>
+            <!-- REGIÓN -->
+            <ion-col size-md="6">
+              <ion-item [class.static-item]="!isEditing">
+                <ion-label position="stacked">Región</ion-label>
+                <ng-container *ngIf="!isEditing; else regEdit">
+                  <div class="static-value">{{ perfil?.region || '—' }}</div>
+                </ng-container>
+                <ng-template #regEdit>
+                  <ion-select formControlName="regionCodigo" interface="popover"
+                    [disabled]="form.value.pais !== 'Chile'" [compareWith]="compareById">
+                    <ion-select-option *ngFor="let r of (regiones$ | async); trackBy: trByCodigo"
+                      [value]="toStr(r.codigo)">
+                      {{ r.nombre }}
+                    </ion-select-option>
+                  </ion-select>
+                </ng-template>
+              </ion-item>
+            </ion-col>
 
-<!-- COMUNA -->
-<ion-col size-md="6">
-  <ion-item [class.static-item]="!isEditing">
-    <ion-label position="stacked">Comuna</ion-label>
-    <ng-container *ngIf="!isEditing; else comEdit">
-      <div class="static-value">{{ perfil?.comuna || '—' }}</div>
-    </ng-container>
-    <ng-template #comEdit>
-      <ion-select formControlName="comunaCodigo" interface="popover" [disabled]="!form.value.regionCodigo">
-        <ion-select-option *ngFor="let c of (comunas$ | async); trackBy: trByCodigo" [value]="c.codigo">
-          {{ c.nombre }}
-        </ion-select-option>
-      </ion-select>
-    </ng-template>
-  </ion-item>
-</ion-col>
+            <!-- COMUNA -->
+            <ion-col size-md="6">
+              <ion-item [class.static-item]="!isEditing">
+                <ion-label position="stacked">Comuna</ion-label>
+                <ng-container *ngIf="!isEditing; else comEdit">
+                  <div class="static-value">{{ perfil?.comuna || '—' }}</div>
+                </ng-container>
+                <ng-template #comEdit>
+                  <ion-select formControlName="comunaCodigo" interface="popover" [disabled]="!form.value.regionCodigo"
+                    [compareWith]="compareById">
+                    <ion-select-option *ngFor="let c of (comunas$ | async); trackBy: trByCodigo"
+                      [value]="toStr(c.codigo)">
+                      {{ c.nombre }}
+                    </ion-select-option>
+                  </ion-select>
+                </ng-template>
+              </ion-item>
+            </ion-col>
 
-<!-- CALLE -->
-<ion-col size-md="6">
-  <ion-item class="static-item" *ngIf="!isEditing; else edCalle">
-    <ion-label position="stacked">Calle</ion-label>
-    <div class="static-value">{{ perfil?.calle || '—' }}</div>
-  </ion-item>
-  <ng-template #edCalle>
-    <ion-item>
-      <ion-label position="floating">Calle</ion-label>
-      <ion-input formControlName="calle"></ion-input>
-    </ion-item>
-  </ng-template>
-</ion-col>
 
-<!-- NÚMERO -->
-<ion-col size-md="6">
-  <ion-item class="static-item" *ngIf="!isEditing; else edNumero">
-    <ion-label position="stacked">Número</ion-label>
-    <div class="static-value">{{ perfil?.numero || '—' }}</div>
-  </ion-item>
-  <ng-template #edNumero>
-    <ion-item>
-      <ion-label position="floating">Número</ion-label>
-      <ion-input formControlName="numero"></ion-input>
-    </ion-item>
-  </ng-template>
-</ion-col>
+            <!-- CALLE -->
+            <ion-col size-md="6">
+              <ion-item class="static-item" *ngIf="!isEditing; else edCalle">
+                <ion-label position="stacked">Calle</ion-label>
+                <div class="static-value">{{ perfil?.calle || '—' }}</div>
+              </ion-item>
+              <ng-template #edCalle>
+                <ion-item>
+                  <ion-label position="floating">Calle</ion-label>
+                  <ion-input formControlName="calle"></ion-input>
+                </ion-item>
+              </ng-template>
+            </ion-col>
 
-<!-- NOTA ENTREGA -->
-<ion-col size="12">
-  <ion-item class="static-item textarea-item" *ngIf="!isEditing; else edNota">
-    <ion-label position="stacked">Nota de entrega</ion-label>
-    <div class="static-value multiline">{{ perfil?.notaEntrega || '—' }}</div>
-  </ion-item>
-  <ng-template #edNota>
-    <ion-item class="textarea-item">
-      <ion-label position="stacked">Nota de entrega</ion-label>
-      <ion-textarea autoGrow="true" formControlName="notaEntrega" rows="3" maxlength="300"></ion-textarea>
-    </ion-item>
-  </ng-template>
-</ion-col>
+            <!-- NÚMERO -->
+            <ion-col size-md="6">
+              <ion-item class="static-item" *ngIf="!isEditing; else edNumero">
+                <ion-label position="stacked">Número</ion-label>
+                <div class="static-value">{{ perfil?.numero || '—' }}</div>
+              </ion-item>
+              <ng-template #edNumero>
+                <ion-item>
+                  <ion-label position="floating">Número</ion-label>
+                  <ion-input formControlName="numero"></ion-input>
+                </ion-item>
+              </ng-template>
+            </ion-col>
+
+            <!-- NOTA ENTREGA -->
+            <ion-col size="12">
+              <ion-item class="static-item textarea-item" *ngIf="!isEditing; else edNota">
+                <ion-label position="stacked">Nota de entrega</ion-label>
+                <div class="static-value multiline">{{ perfil?.notaEntrega || '—' }}</div>
+              </ion-item>
+              <ng-template #edNota>
+                <ion-item class="textarea-item">
+                  <ion-label position="stacked">Nota de entrega</ion-label>
+                  <ion-textarea autoGrow="true" formControlName="notaEntrega" rows="3" maxlength="300"></ion-textarea>
+                </ion-item>
+              </ng-template>
+            </ion-col>
 
           </ion-row>
         </ion-grid>
@@ -278,12 +283,7 @@
         </ion-button>
       </ng-template>
 
-      <ion-button fill="outline" color="warning" routerLink="/historial-canje">
-        <ion-icon name="time-outline" slot="start"></ion-icon>
-        Ver historial de canjes
-      </ion-button>
-
-      <ion-button fill="outline" color="medium" routerLink="/cambiar-password">
+      <ion-button fill="outline" color="warning" routerLink="/cambio-pass">
         <ion-icon name="key-outline" slot="start"></ion-icon>
         Cambiar contraseña
       </ion-button>

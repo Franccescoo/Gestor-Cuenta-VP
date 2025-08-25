@@ -7,8 +7,10 @@ import { AuthService } from 'src/app/Service/auth.service';
 import { ChileDpaService } from 'src/app/Service/ChileDpaService.service';
 import { DashboardService } from 'src/app/Service/DashboardService.service';
 import { UserService } from 'src/app/Service/user.service';
-import { Observable, of, startWith, switchMap, withLatestFrom, distinctUntilChanged,
-         Subject, takeUntil, merge, map, shareReplay } from 'rxjs';
+import {
+  Observable, of, startWith, switchMap, withLatestFrom, distinctUntilChanged,
+  Subject, takeUntil, merge, map, shareReplay
+} from 'rxjs';
 
 @Component({
   selector: 'app-perfil',
@@ -26,9 +28,14 @@ export class PerfilPage implements OnInit, OnDestroy {
   avatarPreview: string | null = null;
   fotoArchivo: File | null = null;
 
+  toStr = (v: any) => String(v);
+
   private playerId!: string;
   private sistemaId!: number;
-private refreshComunas$ = new Subject<void>();
+  private refreshComunas$ = new Subject<void>();
+
+  private ultimasComunas: DpaSector[] = [];               // << cache
+  compareById = (a: any, b: any) => String(a ?? '') === String(b ?? ''); // << para ion-select
 
   // Fecha (selects)
   diasDisponibles: number[] = Array.from({ length: 31 }, (_, i) => i + 1);
@@ -38,11 +45,10 @@ private refreshComunas$ = new Subject<void>();
   ];
   aniosDisponibles: number[] = [];
 
-  // DPA CHILE (solo región y comuna)
+  // DPA CHILE
   regiones$!: Observable<DpaSector[]>;
   comunas$!: Observable<DpaSector[]>;
 
-  // unsubscribe
   private destroy$ = new Subject<void>();
 
   constructor(
@@ -60,10 +66,10 @@ private refreshComunas$ = new Subject<void>();
       nombreCompleto: ['', [Validators.required, Validators.maxLength(80)]],
       apellidoCompleto: ['', [Validators.required, Validators.maxLength(80)]],
 
-      // fecha
-      fechaDia: [null],
-      fechaMes: [null],
-      fechaAnio: [null],
+      // fecha (no editable)
+      fechaDia: [{ value: null, disabled: true }],
+      fechaMes: [{ value: null, disabled: true }],
+      fechaAnio: [{ value: null, disabled: true }],
 
       email: [{ value: '', disabled: true }, [Validators.email]],
       celular: [''],
@@ -75,8 +81,8 @@ private refreshComunas$ = new Subject<void>();
 
       // País + DPA
       pais: ['Chile'],
-      regionCodigo: [null],
-      comunaCodigo: [null],
+      regionCodigo: [null],   // guardaremos SIEMPRE como string
+      comunaCodigo: [null],   // guardaremos SIEMPRE como string
       region: [''],
       comuna: [''],
 
@@ -92,18 +98,10 @@ private refreshComunas$ = new Subject<void>();
     // Solo-lectura inicial
     this.form.disable();
 
-    // años 18–100
+    // años 18–100 (solo para mostrar la fecha no editable ya seteada)
     const yNow = new Date().getFullYear();
     const max = yNow - 18, min = yNow - 100;
     this.aniosDisponibles = Array.from({ length: (max - min + 1) }, (_, i) => max - i);
-
-    // recalcular días mes/año
-    this.form.get('fechaMes')?.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => this.updateDiasDisponibles());
-    this.form.get('fechaAnio')?.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => this.updateDiasDisponibles());
 
     // ===== Encadenado DPA CHILE
     const paisCtrl = this.form.get('pais')!;
@@ -116,18 +114,19 @@ private refreshComunas$ = new Subject<void>();
       switchMap(p => p === 'Chile' ? this.cl.getRegiones() : of([]))
     );
 
-
-
-this.comunas$ = merge(
-  regCtrl.valueChanges,                          // cuando cambia la región
-  this.refreshComunas$.pipe(map(() => regCtrl.value)) // fuerza reemisión con la región actual
-).pipe(
-  startWith(regCtrl.value),                      // al (re)suscribirse
-  distinctUntilChanged(),
-  switchMap(cod => cod ? this.cl.getComunasByRegion(cod) : of([])),
-  shareReplay(1)                                 // cachea último listado
-);
-
+    this.comunas$ = merge(
+      regCtrl.valueChanges,
+      this.refreshComunas$.pipe(map(() => regCtrl.value))
+    ).pipe(
+      startWith(regCtrl.value),
+      distinctUntilChanged(),
+      switchMap(cod => cod ? this.cl.getComunasByRegion(cod) : of([])),
+      map(list => {
+        this.ultimasComunas = list;     // << cache
+        return list;
+      }),
+      shareReplay(1)
+    );
 
     // Si cambia país ≠ Chile, limpiar región/comuna
     paisCtrl.valueChanges
@@ -140,26 +139,19 @@ this.comunas$ = merge(
         }
       });
 
-// Nombres hacia BD (region y, solo si estás editando, limpia comuna)
-regCtrl.valueChanges
-  .pipe(withLatestFrom(this.regiones$), takeUntil(this.destroy$))
-  .subscribe(([cod, regs]) => {
-    const r = regs.find(x => x.codigo === cod);
+    // Region: solo setea el nombre, NO borra comuna al editar
+    regCtrl.valueChanges
+      .pipe(withLatestFrom(this.regiones$), takeUntil(this.destroy$))
+      .subscribe(([cod, regs]) => {
+        const r = regs.find(x => String(x.codigo) === String(cod));
+        this.form.patchValue({ region: r?.nombre || '' }, { emitEvent: false });
+      });
 
-    // siempre actualiza el nombre de la región
-    const base = { region: r?.nombre || '' };
-
-    // solo limpia comuna cuando el usuario realmente está editando
-    const clearIfEditing = this.isEditing ? { comunaCodigo: null, comuna: '' } : {};
-
-    this.form.patchValue({ ...base, ...clearIfEditing }, { emitEvent: false });
-  });
-
-
+    // Comuna: de código -> nombre
     comCtrl.valueChanges
       .pipe(withLatestFrom(this.comunas$), takeUntil(this.destroy$))
       .subscribe(([cod, coms]) => {
-        const c = coms.find(x => x.codigo === cod);
+        const c = coms.find(x => String(x.codigo) === String(cod));
         this.form.patchValue({ comuna: c?.nombre || '' }, { emitEvent: false });
       });
 
@@ -181,50 +173,11 @@ regCtrl.valueChanges
     this.destroy$.complete();
   }
 
-  // ===== helpers
-  get fechaSeleccionadaCompleta(): boolean {
-    const { fechaDia, fechaMes, fechaAnio } = this.form.value;
-    return !!(fechaDia && fechaMes && fechaAnio);
-  }
-
-  get fechaNacimientoValida(): boolean {
-    const y = this.form.value.fechaAnio;
-    const m = this.form.value.fechaMes;
-    const d = this.form.value.fechaDia;
-    if (!y || !m || !d) return true;
-
-    const dt = new Date(y, m - 1, d);
-    const ok = dt.getFullYear() === y && dt.getMonth() === (m - 1) && dt.getDate() === d;
-    if (!ok) return false;
-
-    const hoy = new Date();
-    const edad =
-      hoy.getFullYear() - y -
-      ((hoy.getMonth() + 1 < m) || (hoy.getMonth() + 1 === m && hoy.getDate() < d) ? 1 : 0);
-    return edad >= 18 && edad <= 100;
-  }
-
-  private composeFechaFromSelects(): string | null {
-    const { fechaDia, fechaMes, fechaAnio } = this.form.value;
-    if (!fechaDia || !fechaMes || !fechaAnio) return null;
-    const dd = String(fechaDia).padStart(2, '0');
-    const mm = String(fechaMes).padStart(2, '0');
-    return `${fechaAnio}-${mm}-${dd}`;
-  }
-
-  private updateDiasDisponibles(): void {
-    const y = this.form.value.fechaAnio;
-    const m = this.form.value.fechaMes;
-    const days = (y && m) ? new Date(y, m, 0).getDate() : 31;
-    this.diasDisponibles = Array.from({ length: days }, (_, i) => i + 1);
-    const dSel = this.form.value.fechaDia;
-    if (dSel && dSel > days) this.form.patchValue({ fechaDia: null }, { emitEvent: false });
-  }
-
+  // ==== utilidades
   private norm = (s: string) =>
     (s || '').normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase().trim();
 
-  trByCodigo = (_: number, it: DpaSector) => it.codigo;
+  trByCodigo = (_: number, it: DpaSector) => String(it.codigo); // << string consistente
 
   // ===== Carga / patch
   private cargarPerfil(): void {
@@ -258,7 +211,7 @@ regCtrl.valueChanges
       verificado: this.perfil.verificado ?? false,
       activo: this.perfil.activo ?? true,
 
-      // Dirección
+      // Dirección (nombres)
       pais: this.perfil.pais ?? 'Chile',
       region: this.perfil.region ?? '',
       comuna: this.perfil.comuna ?? '',
@@ -267,46 +220,54 @@ regCtrl.valueChanges
       notaEntrega: this.perfil.notaEntrega ?? ''
     }, { emitEvent: false });
 
-    // fecha → selects
+    // fecha solo visual
     if (this.perfil.fechaCumpleanos) {
       const [yy, mm, dd] = this.perfil.fechaCumpleanos.split('-').map(Number);
       this.form.patchValue({ fechaAnio: yy, fechaMes: mm, fechaDia: dd }, { emitEvent: false });
     } else {
       this.form.patchValue({ fechaAnio: null, fechaMes: null, fechaDia: null }, { emitEvent: false });
     }
-    this.updateDiasDisponibles();
+    this.actualizarDias(this.form.value.fechaAnio, this.form.value.fechaMes);
 
     // readonly reales
-    ['email', 'login', 'tipoDocumento', 'numeroDocumento'].forEach(c =>
+    ['email', 'login', 'tipoDocumento', 'numeroDocumento', 'fechaDia', 'fechaMes', 'fechaAnio'].forEach(c =>
       this.form.get(c)?.disable()
     );
 
-    // Preseleccionar códigos desde los nombres (si existen)
+    // Preseleccionar códigos desde los nombres solo si estamos en Chile y hay región/comuna guardadas
     if ((this.form.value.pais || 'Chile') === 'Chile' && this.perfil.region) {
       this.cl.getRegiones().pipe(
         switchMap(regs => {
           const r = regs.find(x => this.norm(x.nombre) === this.norm(this.perfil!.region!));
           if (!r) return of<DpaSector[] | null>(null);
-          this.form.patchValue({ regionCodigo: r.codigo }, { emitEvent: true });
+          this.form.patchValue({ regionCodigo: String(r.codigo) }, { emitEvent: true });
           return this.cl.getComunasByRegion(r.codigo);
         }),
         takeUntil(this.destroy$)
       ).subscribe(comunas => {
         if (!comunas) return;
         const c = comunas.find(x => this.norm(x.nombre) === this.norm(this.perfil!.comuna || ''));
-        if (c) this.form.patchValue({ comunaCodigo: c.codigo }, { emitEvent: false });
+        if (c) this.form.patchValue({ comunaCodigo: String(c.codigo) }, { emitEvent: false });
       });
     }
   }
 
-  // ===== UI acciones
-toggleEditar(): void {
-  this.isEditing = true;
-  this.form.enable();
-  ['email','login','tipoDocumento','numeroDocumento'].forEach(c => this.form.get(c)?.disable());
-  this.refreshComunas$.next(); // << refresca comunas para la región actual
-}
+  private actualizarDias(y: number | null, m: number | null) {
+    const days = (y && m) ? new Date(y, m, 0).getDate() : 31;
+    this.diasDisponibles = Array.from({ length: days }, (_, i) => i + 1);
+  }
 
+  // ===== UI acciones
+  toggleEditar(): void {
+    this.isEditing = true;
+    this.form.enable();
+    // seguir dejando deshabilitados los readonly
+    ['email','login','tipoDocumento','numeroDocumento','fechaDia','fechaMes','fechaAnio']
+      .forEach(c => this.form.get(c)?.disable());
+
+    // refresca comunas para la región actual sin perder la selección
+    this.refreshComunas$.next();
+  }
 
   cancelar(): void {
     this.isEditing = false;
@@ -324,26 +285,31 @@ toggleEditar(): void {
       (await this.toast.create({ message: 'Revisa los campos', duration: 2000, color: 'warning'})).present();
       return;
     }
-    if (this.fechaSeleccionadaCompleta && !this.fechaNacimientoValida) {
-      (await this.toast.create({ message: 'Fecha de nacimiento inválida (18–100 años)', duration: 2200, color: 'warning'})).present();
-      return;
-    }
 
     const v = this.form.getRawValue();
-    const fecha = this.composeFechaFromSelects();
+
+    // Fallback: si hay comunaCodigo pero el nombre quedó vacío, resuélvelo con el cache
+    if ((!v.comuna || !v.comuna.trim()) && v.comunaCodigo && this.ultimasComunas?.length) {
+      const c = this.ultimasComunas.find(x => String(x.codigo) === String(v.comunaCodigo));
+      if (c) v.comuna = c.nombre;
+    }
+
+    // Nunca sobreescribas con null si ya había valor en el perfil
+    const regionFinal = (v.region && v.region.trim()) ? v.region : (this.perfil.region ?? null);
+    const comunaFinal = (v.comuna && v.comuna.trim()) ? v.comuna : (this.perfil.comuna ?? null);
 
     const payload: ActualizarUsuarioRequest = {
       nombreCompleto: v.nombreCompleto,
       apellidoCompleto: v.apellidoCompleto,
-      fechaCumpleanos: fecha ?? this.perfil.fechaCumpleanos ?? null,
+      fechaCumpleanos: this.perfil.fechaCumpleanos ?? null,  // no editable
       celular: v.celular,
       verificado: v.verificado,
       activo: v.activo,
 
-      // Dirección / DPA (solo región y comuna)
+      // Dirección / DPA (nombres)
       pais: v.pais || 'Chile',
-      region: v.region || null,
-      comuna: v.comuna || null,
+      region: regionFinal,
+      comuna: comunaFinal,
       calle: v.calle || null,
       numero: v.numero || null,
       notaEntrega: v.notaEntrega || null,
@@ -357,7 +323,9 @@ toggleEditar(): void {
           this.isEditing = false;
           this.patchFromPerfil();
           this.form.disable();
-          (await this.toast.create({ message: 'Perfil actualizado', duration: 1800, color: 'success'})).present();
+          const t = await this.toast.create({ message: 'Perfil actualizado', duration: 1200, color: 'success' });
+          await t.present();
+          window.location.reload(); // si lo quieres mantener
         },
         error: async () => {
           (await this.toast.create({ message: 'Error al actualizar', duration: 2200, color: 'danger'})).present();
@@ -389,4 +357,28 @@ toggleEditar(): void {
       </svg>`);
     (ev.target as HTMLImageElement).src = dataUrl;
   }
+
+  get fechaSeleccionadaCompleta(): boolean {
+  if (!this.form) return false;
+  const { fechaDia, fechaMes, fechaAnio } = this.form.value || {};
+  return !!(fechaDia && fechaMes && fechaAnio);
+}
+
+get fechaNacimientoValida(): boolean {
+  if (!this.form) return true;
+  const y = this.form.value.fechaAnio;
+  const m = this.form.value.fechaMes;
+  const d = this.form.value.fechaDia;
+  if (!y || !m || !d) return true;
+
+  const dt = new Date(y, m - 1, d);
+  const ok = dt.getFullYear() === y && dt.getMonth() === (m - 1) && dt.getDate() === d;
+  if (!ok) return false;
+
+  const hoy = new Date();
+  const edad =
+    hoy.getFullYear() - y -
+    ((hoy.getMonth() + 1 < m) || (hoy.getMonth() + 1 === m && hoy.getDate() < d) ? 1 : 0);
+  return edad >= 18 && edad <= 100;
+}
 }

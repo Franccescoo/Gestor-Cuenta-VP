@@ -106,3 +106,16 @@ html, body, ion-app, ion-content, ion-toolbar, ion-title, p, ion-item {
   align-items: center;
   justify-content: center;
 }
+
+/* Fuerza la paleta del header en cualquier página */
+app-header-usuario .auth-section .register {
+  color: var(--gold, #d4af37) !important;
+}
+
+app-header-usuario .auth-section .user-icon {
+  background: var(--gold, #d4af37) !important;
+  color: #000 !important;
+  border-radius: 999px;
+  padding: 6px;
+  font-size: 18px;
+}

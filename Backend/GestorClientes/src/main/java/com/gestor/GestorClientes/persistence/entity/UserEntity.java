@@ -80,6 +80,20 @@ public class UserEntity {
     @Column(name = "nota_entrega")
     private String notaEntrega;
 
+    // Relación de solo lectura hacia categoria (reutiliza la misma columna que categoriaId)
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(
+            name = "categoria_id",
+            referencedColumnName = "id",
+            insertable = false,
+            updatable   = false
+    )
+    private CategoriaEntity categoria;
+
+    public CategoriaEntity getCategoria() { return categoria; }
+    public void setCategoria(CategoriaEntity categoria) { this.categoria = categoria; }
+
+
     // Getters y Setters
 
     public String getTipoDocumento() {
