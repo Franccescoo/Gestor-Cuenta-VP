@@ -1,7 +1,48 @@
 <ion-content class="fondo" [fullscreen]="true">
   <app-header-usuario></app-header-usuario>
 
+<!-- Filtros -->
+<div class="filtros filters-card">
+  <!-- tipo -->
+  <ion-segment [(ngModel)]="filtroTipo" value="todos" class="chip-segment">
+    <ion-segment-button value="todos">Todos</ion-segment-button>
+    <ion-segment-button value="beneficios">Beneficios</ion-segment-button>
+    <ion-segment-button value="productos">Productos</ion-segment-button>
+  </ion-segment>
 
+  <!-- orden -->
+  <ion-segment [(ngModel)]="ordenFecha" value="desc" class="chip-segment">
+    <ion-segment-button value="desc">Más recientes</ion-segment-button>
+    <ion-segment-button value="asc">Más antiguos</ion-segment-button>
+  </ion-segment>
+</div>
+
+
+  <!-- Tabla -->
+  <div class="tabla-container">
+    <table class="tabla-historial">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Descripción</th>
+          <th>Estado</th>
+          <th>Fecha Canje</th>
+          <th>Motivo Rechazo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of historialFiltrado">
+          <td>{{ item.beneficio.nombre }}</td>
+          <td>{{ item.beneficio.descripcion }}</td>
+          <td>
+            <span class="estado" [ngClass]="item.estado.toLowerCase()">{{ item.estado }}</span>
+          </td>
+          <td>{{ item.fechaCanje | date:'short' }}</td>
+          <td>{{ item.motivoRechazo || '-' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <app-footer></app-footer>
 </ion-content>
