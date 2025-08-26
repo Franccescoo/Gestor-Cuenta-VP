@@ -1,117 +1,159 @@
-.fondo {
-  min-height: 100vh;
-  background: radial-gradient(1200px 600px at 80% 0%, var(--bg-darker) 0%, var(--bg-dark) 60%);
-  color: var(--ink);
-  padding: 1rem;
+:host{
+  --gold:#d4af37; --gold-2:#f3d98b; --ink:#f5f5f5; --muted:#cfcfcf;
+  --bg-0:#0a0a0a; --bg-1:#141414;
+  --stroke:rgba(255,255,255,.08);
 }
 
-:host {
-  --gold: #d4af37;
-  --gold-2: #f3d98b;
-  --ink: #f5f5f5;
-  --ink-dim: #d8d8d8;
-  --bg-0: #0a0a0a;
-  --bg-1: #141414;
-  --stroke: rgba(255,255,255,.08);
-    --ion-color-primary: #d4af37; /* gold */
-  --gold: #d4af37;
-  --ink: #f5f5f5;
+/* ===== Layout general + footer al fondo ===== */
+.fondo{
+  min-height:100vh;
+  --background:none !important;
+  background: radial-gradient(1200px 600px at 80% 0%, var(--bg-1) 0%, var(--bg-0) 60%);
+  color:var(--ink);
+  padding:1rem;
+}
+.page-inner{
+  min-height:100%;
+  display:flex;
+  flex-direction:column;
+}
+.footer-pinned{
+  margin-top:auto;
+  background:#0e0e0e;
+  border-top:1px solid rgba(212,175,55,.18);
 }
 
-
-
-/* Filtros */
-/* contenedor tipo tarjeta como la vista de productos */
+/* ===== Filtros ===== */
+/* ===== Filtros ===== */
 .filtros {
   margin: 10px 0 14px;
+  display: grid;
+  gap: .6rem;
 
   ion-segment {
-    --background: transparent;
-    --color: var(--ink);         /* texto normal blanco */
-    --color-checked: var(--gold);/* texto activo dorado */
-    --indicator-color: var(--gold);  /* subrayado dorado */
-    --indicator-height: 2px;         /* alto del subrayado */
-    --ripple-color: rgba(212,175,55,.2); /* ripple dorado */
+    --background: transparent !important;
+
+    /* Texto */
+    --color: var(--ink) !important;
+    --color-checked: var(--gold) !important;
+
+    /* Indicador (línea inferior) */
+    --indicator-color: var(--gold) !important;
+    --indicator-height: 2px !important;
+
+    /* Ripple/hover */
+    --ripple-color: var(--gold) !important;
   }
 
-  /* por si el tema fuerza el azul, lo pisamos igual */
+  /* Fuerza el indicador dorado siempre */
   ion-segment::part(indicator),
   ion-segment::part(indicator-background) {
     background: var(--gold) !important;
   }
 
   ion-segment-button {
-    font-weight: 800;
-    letter-spacing: .06em;
-    text-transform: uppercase;
-    color: var(--ink);
-    transition: color .15s ease, background .15s ease;
+    --color: var(--ink) !important;
+    --color-checked: var(--gold) !important;
+    --background: transparent !important;
+    --background-checked: transparent !important;
+    --indicator-color: var(--gold) !important;
+    --ripple-color: var(--gold) !important;
+  }
 
-    /* SIN fondo negro en hover */
-    &::part(native) {
-      background: transparent;
-      border-radius: 6px;  /* sutil, no “círculo/pill” */
-    }
-    &:hover::part(native) {
-      background: rgba(212,175,55,.08);  /* leve brillo dorado */
-    }
+  ion-segment-button::part(native) {
+    color: var(--ink) !important;
+    font-weight: 700;
+    box-shadow: none !important;
+    outline: none !important;
+  }
 
-    &.segment-button-checked {
-      color: var(--gold);
-    }
+  ion-segment-button:hover::part(native),
+  ion-segment-button:focus-visible::part(native),
+  ion-segment-button:active::part(native) {
+    color: var(--gold) !important;
+    background: rgba(212,175,55,.1) !important;
+  }
+
+  /* Botón activo */
+  ion-segment-button.segment-button-checked::part(native) {
+    color: var(--gold) !important;
+    font-weight: 800 !important;
+    background: rgba(212,175,55,.08) !important;
   }
 }
 
-/* Tabla */
-.tabla-container {
-  overflow-x: auto;
-  border: 1px solid var(--gold);
-  border-radius: 12px;
+
+/* ===== Feed angosto ===== */
+.feed-container{
+  max-width:780px;      /* más angosto */
+  margin:12px auto 0;
+  width:100%;
+}
+.feed{
+  display:flex; flex-direction:column; gap:12px;
+}
+.empty{
+  text-align:center; color:var(--muted); padding:2rem 0;
 }
 
-.tabla-historial {
-  width: 100%;
-  border-collapse: collapse;
-  color: var(--ink);
-  font-size: 0.95rem;
-
-  th, td {
-    padding: 0.75rem;
-    text-align: left;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+/* Tarjeta (notificación) */
+.feed-item{
+  display:grid; grid-template-columns:auto 1fr auto; align-items:center;
+  gap:12px; padding:14px 16px; border-radius:14px;
+  background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.02));
+  border:1px solid rgba(255,255,255,.06);
+  box-shadow: 0 8px 22px rgba(0,0,0,.28);
+  transition: transform .08s ease, box-shadow .18s ease, border-color .18s ease;
+  &:hover{
+    transform: translateY(-1px);
+    border-color: rgba(212,175,55,.28);
+    box-shadow: 0 12px 28px rgba(212,175,55,.12);
   }
+}
 
-  th {
-    background: linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 100%);
-    color: #000;
-    font-weight: bold;
-    text-transform: uppercase;
-  }
+/* Icono circular */
+.fi-icon{
+  width:44px; height:44px; border-radius:999px; display:grid; place-items:center;
+  background: radial-gradient(65% 65% at 30% 30%, var(--gold-2), var(--gold));
+  border:1px solid rgba(0,0,0,.45);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.4), 0 6px 18px rgba(212,175,55,.22);
+  ion-icon{ color:#111; font-size:20px; }
+}
+.fi-icon.prod{ background: radial-gradient(65% 65% at 30% 30%, #ffd390, #f1b34e); }
 
-  tr:hover {
-    background: rgba(212, 175, 55, 0.08);
-  }
+/* Texto principal */
+.fi-title{ color:var(--ink); font-weight:800; letter-spacing:.3px; font-size:1rem; text-transform:uppercase; }
+.fi-meta{ display:flex; align-items:center; gap:8px; margin-top:2px; color:var(--muted); font-size:.9rem; }
+.fi-dot{ opacity:.5; }
+.fi-date{ opacity:.9; }
 
-  .estado {
-    padding: 0.25rem 0.6rem;
-    border-radius: 8px;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    font-weight: bold;
+/* Estado (badge) */
+.estado{
+  padding:.22rem .55rem; border-radius:10px; font-size:.78rem; font-weight:800;
+  border:1px solid rgba(255,255,255,.08);
+  background: rgba(255,255,255,.06); color:var(--ink);
+  text-transform:uppercase; letter-spacing:.3px;
+}
+.estado.pendiente{ background: rgba(212,175,55,.12); color:var(--gold-2); border-color:rgba(212,175,55,.28); }
+.estado.aprobado{ background: rgba(52,211,153,.15); color:#a7f3d0; border-color:rgba(16,185,129,.35); }
+.estado.rechazado{ background: rgba(239,68,68,.18); color:#fecaca; border-color:rgba(239,68,68,.35); }
 
-    &.pendiente {
-      background: rgba(255, 215, 0, 0.15);
-      color: var(--gold-light);
-    }
+/* Botón detalle */
+.fi-actions{ display:flex; align-items:center; gap:.6rem; }
+.btn-detalle{
+  display:inline-flex; align-items:center; gap:.35rem;
+  padding:.42rem .75rem; border-radius:10px; font-weight:800; font-size:.85rem;
+  color:#111;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-2) 100%);
+  border:1px solid rgba(0,0,0,.35);
+  box-shadow: 0 6px 18px rgba(212,175,55,.18);
+  cursor:pointer; transition:transform .08s ease, box-shadow .18s ease;
+  &:hover{ box-shadow:0 10px 24px rgba(212,175,55,.28); }
+  &:active{ transform:translateY(1px); }
+}
 
-    &.aprobado {
-      background: rgba(0, 128, 0, 0.2);
-      color: #7CFC00;
-    }
-
-    &.rechazado {
-      background: rgba(255, 0, 0, 0.2);
-      color: #FF6B6B;
-    }
-  }
+/* Responsive */
+@media (max-width:620px){
+  .feed-item{ grid-template-columns:auto 1fr; }
+  .fi-actions{ grid-column:1 / -1; justify-content:flex-end; }
 }

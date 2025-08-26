@@ -1,48 +1,55 @@
 <ion-content class="fondo" [fullscreen]="true">
-  <app-header-usuario></app-header-usuario>
+  <div class="page-inner">
+    <app-header-usuario></app-header-usuario>
 
-<!-- Filtros -->
-<div class="filtros filters-card">
-  <!-- tipo -->
-  <ion-segment [(ngModel)]="filtroTipo" value="todos" class="chip-segment">
-    <ion-segment-button value="todos">Todos</ion-segment-button>
-    <ion-segment-button value="beneficios">Beneficios</ion-segment-button>
-    <ion-segment-button value="productos">Productos</ion-segment-button>
-  </ion-segment>
+    <!-- Filtros -->
+    <div class="filtros filters-card">
+      <ion-segment [(ngModel)]="filtroTipo" class="chip-segment">
+        <ion-segment-button value="todos">Todos</ion-segment-button>
+        <ion-segment-button value="beneficios">Beneficios</ion-segment-button>
+        <ion-segment-button value="productos">Productos</ion-segment-button>
+      </ion-segment>
 
-  <!-- orden -->
-  <ion-segment [(ngModel)]="ordenFecha" value="desc" class="chip-segment">
-    <ion-segment-button value="desc">Más recientes</ion-segment-button>
-    <ion-segment-button value="asc">Más antiguos</ion-segment-button>
-  </ion-segment>
+      <ion-segment [(ngModel)]="ordenFecha" class="chip-segment">
+        <ion-segment-button value="desc">Más recientes</ion-segment-button>
+        <ion-segment-button value="asc">Más antiguos</ion-segment-button>
+      </ion-segment>
+    </div>
+
+    <!-- Feed de notificaciones -->
+    <div class="feed-container">
+      <div class="feed" *ngIf="historialFiltrado?.length; else emptyTpl">
+        <article class="feed-item" *ngFor="let item of historialFiltrado">
+          <div class="fi-left">
+<div class="fi-icon" [ngClass]="iconClass(item)">
+  <ion-icon [name]="iconName(item)"></ion-icon>
 </div>
+          </div>
 
+          <div class="fi-main">
+            <div class="fi-title">{{ item.beneficio?.nombre }}</div>
+            <div class="fi-meta">
+              <span class="estado" [ngClass]="item.estado?.toLowerCase()">{{ item.estado }}</span>
+              <span class="fi-dot">•</span>
+              <time class="fi-date">{{ item.fechaCanje | date:'short' }}</time>
+            </div>
+          </div>
 
-  <!-- Tabla -->
-  <div class="tabla-container">
-    <table class="tabla-historial">
-      <thead>
-        <tr>
-          <th>Nombre</th>
-          <th>Descripción</th>
-          <th>Estado</th>
-          <th>Fecha Canje</th>
-          <th>Motivo Rechazo</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of historialFiltrado">
-          <td>{{ item.beneficio.nombre }}</td>
-          <td>{{ item.beneficio.descripcion }}</td>
-          <td>
-            <span class="estado" [ngClass]="item.estado.toLowerCase()">{{ item.estado }}</span>
-          </td>
-          <td>{{ item.fechaCanje | date:'short' }}</td>
-          <td>{{ item.motivoRechazo || '-' }}</td>
-        </tr>
-      </tbody>
-    </table>
+          <div class="fi-actions">
+            <button class="btn-detalle" (click)="verDetalle(item)">
+              <ion-icon name="information-circle-outline"></ion-icon>
+              Detalle
+            </button>
+          </div>
+        </article>
+      </div>
+
+      <ng-template #emptyTpl>
+        <div class="empty">Aún no tienes movimientos</div>
+      </ng-template>
+    </div>
+
+    <!-- Footer anclado al fondo -->
+    <app-footer class="footer-pinned"></app-footer>
   </div>
-
-  <app-footer></app-footer>
 </ion-content>
