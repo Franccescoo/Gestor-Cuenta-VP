@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastController } from '@ionic/angular';
 import { CategoriaConBeneficios } from 'src/app/models/CategoriaConBeneficios.model';
+import { RegistrarCanjeRequest } from 'src/app/models/RegistrarCanjeRequest.model';
+import { CanjeService } from 'src/app/Service/CanjeService.service';
 import { DashboardService } from 'src/app/Service/DashboardService.service';
 
 @Component({
@@ -12,14 +14,14 @@ export class BeneficiosPage implements OnInit {
   cargando = true;
   playerId!: string;
   sistemaId!: number;
-
   totalBeneficios = 0;
   categorias: CategoriaConBeneficios[] = [];
+  nivelActual: string | null = null;
 
-   nivelActual: string | null = null;
   constructor(
     private dash: DashboardService,
     private toast: ToastController,
+    private canjeService: CanjeService
   ) {}
 
   ngOnInit(): void {
@@ -47,6 +49,26 @@ export class BeneficiosPage implements OnInit {
       error: async () => {
         this.cargando = false;
         (await this.toast.create({ message: 'No se pudo cargar el catálogo de beneficios', duration: 2200, color: 'danger'})).present();
+      }
+    });
+  }
+
+  // 🔹 Nuevo método para canjear
+  async onCanjear(catId: number, benId: number) {
+    const payload: RegistrarCanjeRequest = {
+      playerId: this.playerId,
+      sistemaId: this.sistemaId,
+      beneficioId: benId,
+      categoriaId: catId
+    };
+
+    this.canjeService.solicitarCanje(payload).subscribe({
+      next: async () => {
+        (await this.toast.create({ message: 'Solicitud de canje enviada ✅', duration: 2000, color: 'success'})).present();
+      },
+      error: async (err: any) => {
+        const msg = err?.error?.message || 'No se pudo solicitar el canje';
+        (await this.toast.create({ message: msg, duration: 2500, color: 'danger'})).present();
       }
     });
   }

@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface HistorialCanjeBeneficioRepository extends JpaRepository<HistorialCanjeBeneficioEntity, Long> {
@@ -22,5 +23,15 @@ public interface HistorialCanjeBeneficioRepository extends JpaRepository<Histori
             "WHERE h.playerId = :playerId AND h.sistemaId = :sistemaId")
     List<HistorialCanjeDetalleDTO> findHistorialConDetalle(@Param("playerId") String playerId,
                                                            @Param("sistemaId") Integer sistemaId);
+
+    // Buscar solicitudes pendientes para evitar duplicidad
+    List<HistorialCanjeBeneficioEntity> findByPlayerIdAndSistemaIdAndBeneficioIdAndEstado(
+            String playerId, Integer sistemaId, Integer beneficioId, String estado
+    );
+
+    // Buscar la última solicitud aprobada para el periodo de bloqueo
+    Optional<HistorialCanjeBeneficioEntity> findTopByPlayerIdAndSistemaIdAndBeneficioIdAndEstadoOrderByFechaCanjeDesc(
+            String playerId, Integer sistemaId, Integer beneficioId, String estado
+    );
 
 }

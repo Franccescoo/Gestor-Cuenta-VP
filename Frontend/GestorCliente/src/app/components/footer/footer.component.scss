@@ -1,5 +1,7 @@
 :host {
   --gold: #d4af37;
+  display: block; // IMPORTANTE: Asegura que el host tenga display block
+  width: 100%;
 }
 
 /* contenedor negro con línea dorada como en tu UI */
@@ -68,13 +70,12 @@
   .brand { width: 140px; height: 35px; }
 }
 
-
-
 /* ===== FOOTER ===== */
 .prestige-footer {
   background: #000;
   border-top: 2px solid #d4af37; /* línea dorada */
   padding: 55px 0;
+  margin-top: auto; // IMPORTANTE: Empuja el footer hacia abajo
 }
 
 .prestige-footer .footer-inner {

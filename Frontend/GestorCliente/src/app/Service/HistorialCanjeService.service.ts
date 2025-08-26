@@ -8,7 +8,7 @@ import { HistorialCanjeDetalle } from '../models/HistorialCanjeDetalle.model';
 })
 export class HistorialCanjeService {
 
-  private apiUrl = 'http://localhost:8080/api/historial-canje';
+  private apiUrl = 'http://localhost:8081/api/historial-canje';
 
   constructor(private http: HttpClient) { }
 

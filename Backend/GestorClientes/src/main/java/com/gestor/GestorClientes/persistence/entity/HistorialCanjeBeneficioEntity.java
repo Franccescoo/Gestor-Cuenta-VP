@@ -38,6 +38,28 @@ public class HistorialCanjeBeneficioEntity {
     @Column(name = "categoria_id")
     private Integer categoriaId;
 
+    // Constructor vacío requerido por JPA
+    public HistorialCanjeBeneficioEntity() {}
+
+    // Relación con PuntosAcumuladosEntity
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumns({
+            @JoinColumn(name = "player_id", referencedColumnName = "player_id", insertable = false, updatable = false),
+            @JoinColumn(name = "sistema_id", referencedColumnName = "sistema_id", insertable = false, updatable = false)
+    })
+    private UserEntity puntosAcumulados;
+
+    public HistorialCanjeBeneficioEntity(String playerId, Integer sistemaId, Integer beneficioId, Integer categoriaId, LocalDateTime fechaCanje, String estado) {
+        this.playerId = playerId;
+        this.sistemaId = sistemaId;
+        this.beneficioId = beneficioId;
+        this.categoriaId = categoriaId;
+        this.fechaCanje = fechaCanje;
+        this.estado = estado;
+    }
+
+
+
     // ===== Getters y Setters =====
 
     public Long getId() {

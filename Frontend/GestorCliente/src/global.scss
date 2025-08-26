@@ -97,9 +97,7 @@ html, body, ion-app, ion-content, ion-toolbar, ion-title, p, ion-item {
 .fondo {
   --background: none !important;
   background:
-    linear-gradient(120deg, #101726e0 60%, #1b2439e0 100%),
-    url('/assets/img/fondopantalla.jpg') no-repeat center center fixed;
-  background-size: cover;
+    linear-gradient(120deg, #101726e0 60%, #1b2439e0 100%);
   min-height: 100vh;
   width: 100vw;
   display: flex;

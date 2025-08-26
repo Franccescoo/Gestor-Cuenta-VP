@@ -61,11 +61,12 @@
                 <span class="badge">Disponible</span>
               </td>
               <td data-label="Acción">
-                <button class="btn-canjear">
+                <button class="btn-canjear" (click)="onCanjear(cat.id, b.id)">
                   <ion-icon name="sparkles-outline"></ion-icon>
                   Canjear
                 </button>
               </td>
+
             </tr>
           </ng-container>
         </tbody>

@@ -41,7 +41,7 @@ function parseJwt(token: string): JwtPayload | null {
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private baseUrl = 'http://localhost:8080/api/auth';
+  private baseUrl = 'http://localhost:8081/api/auth';
   private readonly DEFAULT_ISS = 'AUTH-backend'; // ← Emisor esperado
   private readonly SKEW = 60;                    // tolerancia (seg) para reloj del cliente
 

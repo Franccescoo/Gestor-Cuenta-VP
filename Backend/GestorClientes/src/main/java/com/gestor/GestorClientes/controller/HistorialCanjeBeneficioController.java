@@ -1,6 +1,7 @@
 package com.gestor.GestorClientes.controller;
 
 import com.gestor.GestorClientes.controller.dto.HistorialCanjeDetalleDTO;
+import com.gestor.GestorClientes.controller.dto.RegistrarCanjeRequest;
 import com.gestor.GestorClientes.persistence.entity.HistorialCanjeBeneficioEntity;
 import com.gestor.GestorClientes.service.HistorialCanjeBeneficioService;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,12 @@ public class HistorialCanjeBeneficioController {
 
     public HistorialCanjeBeneficioController(HistorialCanjeBeneficioService service) {
         this.service = service;
+    }
+
+    // 1. Crear solicitud de canje
+    @PostMapping("/solicitar")
+    public void crearSolicitudDeCanje(@RequestBody RegistrarCanjeRequest req) {
+        service.crearSolicitudDeCanje(req);
     }
 
     @GetMapping("/{playerId}/{sistemaId}")
