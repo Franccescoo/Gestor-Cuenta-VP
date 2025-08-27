@@ -41,6 +41,9 @@ function parseJwt(token: string): JwtPayload | null {
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+  sendCredentialsByPhone(numero: string) {
+    throw new Error('Method not implemented.');
+  }
   private baseUrl = 'http://localhost:8081/api/auth';
   private readonly DEFAULT_ISS = 'AUTH-backend'; // ← Emisor esperado
   private readonly SKEW = 60;                    // tolerancia (seg) para reloj del cliente

@@ -41,7 +41,7 @@ export class RegistrarPage {
     this.router.navigateByUrl('/inicio');
   }
 
-  goBack() { this.router.navigateByUrl('/inicio'); }
+  goBack() { this.router.navigateByUrl('/iniciar-sesion'); }
 
   // ----- Validadores -----
   private passwordMatchValidator(group: AbstractControl): ValidationErrors | null {

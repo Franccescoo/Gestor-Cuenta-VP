@@ -2,51 +2,59 @@
   <app-header></app-header>
 
   <section class="auth-section">
-
     <section class="forgot-password-section">
       <div class="form-side">
         <h1 class="title">OLVIDÉ MI CONTRASEÑA</h1>
         <p class="subtitle">
-          Por favor, introduzca su dirección de correo electrónico para recibir un enlace de restablecimiento de
-          contraseña.
+          Por favor, introduzca su dirección de correo electrónico para recibir un enlace de restablecimiento de contraseña.
         </p>
 
         <form (ngSubmit)="enviar()" novalidate>
-
-          <!-- Banner de respuesta del servidor -->
-          <div *ngIf="status" class="alert" [ngClass]="{
-        'alert--success': status.type === 'success',
-        'alert--error': status.type === 'error'
-      }">
+          <!-- Banner de respuesta -->
+          <div *ngIf="status" class="alert"
+               [ngClass]="{ 'alert--success': status.type === 'success', 'alert--error': status.type === 'error' }">
             {{ status.message }}
           </div>
 
           <!-- Email -->
           <label for="email">Mail</label>
-          <input type="email" id="email" name="email" [(ngModel)]="email" #emailCtrl="ngModel" required email
-            [ngClass]="{'is-invalid': (emailCtrl.invalid && (emailCtrl.dirty || emailCtrl.touched))}" />
+          <input type="email"
+                 id="email"
+                 name="email"
+                 [(ngModel)]="email"
+                 #emailCtrl="ngModel"
+                 required
+                 email
+                 [ngClass]="{'is-invalid': (emailCtrl.invalid && (emailCtrl.dirty || emailCtrl.touched))}" />
 
-          <!-- Error de validación local (como la segunda foto) -->
-          <small class="field-error" *ngIf="emailCtrl.errors?.['required'] && (emailCtrl.dirty || emailCtrl.touched)">
+          <small class="field-error"
+                 *ngIf="emailCtrl.errors?.['required'] && (emailCtrl.dirty || emailCtrl.touched)">
             El email es obligatorio
           </small>
-          <small class="field-error" *ngIf="emailCtrl.errors?.['email'] && (emailCtrl.dirty || emailCtrl.touched)">
+          <small class="field-error"
+                 *ngIf="emailCtrl.errors?.['email'] && (emailCtrl.dirty || emailCtrl.touched)">
             Formato de email no válido
           </small>
 
-          <!-- reCAPTCHA + botón -->
+          <!-- reCAPTCHA + botón (solo UI gating) -->
           <label for="captcha">Captcha</label>
           <div class="captcha-row">
-            <re-captcha [siteKey]="siteKey" theme="dark" (resolved)="onCaptchaResolved($event)">
+            <re-captcha
+              #captchaRef="reCaptcha"
+              [siteKey]="siteKey"
+              theme="dark"
+              (resolved)="onCaptchaResolved($event)"
+              (expired)="onCaptchaExpired()"
+              (error)="onCaptchaError()">
             </re-captcha>
 
-            <button type="submit" class="btn-gold" [disabled]="!captchaToken || !email || loading || emailCtrl.invalid">
+            <button type="submit"
+                    class="btn-gold"
+                    [disabled]="!isCaptchaOk || !email || loading || emailCtrl.invalid">
               {{ loading ? 'Enviando…' : 'Restablecer Contraseña' }}
             </button>
           </div>
         </form>
-
-
 
         <a routerLink="/iniciar-sesion" class="back-link">volver</a>
       </div>
@@ -55,7 +63,6 @@
         <img src="/assets/prestige/girl2.jpeg" alt="User Support" />
       </div>
     </section>
-
   </section>
 
   <app-footer></app-footer>

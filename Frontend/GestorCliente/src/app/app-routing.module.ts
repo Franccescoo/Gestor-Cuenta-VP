@@ -75,13 +75,17 @@ const routes: Routes = [
     loadChildren: () => import('./pages/detalle-producto/detalle-producto.module').then( m => m.DetalleProductoPageModule),
     canActivate: [validarSesionRolGuard],
     data: { issuer: 'AUTH-backend' }
-  },  {
+  },
+  {
     path: 'cambio-pass',
     loadChildren: () => import('./pages/cambio-pass/cambio-pass.module').then( m => m.CambioPassPageModule)
   },
   {
     path: 'historial-canjes',
     loadChildren: () => import('./pages/historial-canjes/historial-canjes.module').then( m => m.HistorialCanjesPageModule)
+  },  {
+    path: 'verificar-cuenta',
+    loadChildren: () => import('./pages/LandingPage/verificar-cuenta/verificar-cuenta.module').then( m => m.VerificarCuentaPageModule)
   },
 
 

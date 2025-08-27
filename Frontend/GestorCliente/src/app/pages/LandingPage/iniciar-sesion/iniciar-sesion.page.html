@@ -10,12 +10,8 @@
       <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <!-- Email -->
         <label>Email</label>
-        <input
-          type="email"
-          placeholder="tu@email.com"
-          formControlName="email"
-          [class.invalid]="submitted && form.controls.email.invalid"
-        />
+        <input type="email" placeholder="tu@email.com" formControlName="email"
+          [class.invalid]="submitted && form.controls.email.invalid" />
         <small class="error" *ngIf="submitted && form.controls.email.errors?.['required']">
           El email es obligatorio
         </small>
@@ -26,12 +22,8 @@
         <!-- Password -->
         <label>Contraseña</label>
         <div class="password-field">
-          <input
-            [type]="showPassword ? 'text' : 'password'"
-            placeholder="Tu contraseña"
-            formControlName="password"
-            [class.invalid]="submitted && form.controls.password.invalid"
-          />
+          <input [type]="showPassword ? 'text' : 'password'" placeholder="Tu contraseña" formControlName="password"
+            [class.invalid]="submitted && form.controls.password.invalid" />
           <button type="button" class="eye" (click)="togglePassword()" aria-label="Mostrar/ocultar contraseña">
             <ion-icon [name]="showPassword ? 'eye-off' : 'eye'"></ion-icon>
           </button>
@@ -63,11 +55,34 @@
         <div class="divider">
           <span>o</span>
         </div>
+        <div class="row bottom">
+          <span>¿Ya perteneces a un sistema asociado?</span>
+          <a class="link" [routerLink]="['/verificar-cuenta']">Verificar cuenta</a>
+
+          <!-- Icono con tooltip embebido -->
+          <span class="tooltip-wrapper">
+            <span class="tooltip-icon">?</span>
+            <div class="tooltip-box">
+              Aquí podrás comprobar si tu email ya existe en algún sistema asociado. <br>
+              Si existe, podrás recuperar tu acceso.
+            </div>
+          </span>
+        </div>
+
+
 
         <!-- Acción secundaria -->
         <div class="row bottom">
           <span>¿No tienes cuenta?</span>
-          <a class="link" [routerLink]="['/registrar']">Regístrate</a>
+          <a class="link">Regístrate</a>
+                    <!-- Icono con tooltip embebido -->
+          <span class="tooltip-wrapper">
+            <span class="tooltip-icon">?</span>
+            <div class="tooltip-box">
+              Debes Tener una cuenta para poder acceder a los servicios. <br>
+              Si no tienes una, puedes crearla en alguna de las empresas asociadas.
+            </div>
+          </span>
         </div>
       </form>
     </div>

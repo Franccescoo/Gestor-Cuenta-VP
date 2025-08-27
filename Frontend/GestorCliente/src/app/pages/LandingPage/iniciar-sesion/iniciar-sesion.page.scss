@@ -92,3 +92,91 @@
     .auth-image { height: 320px; }
   }
 }
+
+.assoc-card{
+  margin-top: 10px;
+  padding: 14px;
+  border: 1px solid #2a2a2a;
+  border-radius: 10px;
+  background: #141414;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  .assoc-text{ font-size: 13px; color: #ddd; line-height: 1.35; }
+
+  .btn-secondary{
+    width: 100%;
+    background: transparent;
+    border: 1px solid #d4af37;
+    color: #d4af37;
+    font-weight: 700;
+    padding: 10px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: filter .2s, background .2s;
+  }
+  .btn-secondary:hover{ filter: brightness(1.05); background: rgba(212,175,55,.08); }
+
+  .hint{ color:#bbb; font-size: 12px; line-height: 1.3; }
+}
+
+.tooltip-wrapper {
+  position: relative;
+  display: inline-block;
+
+  .tooltip-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 18px;
+    border-radius: 50%;
+    background: #d4af37;
+    color: #000;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background .2s;
+    margin-left: 4px;
+  }
+
+  .tooltip-icon:hover { background: #ffd95e; }
+
+  .tooltip-box {
+    position: absolute;
+    bottom: 125%; /* aparece arriba del círculo */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 250px;
+    padding: 8px 10px;
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 13px;
+    text-align: center;
+    line-height: 1.3;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s;
+    z-index: 5;
+  }
+
+  /* Flechita */
+  .tooltip-box::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: #1a1a1a transparent transparent transparent;
+  }
+
+  /* Mostrar solo al pasar el mouse */
+  .tooltip-icon:hover + .tooltip-box {
+    opacity: 1;
+  }
+}
