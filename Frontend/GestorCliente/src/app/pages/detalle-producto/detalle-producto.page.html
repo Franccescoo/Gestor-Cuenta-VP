@@ -57,7 +57,6 @@
         <ul class="facts">
           <li><strong>Categoría:</strong> <span class="value">{{ producto?.categoria?.nombre || '—' }}</span></li>
           <li><strong>Puntos requeridos:</strong> <span class="value">{{ producto?.puntosCanje || 0 | number:'1.0-0' }} pts</span></li>
-          <li><strong>Costo:</strong> <span class="value">{{ formatMoney(producto?.costo || 0, producto?.moneda) }}</span></li>
           <li><strong>Estado:</strong> <span class="value" [class.ok]="producto?.activo">{{ producto?.activo ? 'Disponible' : 'No disponible' }}</span></li>
         </ul>
 

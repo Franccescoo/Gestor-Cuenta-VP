@@ -1,0 +1,28 @@
+<ion-content class="fondo" [fullscreen]="true">
+  <div class="page-inner">
+    <header>
+      <div class="header-nav">
+        <div class="logo">
+          <img src="/assets/prestige/logo.png" alt="Prestige" />
+        </div>
+        <!-- Botón Hamburguesa (visible < 993px) -->
+        <div class="hamburger" (click)="toggleMenu()">
+          <ion-icon name="menu-outline"></ion-icon>
+        </div>
+      </div>
+      <!-- Menú lateral fullscreen (MÓVIL) -->
+      <div class="mobile-menu" [class.open]="menuOpen">
+        <div class="menu-header">
+          <img src="/assets/prestige/logo.png" alt="Prestige" />
+          <ion-icon name="close-outline" class="close-btn" (click)="closeMenu()"></ion-icon>
+        </div>
+      </div>
+    </header>
+
+    <section>
+
+    </section>
+
+    <app-footer class="footer-pinned"></app-footer>
+  </div>
+</ion-content>

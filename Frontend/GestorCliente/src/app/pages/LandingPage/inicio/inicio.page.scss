@@ -68,20 +68,21 @@
 .club-description {
     padding: 40px 60px;
     background: rgba(26, 26, 26, .8);
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-
-    p {
-        color: #ccc;
-        font-size: 14px;
-        line-height: 1.8;
-        text-align: justify;
-        margin: 0;
-        letter-spacing: .3px;
-        max-width: 75%;
-    }
+    text-align: center;
 }
+
+.club-description p {
+    color: #ccc;
+    font-size: 15px;
+    line-height: 1.8;
+    margin: 0 auto;
+    letter-spacing: .3px;
+    max-width: 75%;
+    text-align: justify;   /* hace que se vea cuadrado */
+    text-justify: inter-word; /* distribuye bien los espacios */
+}
+
+
 
 /* ===================== CARDS (GRID) ===================== */
 .cards-carousel {

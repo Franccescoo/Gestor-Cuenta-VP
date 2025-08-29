@@ -21,15 +21,29 @@
       <div class="feed" *ngIf="historialFiltrado?.length; else emptyTpl">
         <article class="feed-item" *ngFor="let item of historialFiltrado">
           <div class="fi-left">
-<div class="fi-icon" [ngClass]="iconClass(item)">
-  <ion-icon [name]="iconName(item)"></ion-icon>
-</div>
+            <div class="fi-icon" [ngClass]="iconClass(item)">
+              <ion-icon [name]="iconName(item)"></ion-icon>
+            </div>
           </div>
 
           <div class="fi-main">
-            <div class="fi-title">{{ item.beneficio?.nombre }}</div>
+            <!-- ✅ Beneficio seguro -->
+            <ng-container *ngIf="item.beneficio as ben; else sinBeneficio">
+              <div class="fi-title">{{ ben.nombre }}</div>
+            </ng-container>
+            <ng-template #sinBeneficio>
+              <div class="fi-title">—</div>
+            </ng-template>
+
             <div class="fi-meta">
-              <span class="estado" [ngClass]="item.estado?.toLowerCase()">{{ item.estado }}</span>
+              <!-- ✅ Estado seguro -->
+              <ng-container *ngIf="item.estado as est; else sinEstado">
+                <span class="estado" [ngClass]="est.toLowerCase()">{{ est }}</span>
+              </ng-container>
+              <ng-template #sinEstado>
+                <span class="estado">—</span>
+              </ng-template>
+
               <span class="fi-dot">•</span>
               <time class="fi-date">{{ item.fechaCanje | date:'short' }}</time>
             </div>

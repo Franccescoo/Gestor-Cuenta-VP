@@ -188,3 +188,95 @@
     }
   }
 }
+
+.prestige-club {
+    /* Fuerza tema oscuro para componentes de Ionic dentro de esta sección */
+  --ion-background-color: #0a0a0a;           /* fondo general de la zona */
+  --ion-item-background: transparent;        /* fondo de ion-item */
+  --ion-text-color: var(--text);             /* color de texto por defecto */
+  .pc-faq {
+    padding: 18px 0 46px;
+    background: linear-gradient(180deg, #0a0a0a, #0f0f10);
+  }
+
+  .faq-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    @media (max-width: 900px) { grid-template-columns: 1fr; }
+  }
+
+  /* cada FAQ en su “card” */
+  .faq-card {
+    position: relative;
+    border-radius: 14px;
+    background: linear-gradient(180deg, #101010, #0b0b0c);
+    border: 1px solid rgba(255,255,255,.06);
+    box-shadow: 0 14px 36px rgba(0,0,0,.45), inset 0 0 0 1px rgba(255,255,255,.02);
+    overflow: hidden;
+
+    &::before {
+      content: "";
+      position: absolute; inset: 0 auto 0 0;
+      width: 3px;
+      background: linear-gradient(180deg, var(--gold), var(--gold-soft));
+      opacity: .9;
+    }
+
+    /* ← El header del acordeón (ion-item) */
+    ion-item.faq-header {
+      --background: transparent;      /* clave: elimina el blanco */
+      --color: var(--text);
+      --inner-border-width: 0;        /* sin línea interna */
+      --padding-start: 14px;
+      --padding-end: 10px;
+      --min-height: 56px;
+      border-radius: 0;               /* el radio lo maneja la card */
+      font-weight: 700;
+      letter-spacing: .02em;
+
+      ion-icon[slot="start"] {
+        font-size: 20px;
+        margin-right: 8px;
+        color: var(--gold);
+      }
+      ion-icon[slot="end"] {
+        color: var(--gold-soft);
+        opacity: .9;
+      }
+    }
+
+    /* contenido del acordeón */
+    .pc-faq__content {
+      padding: 14px 16px 18px;
+      color: var(--muted);
+      line-height: 1.6;
+      background: #0a0a0a;
+      border-top: 1px solid rgba(255,255,255,.06);
+    }
+  }
+
+  /* header del acordeón con nuestro tema */
+  .faq-header {
+    --background: transparent;
+    --color: var(--text);
+    --padding-start: 14px;
+    --padding-end: 10px;
+    --min-height: 56px;
+    font-weight: 700;
+    letter-spacing: .02em;
+
+    ion-icon[slot="start"] {
+      font-size: 20px;
+      margin-right: 8px;
+      color: var(--gold);
+    }
+    ion-icon[slot="end"] {
+      opacity: .85;
+      color: var(--gold-soft);
+    }
+  }
+
+
+}
+

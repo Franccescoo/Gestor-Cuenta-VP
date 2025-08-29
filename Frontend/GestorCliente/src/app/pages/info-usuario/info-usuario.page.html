@@ -75,6 +75,8 @@
               <option disabled>────────────</option>
               <option value="extranjero-cl">Extranjero (Chile)</option>
               <option value="extranjero-pe">Extranjero (Perú)</option>
+              <option disabled>────────────</option>
+              <option value="otro">Otros</option>
             </select>
 
             <input type="text" [(ngModel)]="usuario.numeroDocumento" name="numeroDocumento" required
@@ -111,11 +113,33 @@
           </small>
         </div>
 
+        <!-- Casilla obligatoria -->
+        <div class="col check-row">
+          <label class="checkbox">
+            <input type="checkbox" [(ngModel)]="usuario.aceptaTerminos" name="aceptaTerminos" required />
+            <span>
+              He leído y acepto los
+              <a href="/assets/docs/terminos.pdf" target="_blank">Términos y Condiciones</a>
+              y confirmo que soy mayor de 18 años.
+            </span>
+          </label>
+        </div>
+
+        <!-- Casilla opcional -->
+        <div class="col check-row">
+          <label class="checkbox">
+            <input type="checkbox" [(ngModel)]="usuario.aceptaPublicidad" name="aceptaPublicidad" />
+            <span>Acepto recibir anuncios, descuentos y comunicaciones promocionales.</span>
+          </label>
+        </div>
+
+
         <div class="col col-btn">
           <button type="submit" class="guardar-btn">
-            GUARDAR Y GANAR 10 PUNTOS
+            GUARDAR Y CONTINUAR
           </button>
         </div>
+        <a routerLink="/iniciar-sesion" class="back-link">volver</a>
       </form>
     </div>
 

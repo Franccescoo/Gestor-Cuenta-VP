@@ -51,9 +51,7 @@
             </label>
 
             <label class="chk" *ngFor="let c of categorias">
-              <input type="checkbox"
-                     [checked]="selectedCats.has(c.id)"
-                     (change)="onCatChange(c.id, $event)" />
+              <input type="checkbox" [checked]="selectedCats.has(c.id)" (change)="onCatChange(c.id, $event)" />
               <span class="pill">{{ c.nombre }}</span>
             </label>
           </div>
@@ -66,10 +64,8 @@
               <span>{{ ptsLower | number:'1.0-0' }} pts</span>
               <span>{{ ptsUpper | number:'1.0-0' }} pts</span>
             </div>
-            <ion-range [dualKnobs]="true"
-                       [min]="minPts" [max]="maxPts" [step]="stepPts"
-                       [value]="{lower: ptsLower, upper: ptsUpper}"
-                       (ionChange)="onRangeChange($event)">
+            <ion-range [dualKnobs]="true" [min]="minPts" [max]="maxPts" [step]="stepPts"
+              [value]="{lower: ptsLower, upper: ptsUpper}" (ionChange)="onRangeChange($event)">
             </ion-range>
           </div>
         </div>
@@ -104,7 +100,10 @@
             <div class="imgwrap">
               <img [src]="getImg(p)" (error)="fallbackImg($event)" [alt]="p.nombre">
 
-              <span class="cat-pill">{{ p.categoria?.nombre }}</span>
+              <!-- ✅ Categoría sin ?. -->
+              <ng-container *ngIf="p.categoria as cat">
+                <span class="cat-pill">{{ cat.nombre }}</span>
+              </ng-container>
             </div>
 
             <div class="info">

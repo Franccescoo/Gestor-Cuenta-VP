@@ -146,3 +146,58 @@
 }
 
 
+.como-ser-prestige {
+  /* --- Partners (casinos asociados) --- */
+  .csp-partners {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    padding: 6px 0 22px;
+
+    @media (max-width: 1024px) { grid-template-columns: repeat(2, 1fr); }
+    @media (max-width: 560px) { grid-template-columns: 1fr; }
+  }
+
+  .partner-card {
+    background: #101010;
+    border: 1px solid rgba(255,255,255,.06);
+    border-radius: 14px;
+    padding: 16px;
+    text-align: center;
+    transition: transform .15s ease, border-color .15s ease;
+
+    &:hover {
+      transform: translateY(-3px);
+      border-color: rgba(212,175,55,.3);
+    }
+
+    ion-icon {
+      font-size: 26px;
+      color: var(--gold);
+      display: block;
+      margin: 6px auto 10px;
+    }
+
+    h4 {
+      font-size: 15px;
+      margin: 0 0 8px;
+      font-weight: 700;
+      letter-spacing: .01em;
+    }
+
+    .partner-link {
+      display: inline-block;
+      font-size: 13px;
+      color: var(--gold-soft);
+      text-decoration: none;
+      border-bottom: 1px dashed var(--gold-soft);
+      padding-bottom: 1px;
+    }
+  }
+}
+
+.como-ser-prestige {
+  .csp-intro { text-align: center; padding: 18px 0 8px; }
+  .csp-intro .linea { margin: 0 0 6px; font-weight: 600; }
+  .csp-intro .nota  { margin: 0; color: #9aa0a6; font-size: 0.95rem; }
+}

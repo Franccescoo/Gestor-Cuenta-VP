@@ -3,7 +3,7 @@
 
   <section class="contact-section">
 
-    <section class="como-ser-prestige" id="como-ser-prestige">
+<section class="como-ser-prestige" id="como-ser-prestige">
   <!-- Hero -->
   <div class="csp-hero">
     <img class="csp-hero__bg" src="/assets/prestige/principal2.png" alt="Cómo ser Prestige" />
@@ -15,44 +15,80 @@
   </div>
 
   <!-- Introducción -->
-  <div class="csp-intro container">
-    <p>
-      Formar parte del Prestige Club es sencillo. Sigue estos pasos y comienza a disfrutar de 
-      beneficios únicos, atención personalizada y acceso a experiencias que solo los mejores jugadores reciben.
-    </p>
-  </div>
+<div class="csp-intro container">
+  <p class="linea">
+    <strong>Casinos asociados:</strong>
+    tucasinoencasa · micasinovip · tucasinovip · tugrancasino
+  </p>
+  <p class="nota">
+    Para acumular y canjear puntos, tu <strong>email</strong> debe ser el mismo
+    en el casino y en <strong>Prestige Club</strong>.
+  </p>
+</div>
 
+
+
+  <!-- Casinos asociados 
+  <div class="csp-partners container" aria-label="Casinos asociados">
+    <article class="partner-card">
+      <ion-icon name="home-outline" aria-hidden="true"></ion-icon>
+      <h4>tucasinoencasa</h4>
+      <a class="partner-link" href="https://tucasinoencasa.com/" rel="noopener">Visitar</a>
+    </article>
+
+    <article class="partner-card">
+      <ion-icon name="star-outline" aria-hidden="true"></ion-icon>
+      <h4>micasinovip</h4>
+      <a class="partner-link" href="https://micasinovip.com/" rel="noopener">Visitar</a>
+    </article>
+
+    <article class="partner-card">
+      <ion-icon name="diamond-outline" aria-hidden="true"></ion-icon>
+      <h4>tucasinovip</h4>
+      <a class="partner-link" href="https://tucasinovip.com/" rel="noopener">Visitar</a>
+    </article>
+
+    <article class="partner-card">
+      <ion-icon name="trophy-outline" aria-hidden="true"></ion-icon>
+      <h4>tugrancasino</h4>
+      <a class="partner-link" href="https://tugrancasino.com/" rel="noopener">Visitar</a>
+    </article>
+  </div>
+-->
   <!-- Pasos -->
   <div class="csp-steps container">
     <div class="csp-step">
       <div class="csp-step__icon"><ion-icon name="person-add-outline"></ion-icon></div>
-      <h3 class="csp-step__title">1. Regístrate</h3>
-      <p>Crea tu cuenta en nuestro sistema o actualiza tu perfil si ya eres jugador.</p>
+      <h3 class="csp-step__title">1. Crea o valida tu cuenta</h3>
+      <p>Regístrate en uno de los casinos asociados con tu email (o valida que coincida con el de Prestige).</p>
+    </div>
+
+    <div class="csp-step">
+      <div class="csp-step__icon"><ion-icon name="log-in-outline"></ion-icon></div>
+      <h3 class="csp-step__title">2. Inicia sesión aquí</h3>
+      <p>Accede a Prestige Club con el mismo correo para sincronizar tu actividad y puntos.</p>
     </div>
 
     <div class="csp-step">
       <div class="csp-step__icon"><ion-icon name="card-outline"></ion-icon></div>
-      <h3 class="csp-step__title">2. Juega y acumula</h3>
-      <p>Gana puntos por cada jugada, compra o actividad en el casino.</p>
+      <h3 class="csp-step__title">3. Juega y acumula</h3>
+      <p>Obtén puntos por tus jugadas y acciones en el casino asociado.</p>
     </div>
 
     <div class="csp-step">
-      <div class="csp-step__icon"><ion-icon name="trophy-outline"></ion-icon></div>
-      <h3 class="csp-step__title">3. Sube de nivel</h3>
-      <p>Alcanza categorías superiores para desbloquear más beneficios.</p>
-    </div>
-
-    <div class="csp-step">
-      <div class="csp-step__icon"><ion-icon name="sparkles-outline"></ion-icon></div>
-      <h3 class="csp-step__title">4. Disfruta</h3>
-      <p>Accede a eventos, descuentos y experiencias exclusivas para miembros Prestige.</p>
+      <div class="csp-step__icon"><ion-icon name="gift-outline"></ion-icon></div>
+      <h3 class="csp-step__title">4. Canjea tus puntos</h3>
+      <p>Ingresa a la sección de canje en esta web y transforma tus puntos en beneficios.</p>
     </div>
   </div>
 
   <!-- CTA final -->
   <div class="csp-cta container">
-    <p class="csp-cta__text">¿Listo para comenzar tu camino Prestige?</p>
-    <a href="/iniciar-sesion"><button class="csp-btn" type="button">Unirme ahora</button></a>
+    <p class="csp-cta__text">¿Listo para canjear tus puntos?</p>
+    <!-- Ajusta la ruta según tu app -->
+    <a routerLink="/iniciar-sesion">
+      <button class="csp-btn" type="button">Ir a canjear</button>
+    </a>
   </div>
 </section>
 
