@@ -162,8 +162,13 @@ fallbackImg(ev: Event) {
   }
 
   verDetalle(p: ProductoDTO) {
-  this.router.navigate(['/detalle-producto', p.id], { state: { producto: p } });
+    this.router.navigate(['/detalle-producto', p.id], { state: { producto: p } });
+  }
 
+  // ✅ Determinar si un producto está en estado "PRÓXIMAMENTE"
+  esProductoProximo(p: ProductoDTO): boolean {
+    // TODOS los productos aparecen como PRÓXIMAMENTE hasta la siguiente actualización
+    return true;
   }
 
   onCatChange(id: number, ev: Event) {

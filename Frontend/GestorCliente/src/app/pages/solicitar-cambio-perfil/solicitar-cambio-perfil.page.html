@@ -1,0 +1,267 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/perfil"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Solicitar Cambio de Perfil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="solicitud-content">
+  <div class="solicitud-container">
+    
+    <!-- Sistema info bar -->
+    <div class="sistema-info">
+      <span>Sistema: {{ perfil?.sistemaNombre || ('Sistema ' + perfil?.sistemaId) }}</span>
+    </div>
+
+    <!-- Título principal -->
+    <div class="main-title">
+      <h1>Selecciona los campos a cambiar</h1>
+      <p>Puedes seleccionar múltiples campos en una sola solicitud</p>
+    </div>
+
+    <!-- Campos de datos personales -->
+    <div class="campo-section">
+      <h3>Datos Personales</h3>
+      
+      <!-- Nombre -->
+      <div class="campo-item" (click)="toggleCampo('nombreCompleto')">
+        <ion-checkbox [checked]="getCampoSeleccionado('nombreCompleto')"></ion-checkbox>
+        <div class="campo-info">
+          <span class="campo-nombre">Nombre</span>
+          <span class="campo-actual">Actual: {{ perfil?.nombreCompleto || 'No especificado' }}</span>
+        </div>
+      </div>
+      
+      <div class="campo-editor" *ngIf="getCampoSeleccionado('nombreCompleto')">
+        <ion-input 
+          type="text"
+          [value]="getValorNuevo('nombreCompleto')"
+          (ionInput)="actualizarValorNuevo('nombreCompleto', $event.detail.value)"
+          placeholder="Nuevo nombre">
+        </ion-input>
+      </div>
+
+      <!-- Apellido -->
+      <div class="campo-item" (click)="toggleCampo('apellidoCompleto')">
+        <ion-checkbox [checked]="getCampoSeleccionado('apellidoCompleto')"></ion-checkbox>
+        <div class="campo-info">
+          <span class="campo-nombre">Apellido</span>
+          <span class="campo-actual">Actual: {{ perfil?.apellidoCompleto || 'No especificado' }}</span>
+        </div>
+      </div>
+      
+      <div class="campo-editor" *ngIf="getCampoSeleccionado('apellidoCompleto')">
+        <ion-input 
+          type="text"
+          [value]="getValorNuevo('apellidoCompleto')"
+          (ionInput)="actualizarValorNuevo('apellidoCompleto', $event.detail.value)"
+          placeholder="Nuevo apellido">
+        </ion-input>
+      </div>
+
+      <!-- Fecha de Nacimiento -->
+      <div class="campo-item" (click)="toggleCampo('fechaNacimiento')">
+        <ion-checkbox [checked]="getCampoSeleccionado('fechaNacimiento')"></ion-checkbox>
+        <div class="campo-info">
+          <span class="campo-nombre">Fecha de Nacimiento</span>
+          <span class="campo-actual">Actual: {{ perfil?.fechaNacimiento || 'No especificado' }}</span>
+        </div>
+      </div>
+      
+      <div class="campo-editor" *ngIf="getCampoSeleccionado('fechaNacimiento')">
+        <ion-input 
+          type="date"
+          [value]="getValorNuevo('fechaNacimiento')"
+          (ionInput)="actualizarValorNuevo('fechaNacimiento', $event.detail.value)">
+        </ion-input>
+      </div>
+
+      <!-- Celular -->
+      <div class="campo-item" (click)="toggleCampo('celular')">
+        <ion-checkbox [checked]="getCampoSeleccionado('celular')"></ion-checkbox>
+        <div class="campo-info">
+          <span class="campo-nombre">Celular</span>
+          <span class="campo-actual">Actual: {{ perfil?.celular || 'No especificado' }}</span>
+        </div>
+      </div>
+      
+      <div class="campo-editor" *ngIf="getCampoSeleccionado('celular')">
+        <ion-input 
+          type="tel"
+          [value]="getValorNuevo('celular')"
+          (ionInput)="actualizarValorNuevo('celular', $event.detail.value)"
+          placeholder="Nuevo celular">
+        </ion-input>
+      </div>
+
+      <!-- Número de Documento -->
+      <div class="campo-item" (click)="toggleCampo('numeroDocumento')">
+        <ion-checkbox [checked]="getCampoSeleccionado('numeroDocumento')"></ion-checkbox>
+        <div class="campo-info">
+          <span class="campo-nombre">Número de Documento</span>
+          <span class="campo-actual">Actual: {{ perfil?.numeroDocumento || 'No especificado' }}</span>
+        </div>
+      </div>
+      
+      <div class="campo-editor" *ngIf="getCampoSeleccionado('numeroDocumento')">
+        <ion-input 
+          type="text"
+          [value]="getValorNuevo('numeroDocumento')"
+          (ionInput)="actualizarValorNuevo('numeroDocumento', $event.detail.value)"
+          placeholder="Nuevo número de documento">
+        </ion-input>
+      </div>
+    </div>
+
+    <!-- Campos de dirección -->
+    <div class="campo-section">
+      <h3>Dirección</h3>
+      
+      <!-- Calle -->
+      <div class="campo-item" (click)="toggleCampo('calle')">
+        <ion-checkbox [checked]="getCampoSeleccionado('calle')"></ion-checkbox>
+        <div class="campo-info">
+          <span class="campo-nombre">Calle</span>
+          <span class="campo-actual">Actual: {{ perfil?.calle || 'No especificado' }}</span>
+        </div>
+      </div>
+      
+      <div class="campo-editor" *ngIf="getCampoSeleccionado('calle')">
+        <ion-input 
+          type="text"
+          [value]="getValorNuevo('calle')"
+          (ionInput)="actualizarValorNuevo('calle', $event.detail.value)"
+          placeholder="Nueva calle">
+        </ion-input>
+      </div>
+
+      <!-- Número -->
+      <div class="campo-item" (click)="toggleCampo('numero')">
+        <ion-checkbox [checked]="getCampoSeleccionado('numero')"></ion-checkbox>
+        <div class="campo-info">
+          <span class="campo-nombre">Número</span>
+          <span class="campo-actual">Actual: {{ perfil?.numero || 'No especificado' }}</span>
+        </div>
+      </div>
+      
+      <div class="campo-editor" *ngIf="getCampoSeleccionado('numero')">
+        <ion-input 
+          type="text"
+          [value]="getValorNuevo('numero')"
+          (ionInput)="actualizarValorNuevo('numero', $event.detail.value)"
+          placeholder="Nuevo número">
+        </ion-input>
+      </div>
+
+      <!-- Comuna -->
+      <div class="campo-item" (click)="toggleCampo('comuna')">
+        <ion-checkbox [checked]="getCampoSeleccionado('comuna')"></ion-checkbox>
+        <div class="campo-info">
+          <span class="campo-nombre">Comuna</span>
+          <span class="campo-actual">Actual: {{ perfil?.comuna || 'No especificado' }}</span>
+        </div>
+      </div>
+      
+      <div class="campo-editor" *ngIf="getCampoSeleccionado('comuna')">
+        <ion-input 
+          type="text"
+          [value]="getValorNuevo('comuna')"
+          (ionInput)="actualizarValorNuevo('comuna', $event.detail.value)"
+          placeholder="Nueva comuna">
+        </ion-input>
+      </div>
+
+      <!-- Región -->
+      <div class="campo-item" (click)="toggleCampo('region')">
+        <ion-checkbox [checked]="getCampoSeleccionado('region')"></ion-checkbox>
+        <div class="campo-info">
+          <span class="campo-nombre">Región</span>
+          <span class="campo-actual">Actual: {{ perfil?.region || 'No especificado' }}</span>
+        </div>
+      </div>
+      
+      <div class="campo-editor" *ngIf="getCampoSeleccionado('region')">
+        <ion-input 
+          type="text"
+          [value]="getValorNuevo('region')"
+          (ionInput)="actualizarValorNuevo('region', $event.detail.value)"
+          placeholder="Nueva región">
+        </ion-input>
+      </div>
+
+      <!-- País -->
+      <div class="campo-item" (click)="toggleCampo('pais')">
+        <ion-checkbox [checked]="getCampoSeleccionado('pais')"></ion-checkbox>
+        <div class="campo-info">
+          <span class="campo-nombre">País</span>
+          <span class="campo-actual">Actual: {{ perfil?.pais || 'No especificado' }}</span>
+        </div>
+      </div>
+      
+      <div class="campo-editor" *ngIf="getCampoSeleccionado('pais')">
+        <ion-input 
+          type="text"
+          [value]="getValorNuevo('pais')"
+          (ionInput)="actualizarValorNuevo('pais', $event.detail.value)"
+          placeholder="Nuevo país">
+        </ion-input>
+      </div>
+
+      <!-- Nota de Entrega -->
+      <div class="campo-item" (click)="toggleCampo('notaEntrega')">
+        <ion-checkbox [checked]="getCampoSeleccionado('notaEntrega')"></ion-checkbox>
+        <div class="campo-info">
+          <span class="campo-nombre">Nota de Entrega</span>
+          <span class="campo-actual">Actual: {{ perfil?.notaEntrega || 'No especificado' }}</span>
+        </div>
+      </div>
+      
+      <div class="campo-editor" *ngIf="getCampoSeleccionado('notaEntrega')">
+        <ion-input 
+          type="text"
+          [value]="getValorNuevo('notaEntrega')"
+          (ionInput)="actualizarValorNuevo('notaEntrega', $event.detail.value)"
+          placeholder="Nueva nota de entrega">
+        </ion-input>
+      </div>
+    </div>
+
+    <!-- Comentarios adicionales -->
+    <div class="comentarios-section">
+      <h3>Comentarios Adicionales</h3>
+      <form [formGroup]="solicitudForm">
+        <ion-textarea
+          formControlName="comentariosUsuario"
+          placeholder="Explica el motivo del cambio (opcional)..."
+          rows="4">
+        </ion-textarea>
+      </form>
+    </div>
+
+    <!-- Botones de acción -->
+    <div class="action-buttons">
+      <ion-button 
+        expand="block" 
+        fill="outline" 
+        color="medium"
+        (click)="cancelar()"
+        class="cancel-button">
+        <ion-icon name="close-outline" slot="start"></ion-icon>
+        CANCELAR
+      </ion-button>
+      
+      <ion-button 
+        expand="block" 
+        color="primary"
+        (click)="enviarSolicitud()"
+        [disabled]="camposSeleccionados.length === 0"
+        class="submit-button">
+        <ion-icon name="send-outline" slot="start"></ion-icon>
+        ENVIAR SOLICITUD
+      </ion-button>
+    </div>
+
+  </div>
+</ion-content>

@@ -58,6 +58,29 @@
     --background-checked: transparent !important;
     --indicator-color: var(--gold) !important;
     --ripple-color: var(--gold) !important;
+    position: relative !important;
+
+    // ✅ Contadores sutiles en los filtros (estilo minimalista)
+    .filter-count {
+      display: inline-block;
+      margin-left: 4px;
+      font-size: 10px;
+      font-weight: 400;
+      opacity: 0.6;
+      color: rgba(255, 255, 255, 0.7);
+      transition: all 0.2s ease;
+      
+      // Hacer más sutil cuando el botón está activo
+      ion-segment-button.segment-button-checked & {
+        opacity: 0.4;
+        color: rgba(212, 175, 55, 0.7);
+      }
+
+      // Efecto hover sutil
+      ion-segment-button:hover & {
+        opacity: 0.8;
+      }
+    }
   }
 
   ion-segment-button::part(native) {
@@ -79,6 +102,35 @@
     color: var(--gold) !important;
     font-weight: 800 !important;
     background: rgba(212,175,55,.08) !important;
+  }
+
+  // ✅ Indicador de estado de filtros (más elegante)
+  .filter-status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 6px;
+    padding: 6px 12px;
+    background: rgba(212, 175, 55, 0.08);
+    border-radius: 16px;
+    border: 1px solid rgba(212, 175, 55, 0.15);
+    font-size: 11px;
+    color: rgba(212, 175, 55, 0.9);
+    font-weight: 500;
+    opacity: 0.9;
+    transition: all 0.2s ease;
+
+    ion-icon {
+      font-size: 12px;
+      opacity: 0.8;
+    }
+
+    &:hover {
+      opacity: 1;
+      background: rgba(212, 175, 55, 0.12);
+      border-color: rgba(212, 175, 55, 0.25);
+    }
   }
 }
 

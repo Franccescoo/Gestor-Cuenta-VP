@@ -8,17 +8,20 @@ import { FooterComponent } from 'src/app/components/footer/footer.component';
 import { HeaderComponent } from 'src/app/components/header/header.component';
 import { CarruselComponent } from 'src/app/components/carrusel/carrusel.component';
 import { HeaderUsuarioComponent } from './header-usuario/header-usuario.component';
+import { ModalSolicitarCambioComponent } from './modal-solicitar-cambio/modal-solicitar-cambio.component';
 
 @NgModule({
   declarations: [
     FooterComponent,
     HeaderComponent,
     CarruselComponent,
-    HeaderUsuarioComponent
+    HeaderUsuarioComponent,
+    ModalSolicitarCambioComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     IonicModule,
   ],
   exports: [
@@ -26,6 +29,7 @@ import { HeaderUsuarioComponent } from './header-usuario/header-usuario.componen
     HeaderComponent,
     CarruselComponent,
     HeaderUsuarioComponent,
+    ModalSolicitarCambioComponent,
     FormsModule,
     ReactiveFormsModule
   ]

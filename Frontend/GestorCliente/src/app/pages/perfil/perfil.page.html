@@ -35,11 +35,25 @@
     <!-- ===== DETALLE (LECTURA/EDICIÓN) ===== -->
     <ion-card class="perfil-card" [formGroup]="form">
       <ion-card-header>
-        <ion-card-title>Datos del usuario</ion-card-title>
-        <ion-card-subtitle>
-          Casino:
-          <b>{{ ($any(perfil)?.sistema_nombre) || perfil?.sistemaNombre || ('#' + perfil?.sistemaId) }}</b>
-        </ion-card-subtitle>
+        <div class="perfil-header">
+          <div class="perfil-title">
+            <ion-card-title>Datos del usuario</ion-card-title>
+            <ion-card-subtitle>
+              Casino:
+              <b>{{ ($any(perfil)?.sistema_nombre) || perfil?.sistemaNombre || ('#' + perfil?.sistemaId) }}</b>
+            </ion-card-subtitle>
+          </div>
+          <div class="perfil-actions">
+            <ion-button 
+              fill="outline" 
+              size="small" 
+              color="warning"
+              (click)="irAMisSolicitudes()">
+              <ion-icon name="document-text-outline" slot="start"></ion-icon>
+              Mis Solicitudes
+            </ion-button>
+          </div>
+        </div>
       </ion-card-header>
 
       <ion-card-content>
@@ -49,30 +63,34 @@
           <ion-row>
             <!-- Nombres -->
             <ion-col size-md="6">
-              <ion-item class="static-item" *ngIf="!isEditing; else edNombre">
+              <ion-item class="static-item">
                 <ion-label position="stacked">Nombres</ion-label>
                 <div class="static-value">{{ perfil?.nombreCompleto || '—' }}</div>
+                <ion-button 
+                  slot="end" 
+                  fill="clear" 
+                  size="small" 
+                  color="warning"
+                  (click)="solicitarCambio('nombreCompleto')">
+                  <ion-icon name="create-outline"></ion-icon>
+                </ion-button>
               </ion-item>
-              <ng-template #edNombre>
-                <ion-item>
-                  <ion-label position="floating">Nombres</ion-label>
-                  <ion-input formControlName="nombreCompleto"></ion-input>
-                </ion-item>
-              </ng-template>
             </ion-col>
 
             <!-- Apellidos -->
             <ion-col size-md="6">
-              <ion-item class="static-item" *ngIf="!isEditing; else edApellido">
+              <ion-item class="static-item">
                 <ion-label position="stacked">Apellidos</ion-label>
                 <div class="static-value">{{ perfil?.apellidoCompleto || '—' }}</div>
+                <ion-button 
+                  slot="end" 
+                  fill="clear" 
+                  size="small" 
+                  color="warning"
+                  (click)="solicitarCambio('apellidoCompleto')">
+                  <ion-icon name="create-outline"></ion-icon>
+                </ion-button>
               </ion-item>
-              <ng-template #edApellido>
-                <ion-item>
-                  <ion-label position="floating">Apellidos</ion-label>
-                  <ion-input formControlName="apellidoCompleto"></ion-input>
-                </ion-item>
-              </ng-template>
             </ion-col>
 
             <!-- Fecha Nacimiento -->
@@ -127,16 +145,18 @@
 
             <!-- Celular -->
             <ion-col size-md="6">
-              <ion-item class="static-item" *ngIf="!isEditing; else edCel">
+              <ion-item class="static-item">
                 <ion-label position="stacked">Celular</ion-label>
                 <div class="static-value">{{ perfil?.celular || '—' }}</div>
+                <ion-button 
+                  slot="end" 
+                  fill="clear" 
+                  size="small" 
+                  color="warning"
+                  (click)="solicitarCambio('celular')">
+                  <ion-icon name="create-outline"></ion-icon>
+                </ion-button>
               </ion-item>
-              <ng-template #edCel>
-                <ion-item>
-                  <ion-label position="floating">Celular</ion-label>
-                  <ion-input formControlName="celular"></ion-input>
-                </ion-item>
-              </ng-template>
             </ion-col>
           </ion-row>
 
@@ -144,15 +164,31 @@
           <ion-row class="bloque-titulo"><ion-col>Documento</ion-col></ion-row>
           <ion-row>
             <ion-col size-md="6">
-              <ion-item class="static-item no-edit">
+              <ion-item class="static-item">
                 <ion-label position="stacked">Tipo de documento</ion-label>
                 <div class="static-value">{{ perfil?.tipoDocumento || '—' }}</div>
+                <ion-button 
+                  slot="end" 
+                  fill="clear" 
+                  size="small" 
+                  color="warning"
+                  (click)="solicitarCambio('tipoDocumento')">
+                  <ion-icon name="create-outline"></ion-icon>
+                </ion-button>
               </ion-item>
             </ion-col>
             <ion-col size-md="6">
-              <ion-item class="static-item no-edit">
+              <ion-item class="static-item">
                 <ion-label position="stacked">Número de documento</ion-label>
                 <div class="static-value">{{ perfil?.numeroDocumento || '—' }}</div>
+                <ion-button 
+                  slot="end" 
+                  fill="clear" 
+                  size="small" 
+                  color="warning"
+                  (click)="solicitarCambio('numeroDocumento')">
+                  <ion-icon name="create-outline"></ion-icon>
+                </ion-button>
               </ion-item>
             </ion-col>
           </ion-row>
@@ -163,99 +199,99 @@
 
             <!-- PAÍS -->
             <ion-col size-md="6">
-              <ion-item [class.static-item]="!isEditing">
+              <ion-item class="static-item">
                 <ion-label position="stacked">País</ion-label>
-                <ng-container *ngIf="!isEditing; else paisEdit">
-                  <div class="static-value">{{ perfil?.pais || '—' }}</div>
-                </ng-container>
-                <ng-template #paisEdit>
-                  <ion-select formControlName="pais" interface="popover">
-                    <ion-select-option value="Chile">Chile</ion-select-option>
-                    <ion-select-option value="Perú" disabled>Perú (pronto)</ion-select-option>
-                  </ion-select>
-                </ng-template>
+                <div class="static-value">{{ perfil?.pais || '—' }}</div>
+                <ion-button 
+                  slot="end" 
+                  fill="clear" 
+                  size="small" 
+                  color="warning"
+                  (click)="solicitarCambio('pais')">
+                  <ion-icon name="create-outline"></ion-icon>
+                </ion-button>
               </ion-item>
             </ion-col>
 
             <!-- REGIÓN -->
             <ion-col size-md="6">
-              <ion-item [class.static-item]="!isEditing">
+              <ion-item class="static-item">
                 <ion-label position="stacked">Región</ion-label>
-                <ng-container *ngIf="!isEditing; else regEdit">
-                  <div class="static-value">{{ perfil?.region || '—' }}</div>
-                </ng-container>
-                <ng-template #regEdit>
-                  <ion-select formControlName="regionCodigo" interface="popover"
-                    [disabled]="form.value.pais !== 'Chile'" [compareWith]="compareById">
-                    <ion-select-option *ngFor="let r of (regiones$ | async); trackBy: trByCodigo"
-                      [value]="toStr(r.codigo)">
-                      {{ r.nombre }}
-                    </ion-select-option>
-                  </ion-select>
-                </ng-template>
+                <div class="static-value">{{ perfil?.region || '—' }}</div>
+                <ion-button 
+                  slot="end" 
+                  fill="clear" 
+                  size="small" 
+                  color="warning"
+                  (click)="solicitarCambio('region')">
+                  <ion-icon name="create-outline"></ion-icon>
+                </ion-button>
               </ion-item>
             </ion-col>
 
             <!-- COMUNA -->
             <ion-col size-md="6">
-              <ion-item [class.static-item]="!isEditing">
+              <ion-item class="static-item">
                 <ion-label position="stacked">Comuna</ion-label>
-                <ng-container *ngIf="!isEditing; else comEdit">
-                  <div class="static-value">{{ perfil?.comuna || '—' }}</div>
-                </ng-container>
-                <ng-template #comEdit>
-                  <ion-select formControlName="comunaCodigo" interface="popover" [disabled]="!form.value.regionCodigo"
-                    [compareWith]="compareById">
-                    <ion-select-option *ngFor="let c of (comunas$ | async); trackBy: trByCodigo"
-                      [value]="toStr(c.codigo)">
-                      {{ c.nombre }}
-                    </ion-select-option>
-                  </ion-select>
-                </ng-template>
+                <div class="static-value">{{ perfil?.comuna || '—' }}</div>
+                <ion-button 
+                  slot="end" 
+                  fill="clear" 
+                  size="small" 
+                  color="warning"
+                  (click)="solicitarCambio('comuna')">
+                  <ion-icon name="create-outline"></ion-icon>
+                </ion-button>
               </ion-item>
             </ion-col>
 
 
             <!-- CALLE -->
             <ion-col size-md="6">
-              <ion-item class="static-item" *ngIf="!isEditing; else edCalle">
+              <ion-item class="static-item">
                 <ion-label position="stacked">Calle</ion-label>
                 <div class="static-value">{{ perfil?.calle || '—' }}</div>
+                <ion-button 
+                  slot="end" 
+                  fill="clear" 
+                  size="small" 
+                  color="warning"
+                  (click)="solicitarCambio('calle')">
+                  <ion-icon name="create-outline"></ion-icon>
+                </ion-button>
               </ion-item>
-              <ng-template #edCalle>
-                <ion-item>
-                  <ion-label position="floating">Calle</ion-label>
-                  <ion-input formControlName="calle"></ion-input>
-                </ion-item>
-              </ng-template>
             </ion-col>
 
             <!-- NÚMERO -->
             <ion-col size-md="6">
-              <ion-item class="static-item" *ngIf="!isEditing; else edNumero">
+              <ion-item class="static-item">
                 <ion-label position="stacked">Número</ion-label>
                 <div class="static-value">{{ perfil?.numero || '—' }}</div>
+                <ion-button 
+                  slot="end" 
+                  fill="clear" 
+                  size="small" 
+                  color="warning"
+                  (click)="solicitarCambio('numero')">
+                  <ion-icon name="create-outline"></ion-icon>
+                </ion-button>
               </ion-item>
-              <ng-template #edNumero>
-                <ion-item>
-                  <ion-label position="floating">Número</ion-label>
-                  <ion-input formControlName="numero"></ion-input>
-                </ion-item>
-              </ng-template>
             </ion-col>
 
             <!-- NOTA ENTREGA -->
             <ion-col size="12">
-              <ion-item class="static-item textarea-item" *ngIf="!isEditing; else edNota">
+              <ion-item class="static-item textarea-item">
                 <ion-label position="stacked">Nota de entrega</ion-label>
                 <div class="static-value multiline">{{ perfil?.notaEntrega || '—' }}</div>
+                <ion-button 
+                  slot="end" 
+                  fill="clear" 
+                  size="small" 
+                  color="warning"
+                  (click)="solicitarCambio('notaEntrega')">
+                  <ion-icon name="create-outline"></ion-icon>
+                </ion-button>
               </ion-item>
-              <ng-template #edNota>
-                <ion-item class="textarea-item">
-                  <ion-label position="stacked">Nota de entrega</ion-label>
-                  <ion-textarea autoGrow="true" formControlName="notaEntrega" rows="3" maxlength="300"></ion-textarea>
-                </ion-item>
-              </ng-template>
             </ion-col>
 
           </ion-row>
@@ -265,24 +301,6 @@
 
     <!-- ACCIONES -->
     <div class="acciones-secundarias">
-      <ng-container *ngIf="!isEditing; else editBtns">
-        <ion-button fill="outline" color="warning" (click)="toggleEditar()">
-          <ion-icon name="create-outline" slot="start"></ion-icon>
-          Editar perfil
-        </ion-button>
-      </ng-container>
-
-      <ng-template #editBtns>
-        <ion-button fill="outline" color="success" (click)="guardar()">
-          <ion-icon name="save-outline" slot="start"></ion-icon>
-          Guardar cambios
-        </ion-button>
-        <ion-button fill="outline" color="medium" (click)="cancelar()">
-          <ion-icon name="close-outline" slot="start"></ion-icon>
-          Cancelar
-        </ion-button>
-      </ng-template>
-
       <ion-button fill="outline" color="warning" routerLink="/cambio-pass">
         <ion-icon name="key-outline" slot="start"></ion-icon>
         Cambiar contraseña

@@ -1,0 +1,97 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/menu"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Notificaciones</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="markAllAsRead()" *ngIf="getUnreadCount() > 0">
+        <ion-icon name="checkmark-done-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Notificaciones</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <!-- Contador de notificaciones -->
+  <div class="notification-summary" *ngIf="notificaciones.length > 0">
+    <ion-card>
+      <ion-card-content>
+        <div class="summary-content">
+          <ion-icon name="notifications" color="primary"></ion-icon>
+          <div class="summary-text">
+            <h3>{{ getUnreadCount() }} notificaciones no leídas</h3>
+            <p>De un total de {{ notificaciones.length }} notificaciones</p>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Lista de notificaciones -->
+  <div class="notifications-list" *ngIf="notificaciones.length > 0; else noNotifications">
+    <ion-card 
+      *ngFor="let notificacion of notificaciones; trackBy: trackByFn" 
+      [class.unread]="!notificacion.leida"
+      (click)="markAsRead(notificacion)">
+      
+      <ion-card-content>
+        <div class="notification-item">
+          <div class="notification-icon">
+            <ion-icon 
+              [name]="getIconForType(notificacion.tipo)" 
+              [color]="getColorForType(notificacion.tipo)">
+            </ion-icon>
+          </div>
+          
+          <div class="notification-content">
+            <div class="notification-header">
+              <h4>{{ notificacion.titulo }}</h4>
+              <span class="notification-time">
+                {{ formatDate(notificacion.fechaCreacion) }}
+              </span>
+            </div>
+            
+            <p class="notification-message">{{ notificacion.mensaje }}</p>
+            
+            <div class="notification-footer">
+              <ion-chip 
+                [color]="getColorForType(notificacion.tipo)" 
+                size="small">
+                {{ notificacion.tipo }}
+              </ion-chip>
+              
+              <ion-badge 
+                *ngIf="!notificacion.leida" 
+                color="danger" 
+                class="unread-badge">
+                No leída
+              </ion-badge>
+            </div>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Estado sin notificaciones -->
+  <ng-template #noNotifications>
+    <div class="empty-state">
+      <ion-card>
+        <ion-card-content>
+          <div class="empty-content">
+            <ion-icon name="notifications-off-outline" size="large"></ion-icon>
+            <h3>No tienes notificaciones</h3>
+            <p>Todas las notificaciones aparecerán aquí cuando lleguen.</p>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </ng-template>
+</ion-content>

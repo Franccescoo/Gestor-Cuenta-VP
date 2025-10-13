@@ -1,12 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ToastController } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { ToastController, ModalController } from '@ionic/angular';
 import { DpaSector } from 'src/app/models/DpaSector.model';
 import { UserPerfilDTO, ActualizarUsuarioRequest } from 'src/app/models/UserPerfilDTOResponse.model';
 import { AuthService } from 'src/app/Service/auth.service';
 import { ChileDpaService } from 'src/app/Service/ChileDpaService.service';
 import { DashboardService } from 'src/app/Service/DashboardService.service';
 import { UserService } from 'src/app/Service/user.service';
+import { ModalSolicitarCambioComponent } from 'src/app/components/modal-solicitar-cambio/modal-solicitar-cambio.component';
 import {
   Observable, of, startWith, switchMap, withLatestFrom, distinctUntilChanged,
   Subject, takeUntil, merge, map, shareReplay
@@ -58,6 +60,8 @@ export class PerfilPage implements OnInit, OnDestroy {
     private toast: ToastController,
     private auth: AuthService,
     private cl: ChileDpaService,
+    private router: Router,
+    private modalController: ModalController
   ) {}
 
   ngOnInit(): void {
@@ -381,4 +385,30 @@ get fechaNacimientoValida(): boolean {
     ((hoy.getMonth() + 1 < m) || (hoy.getMonth() + 1 === m && hoy.getDate() < d) ? 1 : 0);
   return edad >= 18 && edad <= 100;
 }
+
+  // ===== Métodos para solicitudes de cambio
+  async solicitarCambio(campo: string): Promise<void> {
+    if (!this.perfil) {
+      (await this.toast.create({ 
+        message: 'No se pudo cargar la información del perfil', 
+        duration: 2200, 
+        color: 'danger'
+      })).present();
+      return;
+    }
+
+    const modal = await this.modalController.create({
+      component: ModalSolicitarCambioComponent,
+      componentProps: {
+        perfil: this.perfil
+      },
+      cssClass: 'modal-solicitud-cambio'
+    });
+
+    await modal.present();
+  }
+
+  irAMisSolicitudes(): void {
+    this.router.navigate(['/mis-solicitudes']);
+  }
 }

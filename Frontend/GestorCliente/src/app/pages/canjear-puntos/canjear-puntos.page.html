@@ -96,7 +96,18 @@
         </div>
 
         <div class="grid" *ngIf="!loading && filtered.length">
-          <article class="card" *ngFor="let p of filtered" (click)="verDetalle(p)">
+          <article class="card" *ngFor="let p of filtered" 
+                    [class.coming-soon]="esProductoProximo(p)"
+                    (click)="verDetalle(p)">
+            
+            <!-- Overlay PRÓXIMAMENTE -->
+            <div class="mask-soon" *ngIf="esProductoProximo(p)">
+              <span class="pill">
+                <ion-icon name="time-outline"></ion-icon>
+                PRÓXIMAMENTE
+              </span>
+            </div>
+
             <div class="imgwrap">
               <img [src]="getImg(p)" (error)="fallbackImg($event)" [alt]="p.nombre">
 
@@ -115,9 +126,11 @@
               <div class="price">
                 <span class="pts">{{ p.puntosCanje || 0 | number:'1.0-0' }} pts</span>
               </div>
-              <button class="btn-canjear" (click)="$event.stopPropagation(); canjear(p)">
+              <button class="btn-canjear" 
+                      [disabled]="esProductoProximo(p)"
+                      (click)="$event.stopPropagation(); canjear(p)">
                 <ion-icon name="flash-outline"></ion-icon>
-                Canjear
+                {{ esProductoProximo(p) ? 'Pronto' : 'Canjear' }}
               </button>
             </div>
           </article>

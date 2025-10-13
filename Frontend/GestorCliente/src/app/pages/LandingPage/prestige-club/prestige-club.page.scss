@@ -83,6 +83,156 @@
     }
   }
 
+  /* Contenido principal con dos columnas */
+  .pc-main-content {
+    padding: 40px 0;
+  }
+
+  .pc-content-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+
+    @media (max-width: 1024px) {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+  }
+
+  /* Columna izquierda - Visión y Valores */
+  .pc-left-column {
+    .pc-vision-section {
+      .pc-section-title {
+        margin: 0 0 20px;
+        font-size: clamp(18px, 2.5vw, 22px);
+        letter-spacing: .12em;
+        text-transform: uppercase;
+        color: var(--text);
+        font-weight: 800;
+
+        &--underlined {
+          text-decoration: underline;
+          text-decoration-color: var(--gold);
+          text-underline-offset: 4px;
+        }
+      }
+
+      .pc-vision-text {
+        margin: 0 0 40px;
+        font-size: 14px;
+        line-height: 1.6;
+        color: var(--text);
+        text-align: justify;
+      }
+    }
+  }
+
+  .pc-values-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 20px;
+    
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
+
+    .pc-value-item:nth-child(1) {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    .pc-value-item:nth-child(2) {
+      grid-column: 2;
+      grid-row: 1;
+    }
+
+    .pc-value-item:nth-child(3) {
+      grid-column: 1;
+      grid-row: 2;
+    }
+  }
+
+  .pc-value-item {
+    .pc-value-title {
+      margin: 0 0 8px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: .05em;
+    }
+
+    .pc-value-text {
+      margin: 0;
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--muted);
+    }
+  }
+
+  /* Columna derecha - FAQ */
+  .pc-right-column {
+    .pc-faq-section {
+      .pc-section-title {
+        margin: 0 0 24px;
+        font-size: clamp(20px, 3vw, 24px);
+        letter-spacing: .15em;
+        text-transform: uppercase;
+        color: var(--text);
+        font-weight: 800;
+      }
+    }
+  }
+
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .faq-item {
+    background: linear-gradient(180deg, #101010, #0b0b0c);
+    border: 1px solid rgba(255,255,255,.06);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color .18s ease;
+
+    &:hover {
+      border-color: rgba(212,175,55,.25);
+    }
+
+    ion-item.faq-header {
+      --background: transparent;
+      --color: var(--text);
+      --inner-border-width: 0;
+      --padding-start: 16px;
+      --padding-end: 16px;
+      --min-height: 52px;
+      font-weight: 600;
+      letter-spacing: .02em;
+
+      ion-icon[slot="start"] {
+        font-size: 18px;
+        margin-right: 12px;
+        color: var(--gold);
+      }
+      ion-icon[slot="end"] {
+        color: var(--gold-soft);
+        opacity: .8;
+      }
+    }
+
+    .pc-faq__content {
+      padding: 16px;
+      color: var(--muted);
+      line-height: 1.6;
+      background: #0a0a0a;
+      border-top: 1px solid rgba(255,255,255,.06);
+      font-size: 14px;
+    }
+  }
+
   /* Beneficios */
   .pc-section-title {
     margin: 32px 0 18px;
@@ -92,12 +242,24 @@
   }
 
   .pc-benefits {
-    padding: 22px 0 8px;
+    padding: 60px 0;
+    background: linear-gradient(180deg, #0a0a0a 0%, #0f0f10 100%);
+
+    .prestige-heading-small {
+      margin: 0 0 40px;
+      font-size: clamp(24px, 4vw, 32px);
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 800;
+      text-align: center;
+    }
 
     &__grid {
       display: grid;
-      gap: 16px;
+      gap: 20px;
       grid-template-columns: repeat(4, 1fr);
+      margin-bottom: 40px;
 
       @media (max-width: 1024px) { grid-template-columns: repeat(2, 1fr); }
       @media (max-width: 560px)  { grid-template-columns: 1fr; }
@@ -105,7 +267,6 @@
 
     &__cta {
       display: grid; place-items: center;
-      margin: 22px 0 6px;
     }
   }
 
@@ -148,135 +309,12 @@
     }
   }
 
-  /* Testimonios */
-  .pc-testimonials {
-    background: linear-gradient(180deg, #0a0a0a 0%, #0f0f10 100%);
-    padding: 10px 0 42px;
-  }
-
-  .pc-testimonials__grid {
-    margin-top: 8px;
-    display: grid; gap: 16px;
-    grid-template-columns: repeat(3, 1fr);
-
-    @media (max-width: 1024px) { grid-template-columns: repeat(2, 1fr); }
-    @media (max-width: 560px)  { grid-template-columns: 1fr; }
-  }
-
-  .pc-testimonial {
-    background: #0b0b0c;
-    border: 1px solid rgba(255,255,255,.06);
-    border-radius: 14px;
-    padding: 16px;
-    display: grid;
-    grid-template-columns: 56px 1fr;
-    gap: 12px;
-    align-items: center;
-
-    &__avatar {
-      width: 56px; height: 56px; border-radius: 50%;
-      object-fit: cover; filter: contrast(1.05) brightness(.95);
-    }
-
-    &__quote {
-      margin: 0 0 6px; color: #ddd; font-size: 14px; line-height: 1.5;
-    }
-
-    &__name {
-      margin: 0; color: var(--gold); font-weight: 700; font-size: 12px; letter-spacing: .06em;
-      text-transform: uppercase;
-    }
-  }
 }
 
 .prestige-club {
-    /* Fuerza tema oscuro para componentes de Ionic dentro de esta sección */
+  /* Fuerza tema oscuro para componentes de Ionic dentro de esta sección */
   --ion-background-color: #0a0a0a;           /* fondo general de la zona */
   --ion-item-background: transparent;        /* fondo de ion-item */
   --ion-text-color: var(--text);             /* color de texto por defecto */
-  .pc-faq {
-    padding: 18px 0 46px;
-    background: linear-gradient(180deg, #0a0a0a, #0f0f10);
-  }
-
-  .faq-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-    @media (max-width: 900px) { grid-template-columns: 1fr; }
-  }
-
-  /* cada FAQ en su “card” */
-  .faq-card {
-    position: relative;
-    border-radius: 14px;
-    background: linear-gradient(180deg, #101010, #0b0b0c);
-    border: 1px solid rgba(255,255,255,.06);
-    box-shadow: 0 14px 36px rgba(0,0,0,.45), inset 0 0 0 1px rgba(255,255,255,.02);
-    overflow: hidden;
-
-    &::before {
-      content: "";
-      position: absolute; inset: 0 auto 0 0;
-      width: 3px;
-      background: linear-gradient(180deg, var(--gold), var(--gold-soft));
-      opacity: .9;
-    }
-
-    /* ← El header del acordeón (ion-item) */
-    ion-item.faq-header {
-      --background: transparent;      /* clave: elimina el blanco */
-      --color: var(--text);
-      --inner-border-width: 0;        /* sin línea interna */
-      --padding-start: 14px;
-      --padding-end: 10px;
-      --min-height: 56px;
-      border-radius: 0;               /* el radio lo maneja la card */
-      font-weight: 700;
-      letter-spacing: .02em;
-
-      ion-icon[slot="start"] {
-        font-size: 20px;
-        margin-right: 8px;
-        color: var(--gold);
-      }
-      ion-icon[slot="end"] {
-        color: var(--gold-soft);
-        opacity: .9;
-      }
-    }
-
-    /* contenido del acordeón */
-    .pc-faq__content {
-      padding: 14px 16px 18px;
-      color: var(--muted);
-      line-height: 1.6;
-      background: #0a0a0a;
-      border-top: 1px solid rgba(255,255,255,.06);
-    }
-  }
-
-  /* header del acordeón con nuestro tema */
-  .faq-header {
-    --background: transparent;
-    --color: var(--text);
-    --padding-start: 14px;
-    --padding-end: 10px;
-    --min-height: 56px;
-    font-weight: 700;
-    letter-spacing: .02em;
-
-    ion-icon[slot="start"] {
-      font-size: 20px;
-      margin-right: 8px;
-      color: var(--gold);
-    }
-    ion-icon[slot="end"] {
-      opacity: .85;
-      color: var(--gold-soft);
-    }
-  }
-
-
 }
 

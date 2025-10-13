@@ -1,0 +1,118 @@
+<div class="modal-header">
+  <h2>Detalle del Canje</h2>
+  <ion-button fill="clear" (click)="cerrar()">
+    <ion-icon name="close"></ion-icon>
+  </ion-button>
+</div>
+
+<div class="modal-content" *ngIf="canje">
+  <!-- Información del Beneficio -->
+  <div class="info-section">
+    <div class="section-header">
+      <ion-icon name="sparkles" color="gold"></ion-icon>
+      <h3>Beneficio</h3>
+    </div>
+    <div class="info-card">
+      <div class="beneficio-info">
+        <h4>{{ canje.beneficio?.nombre || 'Sin nombre' }}</h4>
+        <p class="descripcion">{{ canje.beneficio?.descripcion || 'Sin descripción' }}</p>
+        
+        <div class="beneficio-details">
+          <div class="detail-item">
+            <span class="label">Categoría:</span>
+            <span class="value">{{ canje.categoria?.nombre || 'Sin categoría' }}</span>
+          </div>
+          
+          <div class="detail-item">
+            <span class="label">Beneficio:</span>
+            <span class="value">{{ canje.beneficio?.nombre || 'Sin nombre' }}</span>
+          </div>
+          
+          <div class="detail-item">
+            <span class="label">Sistema:</span>
+            <span class="value">{{ sistemaNombre }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Estado del Canje -->
+  <div class="info-section">
+    <div class="section-header">
+      <ion-icon [name]="getEstadoIcon()" [color]="getEstadoColor()"></ion-icon>
+      <h3>Estado del Canje</h3>
+    </div>
+    <div class="info-card">
+      <div class="estado-info">
+        <div class="estado-badge" [ngClass]="canje.estado?.toLowerCase()">
+          {{ canje.estado || 'Sin estado' }}
+        </div>
+        
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-icon" [ngClass]="canje.estado?.toLowerCase()">
+              <ion-icon name="time"></ion-icon>
+            </div>
+            <div class="timeline-content">
+              <h5>Solicitud realizada</h5>
+              <p>{{ formatDate(canje.fechaCanje) }}</p>
+            </div>
+          </div>
+          
+          <div class="timeline-item" *ngIf="canje.fechaRespuesta">
+            <div class="timeline-icon" [ngClass]="canje.estado?.toLowerCase()">
+              <ion-icon [name]="getEstadoIcon()"></ion-icon>
+            </div>
+            <div class="timeline-content">
+              <h5>{{ getEstadoTexto() }}</h5>
+              <p>{{ formatDate(canje.fechaRespuesta || '') }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Motivo de Rechazo (si aplica) -->
+  <div class="info-section" *ngIf="canje.motivoRechazo">
+    <div class="section-header">
+      <ion-icon name="alert-circle" color="danger"></ion-icon>
+      <h3>Motivo de Rechazo</h3>
+    </div>
+    <div class="info-card">
+      <p class="motivo-rechazo">{{ canje.motivoRechazo }}</p>
+    </div>
+  </div>
+
+
+  <!-- Acciones -->
+  <div class="modal-actions">
+    <ion-button 
+      *ngIf="canje.estado === 'APROBADO'" 
+      fill="solid" 
+      color="success" 
+      expand="block">
+      <ion-icon name="checkmark-circle" slot="start"></ion-icon>
+      Beneficio Aplicado al Sistema
+    </ion-button>
+    
+    <ion-button 
+      *ngIf="canje.estado === 'PENDIENTE'" 
+      fill="solid" 
+      color="warning" 
+      expand="block">
+      <ion-icon name="time" slot="start"></ion-icon>
+      En Revisión
+    </ion-button>
+    
+    <ion-button 
+      *ngIf="canje.estado === 'RECHAZADO'" 
+      fill="solid" 
+      color="danger" 
+      expand="block">
+      <ion-icon name="close-circle" slot="start"></ion-icon>
+      Canje Rechazado
+    </ion-button>
+  </div>
+</div>

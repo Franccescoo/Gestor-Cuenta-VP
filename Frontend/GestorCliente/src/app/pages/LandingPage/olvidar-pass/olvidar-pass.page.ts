@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { AuthService } from 'src/app/Service/auth.service';
-import { SendCredentialsResponse } from 'src/app/models/SendCredentialsResponse.model';
+import { CredentialsService } from 'src/app/Service/credentials.service';
 import { RecaptchaComponent } from 'ng-recaptcha';
 
 @Component({
@@ -23,7 +22,7 @@ export class OlvidarPassPage implements OnInit {
 
   @ViewChild('captchaRef') captchaRef?: RecaptchaComponent;
 
-  constructor(private auth: AuthService) {}
+  constructor(private credentialsService: CredentialsService) {}
 
   ngOnInit() {}
 
@@ -50,28 +49,47 @@ export class OlvidarPassPage implements OnInit {
   }
 
   enviar() {
-    // Validación UI mínima (sin enviar token al backend)
+    // Validación UI mínima
     if (!this.email || !this.isCaptchaOk) {
       this.status = { type: 'error', message: 'Completa email y captcha.' };
+      return;
+    }
+
+    // Validar formato de email
+    if (!this.credentialsService.isValidEmail(this.email)) {
+      this.status = { type: 'error', message: 'Formato de email inválido.' };
       return;
     }
 
     this.loading = true;
     this.status = null;
 
-    // IMPORTANTE: solo email (sin token)
-    this.auth.sendCredentials(this.email).subscribe({
-      next: (res: SendCredentialsResponse) => {
+    // Usar el nuevo servicio que maneja backend + EmailJS
+    this.credentialsService.requestAndSendCredentials(this.email).subscribe({
+      next: (result) => {
         this.loading = false;
-        this.status = { type: 'success', message: `Listo. Enviamos el enlace a ${res.email}.` };
-        this.resetCaptcha();
+        if (result.success) {
+          this.status = { 
+            type: 'success', 
+            message: `¡Listo! Enviamos las credenciales a ${result.data.email}.` 
+          };
+          this.resetCaptcha();
+        } else {
+          this.status = { 
+            type: 'error', 
+            message: result.message || 'Error al enviar credenciales.' 
+          };
+          this.resetCaptcha();
+        }
       },
       error: (err) => {
         this.loading = false;
         if (err?.status === 404) {
           this.status = { type: 'error', message: 'Email no encontrado.' };
+        } else if (err?.status === 400) {
+          this.status = { type: 'error', message: 'Formato de email inválido.' };
         } else {
-          console.error(err);
+          console.error('Error completo:', err);
           this.status = { type: 'error', message: 'Ocurrió un error. Inténtalo nuevamente.' };
         }
         this.resetCaptcha();

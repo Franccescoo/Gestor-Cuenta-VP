@@ -4,16 +4,37 @@
 
     <!-- Filtros -->
     <div class="filtros filters-card">
-      <ion-segment [(ngModel)]="filtroTipo" class="chip-segment">
-        <ion-segment-button value="todos">Todos</ion-segment-button>
-        <ion-segment-button value="beneficios">Beneficios</ion-segment-button>
-        <ion-segment-button value="productos">Productos</ion-segment-button>
+      <ion-segment [(ngModel)]="filtroTipo" class="chip-segment" (ionChange)="onFiltroChange()">
+        <ion-segment-button value="todos">
+          Todos
+          <span *ngIf="estadisticasFiltros.total > 0" class="filter-count">
+            {{ estadisticasFiltros.total }}
+          </span>
+        </ion-segment-button>
+        <ion-segment-button value="beneficios">
+          Beneficios
+          <span *ngIf="estadisticasFiltros.beneficios > 0" class="filter-count">
+            {{ estadisticasFiltros.beneficios }}
+          </span>
+        </ion-segment-button>
+        <ion-segment-button value="productos">
+          Productos
+          <span *ngIf="estadisticasFiltros.productos > 0" class="filter-count">
+            {{ estadisticasFiltros.productos }}
+          </span>
+        </ion-segment-button>
       </ion-segment>
 
-      <ion-segment [(ngModel)]="ordenFecha" class="chip-segment">
+      <ion-segment [(ngModel)]="ordenFecha" class="chip-segment" (ionChange)="onOrdenChange()">
         <ion-segment-button value="desc">Más recientes</ion-segment-button>
         <ion-segment-button value="asc">Más antiguos</ion-segment-button>
       </ion-segment>
+      
+      <!-- ✅ Indicador de estado -->
+      <div class="filter-status" *ngIf="historialFiltrado.length > 0">
+        <ion-icon name="funnel-outline"></ion-icon>
+        <span>{{ mensajeEstadoFiltros }}</span>
+      </div>
     </div>
 
     <!-- Feed de notificaciones -->

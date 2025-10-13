@@ -1,0 +1,133 @@
+<ion-content class="mis-solicitudes-content" [fullscreen]="true">
+  <app-header-usuario></app-header-usuario>
+
+  <div class="mis-solicitudes-container">
+    
+    <!-- Header con botón para nueva solicitud -->
+    <div class="header-section">
+      <div class="header-left">
+        <div class="header-icon">
+          <ion-icon name="document-text-outline"></ion-icon>
+        </div>
+        <div class="header-content">
+          <h1>Mis Solicitudes de Cambio</h1>
+          <p>Revisa el estado de tus solicitudes de modificación de perfil</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Loading -->
+    <div *ngIf="cargando" class="loading-container">
+      <ion-spinner name="crescent"></ion-spinner>
+      <p>Cargando solicitudes...</p>
+    </div>
+
+    <!-- Lista de solicitudes -->
+    <div *ngIf="!cargando" class="solicitudes-list">
+      
+      <!-- Mensaje si no hay solicitudes -->
+      <ion-card *ngIf="solicitudes.length === 0" class="empty-state">
+        <ion-card-content>
+          <div class="empty-content">
+            <ion-icon name="document-text-outline"></ion-icon>
+            <h3>No tienes solicitudes</h3>
+            <p>Cuando solicites cambios en tu perfil, aparecerán aquí.</p>
+            <ion-button 
+              color="primary" 
+              fill="outline" 
+              (click)="irASolicitarCambio()">
+              Crear mi primera solicitud
+            </ion-button>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Solicitudes existentes -->
+      <ion-card *ngFor="let solicitud of solicitudes" class="solicitud-card">
+        <ion-card-header>
+          <div class="solicitud-header">
+            <div class="solicitud-info">
+              <h3>{{ obtenerCamposTexto(solicitud.camposCambiar) }}</h3>
+              <p class="tipo-solicitud">{{ tiposAmigables[solicitud.tipoSolicitud] || solicitud.tipoSolicitud }}</p>
+            </div>
+            <ion-chip [color]="coloresEstado[solicitud.estado]">
+              <ion-icon [name]="getIconoEstado(solicitud.estado)"></ion-icon>
+              <ion-label>{{ estadosAmigables[solicitud.estado] || solicitud.estado }}</ion-label>
+            </ion-chip>
+          </div>
+        </ion-card-header>
+
+        <ion-card-content>
+          <div class="solicitud-details">
+            
+            <!-- Cambio solicitado -->
+            <div class="cambio-info">
+              <div class="valor-actual">
+                <strong>Valores actuales:</strong>
+                <span>{{ obtenerValoresTexto(solicitud.valoresActuales) || 'No especificado' }}</span>
+              </div>
+              <div class="valor-nuevo">
+                <strong>Valores solicitados:</strong>
+                <span>{{ obtenerValoresTexto(solicitud.valoresNuevos) }}</span>
+              </div>
+            </div>
+
+            <!-- Mensaje de estado -->
+            <div class="mensaje-estado">
+              <ion-icon [name]="getIconoEstado(solicitud.estado)" [color]="coloresEstado[solicitud.estado]"></ion-icon>
+              <p>{{ getMensajeEstado(solicitud) }}</p>
+            </div>
+
+            <!-- Comentarios del usuario -->
+            <div *ngIf="solicitud.comentariosUsuario" class="comentarios">
+              <strong>Mis comentarios:</strong>
+              <p>{{ solicitud.comentariosUsuario }}</p>
+            </div>
+
+            <!-- Comentarios del admin -->
+            <div *ngIf="solicitud.comentariosAdmin" class="comentarios-admin">
+              <strong>Comentarios del administrador:</strong>
+              <p>{{ solicitud.comentariosAdmin }}</p>
+            </div>
+
+            <!-- Fechas -->
+            <div class="fechas">
+              <div class="fecha">
+                <strong>Solicitado:</strong>
+                {{ formatearFecha(solicitud.fechaCreacion) }}
+              </div>
+              <div *ngIf="solicitud.fechaProcesamiento" class="fecha">
+                <strong>Procesado:</strong>
+                {{ formatearFecha(solicitud.fechaProcesamiento) }}
+              </div>
+            </div>
+
+            <!-- Botón para nueva solicitud -->
+            <div *ngIf="solicitud.estado !== 'PENDIENTE'" 
+                 class="acciones">
+              <ion-button 
+                size="small" 
+                fill="outline" 
+                color="primary"
+                (click)="irASolicitarCambio()">
+                <ion-icon name="create-outline" slot="start"></ion-icon>
+                Nueva solicitud
+              </ion-button>
+            </div>
+
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+    </div>
+
+    <!-- Botón de refrescar -->
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button (click)="refrescar()">
+        <ion-icon name="refresh-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+
+  </div>
+</ion-content>

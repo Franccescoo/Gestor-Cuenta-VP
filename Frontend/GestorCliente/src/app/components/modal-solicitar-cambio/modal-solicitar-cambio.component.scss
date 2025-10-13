@@ -1,0 +1,272 @@
+.modal-content {
+  --background: #ffffff !important;
+  background: #ffffff;
+  color: #333333;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.modal-container {
+  padding: 1rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* ===== Barra de sistema ===== */
+.sistema-info {
+  background: #f5f5f5;
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  
+  span {
+    color: #666666;
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+}
+
+/* ===== Título principal ===== */
+.main-title {
+  margin-bottom: 1.5rem;
+  
+  h2 {
+    color: #333333;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+  }
+  
+  p {
+    color: #666666;
+    font-size: 0.9rem;
+    margin: 0;
+  }
+}
+
+/* ===== Secciones de campos ===== */
+.campo-section {
+  margin-bottom: 1.5rem;
+  
+  h3 {
+    color: #d4af37;
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0 0 0.75rem 0;
+    padding-bottom: 0.25rem;
+    border-bottom: 1px solid #e0e0e0;
+  }
+}
+
+/* ===== Items de campos ===== */
+.campo-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: #ffffff;
+  
+  &:hover {
+    border-color: #d4af37;
+    background: #fafafa;
+  }
+  
+  ion-checkbox {
+    flex-shrink: 0;
+    --size: 18px;
+    --checkbox-background-checked: #d4af37;
+    --border-color-checked: #d4af37;
+    --checkmark-color: #ffffff;
+  }
+  
+  .campo-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    
+    .campo-nombre {
+      color: #333333;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    
+    .campo-actual {
+      color: #666666;
+      font-size: 0.8rem;
+    }
+  }
+}
+
+/* ===== Editor de campos ===== */
+.campo-editor {
+  margin-top: 0.25rem;
+  margin-bottom: 0.75rem;
+  padding: 0.75rem;
+  background: #f8f9fa;
+  border-radius: 4px;
+  border: 1px solid #e0e0e0;
+  
+  ion-input {
+    --background: #ffffff;
+    --color: #333333;
+    --padding-start: 0.75rem;
+    --padding-end: 0.75rem;
+    --padding-top: 0.5rem;
+    --padding-bottom: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid #d0d0d0;
+    font-size: 0.9rem;
+    
+    &::part(native) {
+      color: #333333;
+    }
+    
+    &::part(placeholder) {
+      color: #999999;
+    }
+  }
+}
+
+/* ===== Sección de comentarios ===== */
+.comentarios-section {
+  margin-bottom: 1.5rem;
+  
+  h3 {
+    color: #d4af37;
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0 0 0.75rem 0;
+    padding-bottom: 0.25rem;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  form {
+    ion-textarea {
+      --background: #ffffff;
+      --color: #333333;
+      --padding: 0.75rem;
+      border-radius: 4px;
+      border: 1px solid #d0d0d0;
+      font-size: 0.9rem;
+      min-height: 80px;
+      
+      &::part(native) {
+        color: #333333;
+      }
+      
+      &::part(placeholder) {
+        color: #999999;
+      }
+    }
+  }
+}
+
+/* ===== Botones de acción ===== */
+.action-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  
+  ion-button {
+    --border-radius: 4px;
+    --padding-top: 0.75rem;
+    --padding-bottom: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.85rem;
+    
+    ion-icon {
+      margin-right: 0.25rem;
+      font-size: 1rem;
+    }
+  }
+  
+  .cancel-button {
+    --background: transparent;
+    --color: #666666;
+    --border-color: #d0d0d0;
+    --border-width: 1px;
+    --border-style: solid;
+    
+    &:hover {
+      --background: #f5f5f5;
+    }
+  }
+  
+  .submit-button {
+    --background: #d4af37;
+    --color: #ffffff;
+    --box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
+    
+    &:hover {
+      --background: #b8941f;
+    }
+    
+    &[disabled] {
+      --background: #e0e0e0;
+      --color: #999999;
+      --box-shadow: none;
+      opacity: 0.6;
+    }
+  }
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .modal-container {
+    padding: 0.75rem;
+  }
+  
+  .action-buttons {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  
+  .campo-item {
+    padding: 0.5rem;
+    gap: 0.5rem;
+  }
+  
+  .campo-editor {
+    padding: 0.5rem;
+  }
+}
+
+/* ===== Animaciones ===== */
+.campo-editor {
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  to {
+    opacity: 1;
+    max-height: 150px;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+  }
+}
+
+/* ===== Estados especiales ===== */
+.campo-item:has(ion-checkbox[checked="true"]) {
+  border-color: #d4af37;
+  background: rgba(212, 175, 55, 0.05);
+}
+
+/* ===== Separadores ===== */
+.campo-item:not(:last-child) {
+  border-bottom: 1px solid #f0f0f0;
+}

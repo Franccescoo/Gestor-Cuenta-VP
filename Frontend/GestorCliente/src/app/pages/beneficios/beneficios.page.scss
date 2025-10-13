@@ -1,440 +1,635 @@
 :host {
   --gold: #d4af37;
-  --gold-2: #f3d98b;
-  --gold-3: #e7c65a;
-  --platinum: #e5e4e2;
-  --bg: #0e0e0e;
-  --panel: #141414;
-  --panel-2: #1a1a1a;
-  --panel-3: #202020;
+  --gold-light: #f3d98b;
+  --ink: #f5f5f5;
   --muted: #cfcfcf;
-  --success: #22c55e;
-  --warning: #f59e0b;
-  --danger: #ef4444;
+  --bg-0: #0a0a0a;
+  --bg-1: #141414;
+  --bg-2: #1a1a1a;
+  --stroke: rgba(255, 255, 255, 0.08);
 }
 
+/* ===== Layout general ===== */
 .fondo {
   min-height: 100vh;
-  padding-bottom: 2rem;
-  background: rgba(26, 26, 26, .8);
-}
-
-
-/* =================== TABLA BENEFICIOS (NEGRO + DORADO) =================== */
-:host {
-  /* Colores base (puedes sobreescribirlos desde fuera) */
-  --panel: #141414;
-  --panel-2: #0e0e0e;
-  --gold: #d4af37;
-  --gold-2: #f3d98b;
-  --muted: #a7a7a7;
-  --ink: #f5f5f5;
-  --borde: rgba(212, 175, 55, .18);
-  --borde-2: rgba(255, 255, 255, .06);
-}
-
-.tabla-beneficios {
-  background: var(--panel);
-  border-radius: 20px;
-  padding: 1.25rem;
+  --background: none !important;
+  background: radial-gradient(1200px 600px at 80% 0%, var(--bg-1) 0%, var(--bg-0) 60%);
   color: var(--ink);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, .35), inset 0 0 0 1px rgba(212, 175, 55, .12);
-  position: relative;
+  padding: 1rem;
+}
+
+/* ===== CATÁLOGO DE BENEFICIOS ===== */
+.catalogo-beneficios {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: var(--bg-2);
+  border-radius: 12px;
   overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(212, 175, 55, 0.1);
+}
 
-  /* Línea dorada superior */
-  &::before {
-    content: "";
-    position: absolute;
-    inset: 0 auto auto 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--gold), transparent);
-  }
+/* ===== HEADER CON FILTROS ===== */
+.catalogo-header {
+  background: linear-gradient(135deg, var(--bg-1) 0%, var(--bg-2) 100%);
+  padding: 24px;
+  border-bottom: 2px solid var(--gold);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
 
-  /* Envoltura para scroll horizontal suave en pantallas pequeñas */
-  .tabla-wrap {
-    width: 100%;
-    overflow-x: auto;
-    border-radius: 14px;
-    border: 1px solid var(--borde-2);
-    background: linear-gradient(180deg, rgba(255, 255, 255, .02), rgba(255, 255, 255, .00));
-  }
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
 
-  /* ===== Tabla ===== */
-  .tabla {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-    min-width: 720px;
-    /* evita que colapse demasiado en móvil */
+    .trophy-icon {
+      background: var(--gold);
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
 
-    thead {
-      position: sticky;
-      top: 0;
-      z-index: 2;
-
-      th {
-        text-align: left;
-        font-weight: 700;
-        letter-spacing: .3px;
-        color: var(--gold-2);
-        padding: 14px 14px;
-        background:
-          linear-gradient(180deg, rgba(243, 217, 139, .08), rgba(243, 217, 139, .02)),
-          linear-gradient(180deg, #171717, #121212);
-        border-bottom: 1px solid var(--borde);
-        white-space: nowrap;
-        font-size: .92rem;
-
-        &:first-child {
-          border-top-left-radius: 14px;
-        }
-
-        &:last-child {
-          border-top-right-radius: 14px;
-        }
+      ion-icon {
+        font-size: 24px;
+        color: #000;
       }
     }
 
-    tbody {
-      tr {
-        transition: background .25s ease, transform .12s ease, border-color .25s ease;
+    .header-text {
+      h2 {
+        margin: 0 0 4px 0;
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--gold);
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      }
 
-        /* rayado sutil */
-        &:nth-child(odd) td {
-          background: rgba(255, 255, 255, .01);
+      p {
+        margin: 0 0 8px 0;
+        color: var(--ink);
+        font-size: 14px;
+        opacity: 0.8;
+      }
+
+      // ✅ Información del nivel del usuario
+      .user-level-info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+
+        .level-chip {
+          --background: rgba(212, 175, 55, 0.2);
+          --color: var(--gold);
+          font-size: 12px;
+          font-weight: 600;
+          height: 28px;
+
+          ion-icon {
+            font-size: 14px;
+            margin-right: 4px;
+          }
         }
 
-        &:hover td {
-          background: rgba(212, 175, 55, .05);
-          border-color: rgba(212, 175, 55, .22);
+        .level-description {
+          color: rgba(255, 255, 255, 0.7);
+          font-size: 11px;
+          font-style: italic;
         }
+      }
+    }
+  }
+
+  /* ===== FILTROS DE NIVEL ===== */
+  .nivel-filters {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+
+    .nivel-btn {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s;
+      }
+
+      &:hover::before {
+        left: 100%;
+      }
+
+      // Estilos específicos por nivel
+      &.nivel-1 { // SILVER
+        background: #c0c0c0;
+        color: #000;
+        
+        &.active {
+          background: var(--gold);
+          color: #000;
+          box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
+        }
+      }
+
+      &.nivel-2 { // GOLD
+        background: var(--gold);
+        color: #000;
+        
+        &.active {
+          background: #ffd700;
+          box-shadow: 0 4px 12px rgba(255, 215, 0, 0.4);
+        }
+      }
+
+      &.nivel-3 { // BLACK
+        background: #333;
+        color: #fff;
+        
+        &.active {
+          background: #000;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+        }
+      }
+
+      &.nivel-4 { // PLATINUM
+        background: #e5e5e5;
+        color: #000;
+        
+        &.active {
+          background: #f0f0f0;
+          box-shadow: 0 4px 12px rgba(240, 240, 240, 0.4);
+        }
+      }
+
+      &.nivel-5 { // DIAMOND
+        background: #b9f2ff;
+        color: #000;
+        
+        &.active {
+          background: #87ceeb;
+          box-shadow: 0 4px 12px rgba(135, 206, 235, 0.4);
+        }
+      }
+
+       &:hover {
+         transform: translateY(-2px);
+         box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+       }
+
+       // ✅ Botones bloqueados
+       &.disabled {
+         opacity: 0.6;
+         cursor: not-allowed;
+         
+         .lock-icon {
+           margin-left: 4px;
+           font-size: 10px;
+         }
+
+         &:hover {
+           transform: none;
+           box-shadow: none;
+         }
+       }
+     }
+   }
+ }
+
+/* ===== TABLA DE BENEFICIOS ===== */
+.tabla-wrap {
+  overflow-x: auto;
+}
+
+.beneficios-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--bg-0);
+
+  thead {
+    background: linear-gradient(135deg, var(--bg-1) 0%, var(--bg-2) 100%);
+    
+    th {
+      padding: 16px 20px;
+      text-align: left;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--ink);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border-bottom: 2px solid var(--gold);
+      white-space: nowrap;
+    }
+  }
+
+  tbody {
+    tr {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      transition: background-color 0.2s ease;
+
+      &:hover {
+        background: rgba(212, 175, 55, 0.05);
       }
 
       td {
-        padding: 12px 14px;
-        border-bottom: 1px solid var(--borde-2);
-        border-left: 1px solid transparent;
-        border-right: 1px solid transparent;
-        background: rgba(255, 255, 255, .02);
-        font-size: .95rem;
+        padding: 16px 20px;
+        vertical-align: middle;
         color: var(--ink);
-
-        /* primera y última celda con borde y radios sutiles */
-        &:first-child {
-          border-left-color: var(--borde-2);
-          border-bottom-left-radius: 12px;
-        }
-
-        &:last-child {
-          border-right-color: var(--borde-2);
-          border-bottom-right-radius: 12px;
-        }
-
-        /* texto secundario */
-        .muted {
-          color: var(--muted);
-          font-size: .88rem;
-        }
       }
 
-      /* fila al final sin borde duro */
-      tr:last-child td {
-        border-bottom-color: transparent;
+       // Fila de información del nivel
+       &.nivel-info-row {
+         background: rgba(212, 175, 55, 0.08);
+         
+         .nivel-description {
+           .nivel-text {
+             font-style: italic;
+             color: rgba(255, 255, 255, 0.7);
+             font-size: 13px;
+           }
+
+           .nivel-bloqueado {
+             display: block;
+             margin-top: 4px;
+             font-size: 11px;
+             color: rgba(255, 255, 255, 0.5);
+             font-style: italic;
+           }
+         }
+
+         // ✅ Nivel bloqueado
+         &.nivel-no-disponible {
+           background: rgba(255, 0, 0, 0.05);
+           opacity: 0.7;
+         }
+       }
+
+      // Fila de beneficio
+      &.beneficio-row {
+        .beneficio-nombre {
+          font-weight: 600;
+          font-size: 15px;
+        }
+
+        .beneficio-descripcion {
+          color: rgba(255, 255, 255, 0.8);
+          font-size: 14px;
+          line-height: 1.4;
+        }
+
+         .beneficio-estado {
+           .estado-disponible {
+             background: rgba(76, 175, 80, 0.2);
+             color: #4caf50;
+             padding: 4px 8px;
+             border-radius: 12px;
+             font-size: 11px;
+             font-weight: 600;
+             text-transform: uppercase;
+             letter-spacing: 0.5px;
+           }
+
+            .estado-proximamente {
+              background: linear-gradient(135deg, rgba(255, 193, 7, 0.25), rgba(255, 152, 0, 0.25));
+              color: #ffc107;
+              padding: 6px 12px;
+              border-radius: 15px;
+              font-size: 11px;
+              font-weight: 700;
+              text-transform: uppercase;
+              letter-spacing: 0.6px;
+              border: 1px solid rgba(255, 193, 7, 0.4);
+              display: inline-block;
+              text-align: center;
+              white-space: nowrap;
+              box-shadow: 
+                0 2px 8px rgba(255, 193, 7, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            }
+
+            .estado-no-disponible {
+              background: rgba(244, 67, 54, 0.2);
+              color: #f44336;
+              padding: 4px 8px;
+              border-radius: 12px;
+              font-size: 11px;
+              font-weight: 600;
+              text-transform: uppercase;
+              letter-spacing: 0.5px;
+            }
+
+           .estado-canjeado {
+             background: rgba(255, 152, 0, 0.2);
+             color: #ff9800;
+             padding: 4px 8px;
+             border-radius: 12px;
+             font-size: 11px;
+             font-weight: 600;
+             text-transform: uppercase;
+             letter-spacing: 0.5px;
+             display: flex;
+             flex-direction: column;
+             align-items: center;
+             gap: 2px;
+
+             .cooldown-info {
+               font-size: 9px;
+               font-weight: 400;
+               text-transform: lowercase;
+               opacity: 0.8;
+             }
+           }
+         }
+
+        .beneficio-accion {
+          .btn-canjear {
+            background: linear-gradient(135deg, var(--gold) 0%, #ffd700 100%);
+            color: #000;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
+
+            ion-icon {
+              font-size: 14px;
+            }
+
+            &:hover {
+              transform: translateY(-2px);
+              box-shadow: 0 4px 16px rgba(212, 175, 55, 0.4);
+              background: linear-gradient(135deg, #ffd700 0%, var(--gold) 100%);
+            }
+
+             &:active {
+               transform: translateY(0);
+             }
+           }
+
+            // ✅ Botón próximo (diseño elegante)
+            .btn-proximo-overlay {
+              position: relative;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              width: 100%;
+              
+              .proximo-pill {
+                background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+                color: #000;
+                padding: 10px 20px;
+                border-radius: 25px;
+                font-size: 12px;
+                font-weight: 800;
+                text-transform: uppercase;
+                letter-spacing: 0.8px;
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                box-shadow: 
+                  0 4px 15px rgba(255, 193, 7, 0.4),
+                  0 2px 8px rgba(255, 152, 0, 0.3),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.3);
+                border: 1px solid rgba(255, 193, 7, 0.6);
+                white-space: nowrap;
+                transition: all 0.3s ease;
+                position: relative;
+                overflow: hidden;
+                
+                &::before {
+                  content: '';
+                  position: absolute;
+                  top: 0;
+                  left: -100%;
+                  width: 100%;
+                  height: 100%;
+                  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+                  transition: left 0.6s ease;
+                }
+                
+                &:hover::before {
+                  left: 100%;
+                }
+                
+                ion-icon {
+                  font-size: 14px;
+                  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+                }
+              }
+            }
+
+            // ✅ Botón bloqueado
+            .btn-bloqueado {
+              background: rgba(244, 67, 54, 0.2);
+              color: #f44336;
+              border: 1px solid rgba(244, 67, 54, 0.3);
+              padding: 10px 16px;
+              border-radius: 8px;
+              font-size: 12px;
+              font-weight: 700;
+              text-transform: uppercase;
+              letter-spacing: 0.5px;
+              cursor: not-allowed;
+              display: flex;
+              align-items: center;
+              gap: 6px;
+              opacity: 0.7;
+
+              ion-icon {
+                font-size: 14px;
+              }
+            }
+
+           // ✅ Botón canjeado
+           .btn-canjeado {
+             background: rgba(255, 152, 0, 0.2);
+             color: #ff9800;
+             border: 1px solid rgba(255, 152, 0, 0.3);
+             padding: 10px 16px;
+             border-radius: 8px;
+             font-size: 12px;
+             font-weight: 700;
+             text-transform: uppercase;
+             letter-spacing: 0.5px;
+             cursor: not-allowed;
+             display: flex;
+             align-items: center;
+             gap: 6px;
+             opacity: 0.8;
+
+             ion-icon {
+               font-size: 14px;
+             }
+           }
+         }
+
+         // ✅ Beneficio bloqueado
+         &.beneficio-no-disponible {
+           opacity: 0.6;
+           background: rgba(255, 0, 0, 0.02);
+
+           .beneficio-nombre,
+           .beneficio-descripcion {
+             color: rgba(255, 255, 255, 0.5);
+           }
+         }
+
+         // ✅ Beneficio canjeado
+         &.beneficio-canjeado {
+           opacity: 0.8;
+           background: rgba(255, 152, 0, 0.02);
+
+           .beneficio-nombre,
+           .beneficio-descripcion {
+             color: rgba(255, 255, 255, 0.7);
+           }
+         }
+       }
+
+      // ✅ Estado vacío cuando no hay beneficios disponibles
+      &.no-benefits-row {
+        .no-benefits-message {
+          text-align: center;
+          padding: 48px 20px;
+
+          .empty-state {
+            color: rgba(255, 255, 255, 0.6);
+
+            ion-icon {
+              font-size: 48px;
+              color: rgba(255, 255, 255, 0.3);
+              margin-bottom: 16px;
+            }
+
+            h4 {
+              margin: 0 0 12px 0;
+              font-size: 18px;
+              font-weight: 600;
+              color: var(--ink);
+            }
+
+            p {
+              margin: 0;
+              font-size: 14px;
+              line-height: 1.5;
+              color: rgba(255, 255, 255, 0.7);
+
+              strong {
+                color: var(--gold);
+              }
+            }
+          }
+        }
       }
     }
   }
+}
 
-  /* ===== Chips / Badges / Botones ===== */
-  .chip-nivel {
-    display: inline-flex;
-    align-items: center;
-    gap: .35rem;
-    padding: .25rem .55rem;
-    border-radius: 999px;
-    font-weight: 600;
-    font-size: .78rem;
-    letter-spacing: .2px;
-    color: #111;
-    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-2) 100%);
-    border: 1px solid rgba(0, 0, 0, .35);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .35);
+/* ===== BADGES DE NIVEL ===== */
+.nivel-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-align: center;
+  min-width: 60px;
+
+  &.badge-silver {
+    background: #c0c0c0;
+    color: #000;
   }
 
-  .badge {
-    display: inline-block;
-    padding: .25rem .5rem;
-    border-radius: 8px;
-    font-size: .78rem;
-    background: rgba(255, 255, 255, .06);
-    border: 1px solid var(--borde-2);
-    color: var(--ink);
+  &.badge-gold {
+    background: var(--gold);
+    color: #000;
   }
 
-  .btn-canjear {
-    display: inline-flex;
-    align-items: center;
-    gap: .4rem;
-    padding: .45rem .8rem;
-    border-radius: 10px;
-    font-weight: 700;
-    font-size: .85rem;
-    color: #111;
-    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-2) 100%);
-    border: 1px solid rgba(0, 0, 0, .35);
-    box-shadow: 0 8px 20px rgba(212, 175, 55, .18), inset 0 1px 0 rgba(255, 255, 255, .4);
-    transition: transform .08s ease, box-shadow .2s ease;
-    cursor: pointer;
+  &.badge-black {
+    background: #333;
+    color: #fff;
+  }
 
-    &:hover {
-      box-shadow: 0 10px 26px rgba(212, 175, 55, .28), inset 0 1px 0 rgba(255, 255, 255, .45);
-    }
+  &.badge-platinum {
+    background: #e5e5e5;
+    color: #000;
+  }
 
-    &:active {
-      transform: translateY(1px);
+  &.badge-diamond {
+    background: #b9f2ff;
+    color: #000;
+  }
+
+  // ✅ Badge bloqueado
+  &.badge-disabled {
+    opacity: 0.5;
+    filter: grayscale(0.5);
+  }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .catalogo-header {
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+
+    .nivel-filters {
+      justify-content: center;
     }
   }
 
-  /* ===== Responsivo: “tabla” apilada ===== */
-  @media (max-width: 680px) {
-    .tabla {
-      min-width: 0;
+  .beneficios-table {
+    font-size: 12px;
+    
+    th, td {
+      padding: 12px 8px;
     }
+  }
+}
 
-    /* Puedes usar celdas con data-label para mostrar encabezado */
-    .tabla thead {
-      display: none;
-    }
+@media (max-width: 480px) {
+  .catalogo-beneficios {
+    margin: 0;
+    border-radius: 0;
+  }
 
-    .tabla tbody,
-    .tabla tr,
-    .tabla td {
-      display: block;
+  .nivel-filters {
+    flex-direction: column;
+    width: 100%;
+
+    .nivel-btn {
       width: 100%;
-    }
-
-    .tabla tr {
-      margin: 10px 0;
-      border: 1px solid var(--borde-2);
-      border-radius: 14px;
-      overflow: hidden;
-      background: linear-gradient(180deg, rgba(255, 255, 255, .02), rgba(255, 255, 255, .01));
-    }
-
-    .tabla td {
-      border: none !important;
-      background: transparent;
-      padding: 10px 12px;
-
-      &[data-label] {
-        position: relative;
-        padding-top: 28px;
-      }
-
-      &[data-label]::before {
-        content: attr(data-label);
-        position: absolute;
-        top: 8px;
-        left: 12px;
-        font-size: .78rem;
-        letter-spacing: .2px;
-        color: var(--gold-2);
-        opacity: .9;
-      }
-
-      &:not(:last-child) {
-        border-bottom: 1px dashed var(--borde-2) !important;
-      }
-    }
-  }
-}
-
-.tabla-beneficios {
-  .tabla-head {
-    margin-bottom: .75rem;
-    padding: .75rem .25rem 1rem;
-    border-bottom: 1px solid var(--borde);
-    background: linear-gradient(180deg, rgba(243, 217, 139, .06), rgba(243, 217, 139, 0));
-
-    .title-wrap {
-      display: flex;
-      align-items: center;
-      gap: .6rem;
-
-      ion-icon {
-        font-size: 1.25rem;
-        color: var(--gold-2);
-        filter: drop-shadow(0 0 8px rgba(212, 175, 55, .25));
-      }
-
-      h2 {
-        margin: 0;
-        font-weight: 800;
-        letter-spacing: .3px;
-        font-size: clamp(1rem, 2.4vw, 1.25rem);
-        color: var(--gold-2);
-        text-transform: uppercase;
-      }
-    }
-
-    .subtitle {
-      margin: .3rem 0 0 0;
-      color: var(--muted);
-      font-size: .9rem;
-    }
-
-    .legend {
-      display: flex;
-      flex-wrap: wrap;
-      gap: .4rem;
-      margin-top: .6rem;
-
-      .chip-nivel {
-        font-size: .72rem;
-        padding: .22rem .5rem;
-      }
-    }
-
-    .nivel-actual {
-      display: flex;
-      align-items: center;
-      gap: .5rem;
-      margin-top: .6rem;
-
-      >span:first-child {
-        color: var(--muted);
-        font-size: .88rem;
-      }
-    }
-  }
-}
-
-/* ---------- Encabezado elegante ---------- */
-.tabla-beneficios {
-  .tabla-head.v2 {
-    position: relative;
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 1rem;
-    align-items: center;
-    padding: 16px 18px;
-    margin: -4px -4px 12px;
-    /* un poquito de “edge-to-edge” */
-    border-radius: 16px;
-    background:
-      linear-gradient(180deg, rgba(243, 217, 139, .08), rgba(243, 217, 139, 0)),
-      linear-gradient(180deg, #1a1a1a, #121212);
-    border: 1px solid var(--borde);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, .06),
-      0 8px 28px rgba(0, 0, 0, .35);
-    overflow: hidden;
-
-    /* brillo diagonal muy sutil */
-    &::after {
-      content: "";
-      position: absolute;
-      inset: -40% -20% auto auto;
-      width: 60%;
-      height: 220%;
-      transform: rotate(22deg);
-      background: radial-gradient(closest-side, rgba(243, 217, 139, .12), transparent 65%);
-      pointer-events: none;
-      filter: blur(6px);
-    }
-
-    /* línea dorada inferior */
-    &::before {
-      content: "";
-      position: absolute;
-      left: 10px;
-      right: 10px;
-      bottom: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--gold), transparent);
-      opacity: .7;
-    }
-
-    .left {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-
-      .medal {
-        width: 42px;
-        height: 42px;
-        display: grid;
-        place-items: center;
-        border-radius: 50%;
-        background:
-          radial-gradient(65% 65% at 30% 30%, var(--gold-2), var(--gold));
-        border: 1px solid rgba(0, 0, 0, .45);
-        box-shadow:
-          inset 0 1px 0 rgba(255, 255, 255, .4),
-          0 6px 18px rgba(212, 175, 55, .22);
-
-        ion-icon {
-          font-size: 20px;
-          color: #111;
-        }
-      }
-
-      .titles {
-        h2 {
-          margin: 0;
-          font-size: clamp(1.05rem, 2.6vw, 1.25rem);
-          letter-spacing: .4px;
-          font-weight: 800;
-          color: var(--gold-2);
-          text-transform: uppercase;
-        }
-
-        p {
-          margin: 2px 0 0;
-          font-size: .92rem;
-          color: var(--muted);
-        }
-      }
-    }
-
-    .right {
-      .legend {
-        display: flex;
-        gap: .4rem;
-        flex-wrap: wrap;
-        justify-content: flex-end;
-      }
-
-      .pill {
-        display: inline-flex;
-        align-items: center;
-        padding: .28rem .6rem;
-        border-radius: 999px;
-        font-weight: 700;
-        font-size: .78rem;
-        letter-spacing: .2px;
-        background: linear-gradient(180deg, rgba(255, 255, 255, .04), rgba(255, 255, 255, .02));
-        border: 1px solid var(--borde);
-        color: var(--ink);
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, .06);  
-        transition: transform .08s ease, box-shadow .18s ease, border-color .18s ease;
-        cursor: default;
-
-        &:hover {
-          border-color: rgba(212, 175, 55, .35);
-          box-shadow: 0 6px 16px rgba(212, 175, 55, .18);
-          transform: translateY(-1px);
-        }
-      }
-    }
-
-    @media (max-width: 680px) {
-      grid-template-columns: 1fr;
-
-      .right {
-        justify-self: start;
-      }
+      margin-bottom: 4px;
     }
   }
 }

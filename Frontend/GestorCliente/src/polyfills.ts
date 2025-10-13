@@ -53,3 +53,6 @@ import 'zone.js';  // Included with Angular CLI.
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */
+
+// Fix para 'global is not defined' error con sockjs-client
+(window as any).global = window;

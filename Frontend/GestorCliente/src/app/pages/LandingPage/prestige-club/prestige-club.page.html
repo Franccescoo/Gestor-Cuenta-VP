@@ -15,6 +15,138 @@
         </div>
       </div>
 
+      <!-- Contenido principal con dos columnas -->
+      <div class="pc-main-content container">
+        <div class="pc-content-grid">
+          <!-- Columna izquierda: Nuestra Visión y Valores -->
+          <div class="pc-left-column">
+            <div class="pc-vision-section">
+              <h2 class="pc-section-title pc-section-title--underlined">NUESTRA VISIÓN</h2>
+              <p class="pc-vision-text">
+                En PRESTIGE CLUB, aspiramos a redefinir la experiencia del juego en línea, convirtiéndonos en el referente de exclusividad y sofisticación en el mundo de los beneficios para nuestros usuarios. Nuestro compromiso es crear un espacio donde cada miembro se sienta valorado y distinguido, disfrutando de un acceso sin igual a oportunidades y experiencias inolvidables. Buscamos empoderar a nuestros usuarios, transformando cada apuesta en una celebración de lujo y excelencia. Juntos, elevamos el concepto de juego a nuevas alturas, donde el prestigio y el placer son inseparables.
+              </p>
+              
+              <h2 class="pc-section-title pc-section-title--underlined">NUESTROS VALORES</h2>
+              <div class="pc-values-grid">
+                <div class="pc-value-item">
+                  <h3 class="pc-value-title">EXCLUSIVIDAD</h3>
+                  <p class="pc-value-text">
+                    Nos centramos en la exclusividad, ofreciendo beneficios y experiencias únicas que elevan el estatus y cultivan un sentido de pertenencia y distinción.
+                  </p>
+                </div>
+
+                <div class="pc-value-item">
+                  <h3 class="pc-value-title">TRANSPARENCIA</h3>
+                  <p class="pc-value-text">
+                    Para nosotros la transparencia es clave, donde la confianza se basa en la claridad y honestidad, fortaleciendo la relación con los miembros a través de la apertura.
+                  </p>
+                </div>
+
+                <div class="pc-value-item">
+                  <h3 class="pc-value-title">ASPIRACIÓN</h3>
+                  <p class="pc-value-text">
+                    PRESTIGE CLUB es una experiencia transformadora que impulsa a los miembros a perseguir sus sueños y metas, proporcionando las herramientas y el apoyo para un futuro lleno de posibilidades.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Columna derecha: FAQ -->
+          <div class="pc-right-column">
+            <div class="pc-faq-section">
+              <h2 class="pc-section-title">PREGUNTAS FRECUENTES</h2>
+
+              <div class="faq-list">
+                <!-- FAQ 1 -->
+                <div class="faq-item">
+                  <ion-accordion-group [multiple]="true">
+                    <ion-accordion value="q1">
+                      <ion-item slot="header" lines="none" class="faq-header">
+                        <ion-icon name="flash-outline" slot="start"></ion-icon>
+                        <ion-label>¿Cómo acumulo puntos?</ion-label>
+                        <ion-icon name="chevron-down-outline" slot="end"></ion-icon>
+                      </ion-item>
+
+                      <div class="pc-faq__content" slot="content">
+                        Obtienes puntos por tus jugadas registradas en los casinos asociados
+                        (tucasinoencasa, micasinovip, tucasinovip y tugrancasino) usando el
+                        mismo <strong>correo</strong> que en Prestige Club.
+                      </div>
+                    </ion-accordion>
+                  </ion-accordion-group>
+                </div>
+
+                <!-- FAQ 2 -->
+                <div class="faq-item">
+                  <ion-accordion-group [multiple]="true">
+                    <ion-accordion value="q2">
+                      <ion-item slot="header" lines="none" class="faq-header">
+                        <ion-icon name="gift-outline" slot="start"></ion-icon>
+                        <ion-label>¿Cómo canjeo mis puntos?</ion-label>
+                        <ion-icon name="chevron-down-outline" slot="end"></ion-icon>
+                      </ion-item>
+                      <div class="pc-faq__content" slot="content">
+                        Entra a la sección <em>Canjear</em> de esta web y elige un beneficio disponible.
+                      </div>
+                    </ion-accordion>
+                  </ion-accordion-group>
+                </div>
+
+                <!-- FAQ 3 -->
+                <div class="faq-item">
+                  <ion-accordion-group [multiple]="true">
+                    <ion-accordion value="q3">
+                      <ion-item slot="header" lines="none" class="faq-header">
+                        <ion-icon name="mail-outline" slot="start"></ion-icon>
+                        <ion-label>¿El correo debe coincidir?</ion-label>
+                        <ion-icon name="chevron-down-outline" slot="end"></ion-icon>
+                      </ion-item>
+                      <div class="pc-faq__content" slot="content">
+                        Sí. El email de tu cuenta del casino debe ser el mismo que en Prestige
+                        para reconocer tu actividad y asignar puntos.
+                      </div>
+                    </ion-accordion>
+                  </ion-accordion-group>
+                </div>
+
+                <!-- FAQ 4 -->
+                <div class="faq-item">
+                  <ion-accordion-group [multiple]="true">
+                    <ion-accordion value="q4">
+                      <ion-item slot="header" lines="none" class="faq-header">
+                        <ion-icon name="trophy-outline" slot="start"></ion-icon>
+                        <ion-label>¿Qué niveles existen?</ion-label>
+                        <ion-icon name="chevron-down-outline" slot="end"></ion-icon>
+                      </ion-item>
+                      <div class="pc-faq__content" slot="content">
+                        Silver, Gold, Black y Diamond. A mayor nivel, mejores beneficios.
+                      </div>
+                    </ion-accordion>
+                  </ion-accordion-group>
+                </div>
+
+                <!-- FAQ 5 -->
+                <div class="faq-item">
+                  <ion-accordion-group [multiple]="true">
+                    <ion-accordion value="q5">
+                      <ion-item slot="header" lines="none" class="faq-header">
+                        <ion-icon name="wallet-outline" slot="start"></ion-icon>
+                        <ion-label>¿Tiene costo pertenecer al club?</ion-label>
+                        <ion-icon name="chevron-down-outline" slot="end"></ion-icon>
+                      </ion-item>
+                      <div class="pc-faq__content" slot="content">
+                        No. El programa de fidelización es gratuito para jugadores de los casinos asociados.
+                      </div>
+                    </ion-accordion>
+                  </ion-accordion-group>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Beneficios destacados -->
       <div class="pc-benefits container">
         <h2 class="prestige-heading-small">Beneficios destacados</h2>
@@ -63,99 +195,6 @@
 
         <div class="pc-benefits__cta">
           <button class="pc-cta pc-cta--outline" type="button">Ver beneficios completos</button>
-        </div>
-      </div>
-
-      <!-- FAQ -->
-      <div class="pc-faq">
-        <div class="container">
-          <h2 class="pc-section-title">Preguntas frecuentes</h2>
-
-          <div class="faq-grid">
-            <!-- Card 1 -->
-            <div class="faq-card">
-              <ion-accordion-group [multiple]="true">
-                <ion-accordion value="q1">
-                  <ion-item slot="header" lines="none" class="faq-header">
-                    <ion-icon name="flash-outline" slot="start"></ion-icon>
-                    <ion-label>¿Cómo acumulo puntos?</ion-label>
-                    <ion-icon name="chevron-down-outline" slot="end"></ion-icon>
-                  </ion-item>
-
-                  <div class="pc-faq__content" slot="content">
-                    Obtienes puntos por tus jugadas registradas en los casinos asociados
-                    (tucasinoencasa, micasinovip, tucasinovip y tugrancasino) usando el
-                    mismo <strong>correo</strong> que en Prestige Club.
-                  </div>
-                </ion-accordion>
-              </ion-accordion-group>
-            </div>
-
-            <!-- Card 2 -->
-            <div class="faq-card">
-              <ion-accordion-group [multiple]="true">
-                <ion-accordion value="q2">
-                  <ion-item slot="header" lines="none" class="faq-header">
-                    <ion-icon name="gift-outline" slot="start"></ion-icon>
-                    <ion-label>¿Cómo canjeo mis puntos?</ion-label>
-                    <ion-icon name="chevron-down-outline" slot="end"></ion-icon>
-                  </ion-item>
-                  <div class="pc-faq__content" slot="content">
-                    Entra a la sección <em>Canjear</em> de esta web y elige un beneficio disponible.
-                  </div>
-                </ion-accordion>
-              </ion-accordion-group>
-            </div>
-
-            <!-- Card 3 -->
-            <div class="faq-card">
-              <ion-accordion-group [multiple]="true">
-                <ion-accordion value="q3">
-                  <ion-item slot="header" lines="none" class="faq-header">
-                    <ion-icon name="mail-outline" slot="start"></ion-icon>
-                    <ion-label>¿El correo debe coincidir?</ion-label>
-                    <ion-icon name="chevron-down-outline" slot="end"></ion-icon>
-                  </ion-item>
-                  <div class="pc-faq__content" slot="content">
-                    Sí. El email de tu cuenta del casino debe ser el mismo que en Prestige
-                    para reconocer tu actividad y asignar puntos.
-                  </div>
-                </ion-accordion>
-              </ion-accordion-group>
-            </div>
-
-            <!-- Card 4 -->
-            <div class="faq-card">
-              <ion-accordion-group [multiple]="true">
-                <ion-accordion value="q4">
-                  <ion-item slot="header" lines="none" class="faq-header">
-                    <ion-icon name="trophy-outline" slot="start"></ion-icon>
-                    <ion-label>¿Qué niveles existen?</ion-label>
-                    <ion-icon name="chevron-down-outline" slot="end"></ion-icon>
-                  </ion-item>
-                  <div class="pc-faq__content" slot="content">
-                    Silver, Gold, Black y Diamond. A mayor nivel, mejores beneficios.
-                  </div>
-                </ion-accordion>
-              </ion-accordion-group>
-            </div>
-
-            <!-- Card 5 -->
-            <div class="faq-card">
-              <ion-accordion-group [multiple]="true">
-                <ion-accordion value="q5">
-                  <ion-item slot="header" lines="none" class="faq-header">
-                    <ion-icon name="wallet-outline" slot="start"></ion-icon>
-                    <ion-label>¿Tiene costo pertenecer al club?</ion-label>
-                    <ion-icon name="chevron-down-outline" slot="end"></ion-icon>
-                  </ion-item>
-                  <div class="pc-faq__content" slot="content">
-                    No. El programa de fidelización es gratuito para jugadores de los casinos asociados.
-                  </div>
-                </ion-accordion>
-              </ion-accordion-group>
-            </div>
-          </div>
         </div>
       </div>
 

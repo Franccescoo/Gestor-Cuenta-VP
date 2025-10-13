@@ -1,72 +1,127 @@
 <ion-content class="fondo" [fullscreen]="true">
   <app-header-usuario></app-header-usuario>
 
-  <!-- TABLA BENEFICIOS (negro + dorado) -->
-  <div class="tabla-beneficios" *ngIf="categorias?.length; else cargandoTpl">
+  <!-- ✅ CATÁLOGO DE BENEFICIOS CON FILTROS DE NIVEL -->
+  <div class="catalogo-beneficios" *ngIf="categorias?.length; else cargandoTpl">
 
-    <div class="tabla-head v2" aria-labelledby="titulo-beneficios">
-      <div class="left">
-        <div class="medal">
-          <ion-icon name="trophy-outline" aria-hidden="true"></ion-icon>
+    <!-- Header con título y filtros de nivel -->
+    <div class="catalogo-header">
+      <div class="header-left">
+        <div class="trophy-icon">
+          <ion-icon name="trophy"></ion-icon>
         </div>
-        <div class="titles">
-          <h2 id="titulo-beneficios">Catálogo de Beneficios</h2>
+        <div class="header-text">
+          <h2>CATÁLOGO DE BENEFICIOS</h2>
           <p>Elige un beneficio disponible según tu nivel.</p>
+          <!-- ✅ Información del nivel del usuario -->
+          <div class="user-level-info" *ngIf="nivelUsuario">
+            <ion-chip color="warning" class="level-chip">
+              <ion-icon name="medal"></ion-icon>
+              <ion-label>Tu nivel: {{ nivelUsuario.toUpperCase() }}</ion-label>
+            </ion-chip>
+            <small class="level-description">
+              Puedes acceder a beneficios de nivel {{ nivelUsuario.toUpperCase() }} e inferiores
+            </small>
+          </div>
         </div>
       </div>
 
-      <div class="right" *ngIf="categorias?.length">
-        <div class="legend">
-          <span class="pill" *ngFor="let c of categorias">{{ c.nombre }}</span>
-        </div>
+      <!-- ✅ Filtros de nivel como botones (todos los niveles) -->
+      <div class="nivel-filters" *ngIf="categorias?.length">
+        <button 
+          *ngFor="let categoria of categorias; let i = index" 
+          class="nivel-btn"
+          [class.active]="nivelSeleccionado === categoria.id"
+          [class.disabled]="categoria.nivel > getNivelUsuarioNum()"
+          [class]="'nivel-' + categoria.nivel"
+          (click)="filtrarPorNivel(categoria.id)">
+          {{ categoria.nombre.toUpperCase() }}
+          <span *ngIf="categoria.nivel > getNivelUsuarioNum()" class="lock-icon">🔒</span>
+        </button>
       </div>
     </div>
 
 
+    <!-- ✅ Tabla de beneficios con diseño elegante -->
     <div class="tabla-wrap">
-      <table class="tabla">
+      <table class="beneficios-table">
         <thead>
           <tr>
-            <th>Nivel</th>
-            <th>Beneficio</th>
-            <th>Descripción</th>
-            <th>Estado</th>
-            <th>Acción</th>
+            <th>NIVEL</th>
+            <th>BENEFICIO</th>
+            <th>DESCRIPCIÓN</th>
+            <th>ESTADO</th>
+            <th>ACCIÓN</th>
           </tr>
         </thead>
 
         <tbody>
-          <!-- Grupo por categoría -->
-          <ng-container *ngFor="let cat of categorias">
-            <!-- Fila cabecera de categoría (opcional) -->
-            <tr>
-              <td data-label="Nivel">
-                <span class="chip-nivel">{{ cat.nombre }}</span>
+          <!-- ✅ Mostrar mensaje si no hay beneficios disponibles -->
+          <tr *ngIf="categoriasFiltradas.length === 0" class="no-benefits-row">
+            <td colspan="5" class="no-benefits-message">
+              <div class="empty-state">
+                <ion-icon name="lock-closed-outline"></ion-icon>
+                <h4>No hay beneficios disponibles</h4>
+                <p *ngIf="nivelUsuario">
+                  Tu nivel actual es <strong>{{ nivelUsuario.toUpperCase() }}</strong>.
+                  <br>
+                  Sube de nivel para acceder a más beneficios.
+                </p>
+                <p *ngIf="!nivelUsuario">
+                  No se pudo determinar tu nivel de usuario.
+                  <br>
+                  Contacta al soporte para más información.
+                </p>
+              </div>
+            </td>
+          </tr>
+
+          <!-- ✅ Mostrar todas las categorías con restricciones -->
+          <ng-container *ngFor="let cat of categoriasFiltradas">
+            <!-- ✅ Fila de información del nivel -->
+            <tr class="nivel-info-row" [class.nivel-no-disponible]="cat.nivel > getNivelUsuarioNum()">
+              <td>
+                <span class="nivel-badge" 
+                      [class]="'badge-' + cat.nombre.toLowerCase()"
+                      [class.badge-disabled]="cat.nivel > getNivelUsuarioNum()">
+                  {{ cat.nombre.toUpperCase() }}
+                </span>
               </td>
-              <td data-label="Beneficio" colspan="4">
-                <span class="muted">{{ cat.descripcion || '—' }}</span>
+              <td colspan="4" class="nivel-description">
+                <span class="nivel-text">
+                  {{ getNivelDescription(cat.nombre) }}
+                </span>
+                <span *ngIf="cat.nivel > getNivelUsuarioNum()" class="nivel-bloqueado">
+                  🔒 Nivel bloqueado - Necesitas {{ cat.nombre.toUpperCase() }} o superior
+                </span>
               </td>
             </tr>
 
-            <!-- Beneficios de la categoría -->
-            <tr *ngFor="let b of cat.beneficios">
-              <td class="hide-desktop" data-label="Nivel">
-                <span class="chip-nivel">{{ cat.nombre }}</span>
+            <!-- ✅ Beneficios del nivel -->
+            <tr *ngFor="let b of cat.beneficios" 
+                class="beneficio-row beneficio-proximo">
+              <td>
+                <span class="nivel-badge" 
+                      [class]="'badge-' + cat.nombre.toLowerCase()"
+                      [class.badge-disabled]="cat.nivel > getNivelUsuarioNum()">
+                  {{ cat.nombre.toUpperCase() }}
+                </span>
               </td>
-              <td data-label="Beneficio">{{ b.nombre }}</td>
-              <td data-label="Descripción">
-                <span class="muted">{{ b.descripcion || '—' }}</span>
+              <td class="beneficio-nombre">{{ b.nombre }}</td>
+              <td class="beneficio-descripcion">{{ b.descripcion || '—' }}</td>
+              <td class="beneficio-estado">
+                <!-- ✅ Todos los beneficios como PRÓXIMAMENTE -->
+                <span class="estado-proximamente">PRÓXIMAMENTE</span>
               </td>
-              <td data-label="Estado">
-                <span class="badge">Disponible</span>
+              <td class="beneficio-accion">
+                <!-- ✅ Todos los beneficios con overlay PRÓXIMAMENTE -->
+                <div class="btn-proximo-overlay">
+                  <span class="proximo-pill">
+                    <ion-icon name="time-outline"></ion-icon>
+                    PRÓXIMAMENTE
+                  </span>
+                </div>
               </td>
-              <td data-label="Acción">
-                <button class="btn-canjear" (click)="onCanjear(cat.id, b.id)">
-                  <ion-icon name="sparkles-outline"></ion-icon>
-                  Canjear
-                </button>
-              </td>
-
             </tr>
           </ng-container>
         </tbody>

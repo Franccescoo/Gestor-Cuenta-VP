@@ -79,11 +79,39 @@
               <option value="otro">Otros</option>
             </select>
 
-            <input type="text" [(ngModel)]="usuario.numeroDocumento" name="numeroDocumento" required
+            <!-- Selectores para RUT -->
+            <div *ngIf="usuario.tipoDocumento === 'rut'" class="rut-selectors">
+              <input type="text" [(ngModel)]="rutNumero" name="rutNumero" required
+                placeholder="Número RUT" maxlength="8" class="rut-numero-input"
+                [class.error]="!getRutValido() && rutNumero && rutDigitoVerificador"
+                (input)="onRutNumeroInput($event)" />
+              <span class="rut-separator">-</span>
+              <select [(ngModel)]="rutDigitoVerificador" name="rutDigitoVerificador" required
+                class="rut-dv-select"
+                [class.error]="!getRutValido() && rutNumero && rutDigitoVerificador">
+                <option value="" disabled selected>DV</option>
+                <option *ngFor="let dv of digitosVerificadores" [value]="dv">{{ dv }}</option>
+              </select>
+            </div>
+
+            <!-- Input normal para otros tipos de documento -->
+            <input *ngIf="usuario.tipoDocumento !== 'rut'" type="text" [(ngModel)]="usuario.numeroDocumento" name="numeroDocumento" required
               [attr.maxlength]="getMaxLength()" [pattern]="getPattern()" [placeholder]="getPlaceholder()"
               class="documento-input" />
           </div>
-          <small *ngIf="usuario.tipoDocumento === 'rut'">RUT chileno: 12345678-9</small>
+          
+          <!-- Mensajes de error y ayuda para RUT -->
+          <small *ngIf="usuario.tipoDocumento === 'rut' && !getRutValido() && rutNumero && rutDigitoVerificador" class="error-text">
+            RUT inválido. El dígito verificador no coincide.
+          </small>
+          <small *ngIf="usuario.tipoDocumento === 'rut' && getRutValido() && isRutCompleto()" class="help-text">
+            RUT chileno: {{ getRutCompleto() }}
+          </small>
+          <small *ngIf="usuario.tipoDocumento === 'rut' && !isRutCompleto()" class="help-text">
+            Escribe los 8 dígitos del RUT y selecciona el dígito verificador
+          </small>
+          
+          <!-- Mensajes para otros tipos de documento -->
           <small *ngIf="usuario.tipoDocumento === 'dni'">DNI peruano: 12345678</small>
           <small *ngIf="usuario.tipoDocumento && usuario.tipoDocumento.startsWith('extranjero')">
             Extranjeros: mínimo 4 caracteres

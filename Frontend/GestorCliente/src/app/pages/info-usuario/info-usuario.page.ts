@@ -27,6 +27,11 @@ export class InfoUsuarioPage implements OnInit {
   aniosDisponibles: number[] = [];
   fechaNacimientoValida = true;
 
+  // Selectores para RUT
+  rutNumero: string = '';
+  rutDigitoVerificador: string = '';
+  digitosVerificadores: string[] = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'K'];
+
   countryCodes = [
     { code: 'cl', prefix: '+56', name: 'Chile' },
     { code: 'pe', prefix: '+51', name: 'Perú' },
@@ -86,6 +91,19 @@ export class InfoUsuarioPage implements OnInit {
       return;
     }
 
+    // Validar RUT si es tipo RUT chileno
+    if (this.usuario.tipoDocumento === 'rut') {
+      if (!this.isRutCompleto()) {
+        alert("Por favor, completa los 8 dígitos del RUT y selecciona el dígito verificador.");
+        return;
+      }
+      const rutCompleto = this.getRutCompleto();
+      if (!this.validarRUT(rutCompleto)) {
+        alert("El RUT ingresado no es válido. Por favor, verifica el número y el dígito verificador.");
+        return;
+      }
+    }
+
     // Construye el body solo con los campos del usuario (no incluyas playerId ni sistemaId)
     const data = {
       nombreCompleto: this.usuario.nombre_completo,
@@ -93,7 +111,7 @@ export class InfoUsuarioPage implements OnInit {
       fechaCumpleanos: this.usuario.fecha_cumpleanos,
       email: this.usuario.email,
       celular: this.usuario.celular.startsWith('+') ? this.usuario.celular : (this.usuario.prefijo + this.usuario.celular),
-      numeroDocumento: this.usuario.numeroDocumento,
+      numeroDocumento: this.usuario.tipoDocumento === 'rut' ? this.getRutCompleto() : this.usuario.numeroDocumento,
       tipoDocumento: this.usuario.tipoDocumento,
     };
 
@@ -113,6 +131,8 @@ export class InfoUsuarioPage implements OnInit {
 
   resetDocumento() {
     this.usuario.numeroDocumento = '';
+    this.rutNumero = '';
+    this.rutDigitoVerificador = '';
   }
 
   onFileChange(event: any) {
@@ -133,10 +153,103 @@ export class InfoUsuarioPage implements OnInit {
       default: return '^[a-zA-Z0-9\\-]{4,20}$';
     }
   }
+
+  // Formatear RUT automáticamente (agregar guión si no existe)
+  formatearRUT(rut: string): string {
+    if (!rut) return '';
+    
+    // Limpiar el RUT (quitar puntos y espacios, pero mantener guiones)
+    const rutLimpio = rut.replace(/[.\s]/g, '').toUpperCase();
+    
+    // Si ya tiene guión, validar y limpiar
+    if (rutLimpio.includes('-')) {
+      const partes = rutLimpio.split('-');
+      if (partes.length === 2) {
+        const numero = partes[0];
+        const dv = partes[1];
+        // Solo formatear si el número tiene 7-8 dígitos y el DV tiene 1 carácter
+        if (numero.length >= 7 && numero.length <= 8 && dv.length === 1) {
+          return `${numero}-${dv}`;
+        }
+      }
+      return rutLimpio; // Si no es válido, devolver tal como está
+    }
+    
+    // Si no tiene guión, agregarlo automáticamente cuando tenga 8-9 caracteres
+    if (rutLimpio.length >= 8 && rutLimpio.length <= 9) {
+      const numero = rutLimpio.slice(0, -1);
+      const dv = rutLimpio.slice(-1);
+      return `${numero}-${dv}`;
+    }
+    
+    // Si no cumple las condiciones, devolver tal como está
+    return rutLimpio;
+  }
+
+  // Evento para restringir el input del RUT a solo números
+  onRutNumeroInput(event: any) {
+    const valor = event.target.value;
+    // Solo permitir números
+    const soloNumeros = valor.replace(/[^0-9]/g, '');
+    // Limitar a máximo 8 caracteres
+    this.rutNumero = soloNumeros.slice(0, 8);
+  }
+
+  // Validación completa de RUT chileno
+  validarRUT(rut: string): boolean {
+    if (!rut) return false;
+    
+    // Limpiar el RUT (quitar puntos y espacios)
+    const rutLimpio = rut.replace(/\./g, '').replace(/\s/g, '').toUpperCase();
+    
+    // Verificar formato básico: 7-8 dígitos seguidos de guión y dígito verificador
+    if (!/^\d{7,8}-[0-9K]$/.test(rutLimpio)) {
+      return false;
+    }
+    
+    const [numero, dv] = rutLimpio.split('-');
+    
+    // Calcular dígito verificador
+    let suma = 0;
+    let multiplicador = 2;
+    
+    // Recorrer el número de derecha a izquierda
+    for (let i = numero.length - 1; i >= 0; i--) {
+      suma += parseInt(numero[i]) * multiplicador;
+      multiplicador = multiplicador === 7 ? 2 : multiplicador + 1;
+    }
+    
+    const resto = suma % 11;
+    const dvCalculado = resto === 0 ? '0' : resto === 1 ? 'K' : (11 - resto).toString();
+    
+    return dv === dvCalculado;
+  }
+
+  // Verificar si el RUT es válido para mostrar errores
+  getRutValido(): boolean {
+    if (this.usuario.tipoDocumento === 'rut' && this.rutNumero && this.rutDigitoVerificador) {
+      const rutCompleto = `${this.rutNumero}-${this.rutDigitoVerificador}`;
+      return this.validarRUT(rutCompleto);
+    }
+    return true;
+  }
+
+  // Verificar si el RUT está completo
+  isRutCompleto(): boolean {
+    return this.rutNumero.length === 8 && this.rutDigitoVerificador !== '';
+  }
+
+  // Obtener el RUT completo formateado
+  getRutCompleto(): string {
+    if (this.rutNumero && this.rutDigitoVerificador) {
+      return `${this.rutNumero}-${this.rutDigitoVerificador}`;
+    }
+    return '';
+  }
   getPlaceholder() {
     switch (this.usuario.tipoDocumento) {
-      case 'rut': return 'Ej: 12345678-9';
-      case 'dni': return 'Ej: 12345678';
+      case 'rut': return 'Número RUT';
+      case 'dni': return 'Número DNI';
       case 'extranjero-cl': return 'Otro documento válido (CL)';
       case 'extranjero-pe': return 'Otro documento válido (PE)';
       case 'otro': return 'Otro documento válido';

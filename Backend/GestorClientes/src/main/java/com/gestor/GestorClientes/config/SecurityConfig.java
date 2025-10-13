@@ -1,6 +1,7 @@
 package com.gestor.GestorClientes.config;
 
 import com.gestor.GestorClientes.util.JwtUtil;
+import com.gestor.GestorClientes.config.JwtValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,7 +31,7 @@ import java.util.List;
 public class SecurityConfig {
 
     @Autowired
-    private JwtUtil jwtUtils;
+    private JwtUtil jwtUtil;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -62,6 +63,10 @@ public class SecurityConfig {
                     // Si quieres hacer público /api/usuarios/perfil coméntalo aquí:
                     // auth.requestMatchers(HttpMethod.GET, "/api/usuarios/perfil").permitAll();
 
+                    // ADMINISTRACIÓN DE SOLICITUDES DE CAMBIO (para back office)
+                    auth.requestMatchers(HttpMethod.GET, "/api/admin/solicitudes-cambio/**").hasAnyRole("ADMINISTRADOR");
+                    auth.requestMatchers(HttpMethod.POST, "/api/admin/solicitudes-cambio/**").hasAnyRole("ADMINISTRADOR");
+
                     // --- lo demás: requiere JWT
                     auth.anyRequest().authenticated();
                 })
@@ -70,7 +75,7 @@ public class SecurityConfig {
                 .httpBasic(AbstractHttpConfigurer::disable)
 
                 // Filtro JWT
-                .addFilterBefore(new JwtValidation(jwtUtils), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new JwtValidation(jwtUtil), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
@@ -91,7 +96,8 @@ public class SecurityConfig {
         CorsConfiguration cfg = new CorsConfiguration();
         cfg.setAllowedOrigins(Arrays.asList(
                 "http://localhost:8100", // Ionic
-                "http://localhost:8080"  // backend / mismo host para imágenes
+                "http://localhost:8080",  // backend / mismo host para imágenes
+                "http://localhost:8201"   // Frontend del back office (CalculoPuntos)
                 // agrega "http://localhost:4200" si usas ng serve
         ));
         cfg.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE","OPTIONS"));

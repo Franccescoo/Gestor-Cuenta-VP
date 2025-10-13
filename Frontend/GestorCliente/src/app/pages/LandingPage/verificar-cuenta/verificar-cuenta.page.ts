@@ -1,7 +1,5 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { SendCredentialsResponse } from 'src/app/models/SendCredentialsResponse.model';
-import { AuthService } from 'src/app/Service/auth.service';
+import { CredentialsService } from 'src/app/Service/credentials.service';
 
 @Component({
   selector: 'app-verificar-cuenta',
@@ -18,8 +16,7 @@ export class VerificarCuentaPage implements OnInit {
   status: { type: 'success' | 'error', message: string } | null = null;
 
   constructor(
-    private http: HttpClient,
-    private auth: AuthService
+    private credentialsService: CredentialsService
   ) {}
 
   ngOnInit() {}
@@ -35,25 +32,41 @@ export class VerificarCuentaPage implements OnInit {
       return;
     }
 
+    // Validar formato de email
+    if (!this.credentialsService.isValidEmail(this.email)) {
+      this.status = { type: 'error', message: 'Formato de email inválido.' };
+      return;
+    }
+
     this.loading = true;
     this.status = null;
 
-    this.auth.sendCredentials(this.email).subscribe({
-      next: (res: SendCredentialsResponse) => {
+    // Usar el nuevo servicio que maneja backend + EmailJS
+    this.credentialsService.requestAndSendCredentials(this.email).subscribe({
+      next: (result) => {
         this.loading = false;
-        this.status = {
-          type: 'success',
-          message: `Listo. Enviamos el enlace a ${res.email}.`
-        };
-        // Si quieres, limpia el token del captcha
-        this.captchaToken = null;
+        if (result.success) {
+          this.status = {
+            type: 'success',
+            message: `¡Listo! Enviamos las credenciales a ${result.data.email}.`
+          };
+          // Limpiar el token del captcha
+          this.captchaToken = null;
+        } else {
+          this.status = { 
+            type: 'error', 
+            message: result.message || 'Error al enviar credenciales.' 
+          };
+        }
       },
       error: (err) => {
         this.loading = false;
         if (err?.status === 404) {
           this.status = { type: 'error', message: 'Email no encontrado.' };
+        } else if (err?.status === 400) {
+          this.status = { type: 'error', message: 'Formato de email inválido.' };
         } else {
-          console.error(err);
+          console.error('Error completo:', err);
           this.status = { type: 'error', message: 'Ocurrió un error. Inténtalo nuevamente.' };
         }
       }

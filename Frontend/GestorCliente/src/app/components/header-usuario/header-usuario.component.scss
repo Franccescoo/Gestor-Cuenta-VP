@@ -202,6 +202,186 @@
 
 
 /* ===============================
+   MODAL DE NOTIFICACIONES
+   =============================== */
+.notifications-modal {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 380px;
+  max-width: 90vw;
+  background: #1a1a1a; // ✅ Fondo oscuro como la página
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+  margin-top: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1); // ✅ Borde dorado sutil
+  overflow: hidden;
+  animation: slideDown 0.2s ease-out;
+
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: #2a2a2a; // ✅ Header más oscuro
+
+    h3 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 600;
+      color: #fff; // ✅ Texto blanco
+    }
+
+    ion-button {
+      --color: var(--gold); // ✅ Color dorado
+      font-size: 12px;
+      height: 32px;
+      font-weight: 600;
+    }
+  }
+
+  .modal-content {
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 8px 0;
+    
+    // ✅ Scrollbar personalizado para tema oscuro
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    &::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 3px;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background: var(--gold);
+      border-radius: 3px;
+    }
+    
+    &::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 215, 0, 0.8);
+    }
+
+    .notification-item {
+      display: flex;
+      gap: 12px;
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.05); // ✅ Hover sutil
+      }
+
+      &.unread {
+        background-color: rgba(255, 215, 0, 0.1); // ✅ Fondo dorado sutil para no leídas
+        border-left: 3px solid var(--gold); // ✅ Borde dorado
+      }
+
+      .notification-icon {
+        flex-shrink: 0;
+        margin-top: 2px;
+
+        ion-icon {
+          font-size: 20px;
+        }
+      }
+
+      .notification-content {
+        flex: 1;
+        min-width: 0;
+
+        .notification-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          margin-bottom: 4px;
+
+          h4 {
+            margin: 0;
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff; // ✅ Título blanco
+            line-height: 1.3;
+          }
+
+          .notification-time {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.6); // ✅ Tiempo gris claro
+            white-space: nowrap;
+            margin-left: 8px;
+          }
+        }
+
+        .notification-message {
+          margin: 0 0 8px 0;
+          font-size: 13px;
+          color: rgba(255, 255, 255, 0.8); // ✅ Mensaje gris claro
+          line-height: 1.4;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+
+        .notification-footer {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+
+          ion-chip {
+            font-size: 10px;
+            height: 20px;
+            background: var(--gold); // ✅ Chip dorado
+            color: #000; // ✅ Texto negro en chip dorado
+            font-weight: 600;
+          }
+
+          .unread-badge {
+            font-size: 9px;
+            background: #ff4444; // ✅ Badge rojo para no leída
+            color: #fff;
+          }
+        }
+      }
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 32px 16px;
+      color: rgba(255, 255, 255, 0.6); // ✅ Estado vacío gris claro
+
+      ion-icon {
+        font-size: 32px;
+        color: rgba(255, 255, 255, 0.3); // ✅ Icono gris
+        margin-bottom: 8px;
+      }
+
+      p {
+        margin: 0;
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===============================
    (Opcional) bloquear scroll del body
    cuando el menú está abierto
    =============================== */

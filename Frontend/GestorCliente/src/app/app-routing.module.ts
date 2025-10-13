@@ -83,13 +83,32 @@ const routes: Routes = [
   {
     path: 'historial-canjes',
     loadChildren: () => import('./pages/historial-canjes/historial-canjes.module').then( m => m.HistorialCanjesPageModule)
-  },  {
+  },
+  {
     path: 'verificar-cuenta',
     loadChildren: () => import('./pages/LandingPage/verificar-cuenta/verificar-cuenta.module').then( m => m.VerificarCuentaPageModule)
   },
   {
     path: 'terminos',
     loadChildren: () => import('./pages/terminos/terminos.module').then( m => m.TerminosPageModule)
+  },
+  {
+    path: 'notificaciones',
+    loadChildren: () => import('./pages/notificaciones/notificaciones.module').then( m => m.NotificacionesPageModule),
+    canActivate: [validarSesionRolGuard],
+    data: { issuer: 'AUTH-backend' }
+  },
+  {
+    path: 'solicitar-cambio-perfil',
+    loadChildren: () => import('./pages/solicitar-cambio-perfil/solicitar-cambio-perfil.module').then( m => m.SolicitarCambioPerfilPageModule),
+    canActivate: [validarSesionRolGuard],
+    data: { issuer: 'AUTH-backend' }
+  },
+  {
+    path: 'mis-solicitudes',
+    loadChildren: () => import('./pages/mis-solicitudes/mis-solicitudes.module').then( m => m.MisSolicitudesPageModule),
+    canActivate: [validarSesionRolGuard],
+    data: { issuer: 'AUTH-backend' }
   },
 
 

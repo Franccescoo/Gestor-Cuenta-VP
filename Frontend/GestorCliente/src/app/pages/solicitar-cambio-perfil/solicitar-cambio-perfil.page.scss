@@ -1,0 +1,281 @@
+:host {
+  --gold: #d4af37;
+  --gold-light: #f3d98b;
+  --ink: #f5f5f5;
+  --muted: #cfcfcf;
+  --bg-0: #0a0a0a;
+  --bg-1: #141414;
+  --bg-2: #1a1a1a;
+  --stroke: rgba(255, 255, 255, 0.08);
+}
+
+/* ===== Layout general ===== */
+.solicitud-content {
+  --background: #ffffff !important;
+  background: #ffffff;
+  color: #333333;
+  min-height: 100vh;
+}
+
+.solicitud-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* ===== Barra de sistema ===== */
+.sistema-info {
+  background: #f5f5f5;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  
+  span {
+    color: #666666;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+}
+
+/* ===== Título principal ===== */
+.main-title {
+  margin-bottom: 2rem;
+  
+  h1 {
+    color: #333333;
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+  }
+  
+  p {
+    color: #666666;
+    font-size: 0.95rem;
+    margin: 0;
+  }
+}
+
+/* ===== Secciones de campos ===== */
+.campo-section {
+  margin-bottom: 2rem;
+  
+  h3 {
+    color: #d4af37;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0 0 1rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #e0e0e0;
+  }
+}
+
+/* ===== Items de campos ===== */
+.campo-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: #ffffff;
+  
+  &:hover {
+    border-color: #d4af37;
+    background: #fafafa;
+  }
+  
+  ion-checkbox {
+    flex-shrink: 0;
+    --size: 20px;
+    --checkbox-background-checked: #d4af37;
+    --border-color-checked: #d4af37;
+    --checkmark-color: #ffffff;
+  }
+  
+  .campo-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    
+    .campo-nombre {
+      color: #333333;
+      font-weight: 500;
+      font-size: 1rem;
+    }
+    
+    .campo-actual {
+      color: #666666;
+      font-size: 0.9rem;
+    }
+  }
+}
+
+/* ===== Editor de campos ===== */
+.campo-editor {
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+  
+  ion-input {
+    --background: #ffffff;
+    --color: #333333;
+    --padding-start: 1rem;
+    --padding-end: 1rem;
+    --padding-top: 0.75rem;
+    --padding-bottom: 0.75rem;
+    border-radius: 4px;
+    border: 1px solid #d0d0d0;
+    font-size: 1rem;
+    
+    &::part(native) {
+      color: #333333;
+    }
+    
+    &::part(placeholder) {
+      color: #999999;
+    }
+  }
+}
+
+/* ===== Sección de comentarios ===== */
+.comentarios-section {
+  margin-bottom: 2rem;
+  
+  h3 {
+    color: #d4af37;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0 0 1rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  form {
+    ion-textarea {
+      --background: #ffffff;
+      --color: #333333;
+      --padding: 1rem;
+      border-radius: 6px;
+      border: 1px solid #d0d0d0;
+      font-size: 1rem;
+      min-height: 100px;
+      
+      &::part(native) {
+        color: #333333;
+      }
+      
+      &::part(placeholder) {
+        color: #999999;
+      }
+    }
+  }
+}
+
+/* ===== Botones de acción ===== */
+.action-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 2rem;
+  
+  ion-button {
+    --border-radius: 6px;
+    --padding-top: 1rem;
+    --padding-bottom: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    
+    ion-icon {
+      margin-right: 0.5rem;
+    }
+  }
+  
+  .cancel-button {
+    --background: transparent;
+    --color: #666666;
+    --border-color: #d0d0d0;
+    --border-width: 1px;
+    --border-style: solid;
+    
+    &:hover {
+      --background: #f5f5f5;
+    }
+  }
+  
+  .submit-button {
+    --background: #d4af37;
+    --color: #ffffff;
+    --box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
+    
+    &:hover {
+      --background: #b8941f;
+    }
+    
+    &[disabled] {
+      --background: #e0e0e0;
+      --color: #999999;
+      --box-shadow: none;
+      opacity: 0.6;
+    }
+  }
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .solicitud-container {
+    padding: 0.75rem;
+  }
+  
+  .action-buttons {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  
+  .campo-item {
+    padding: 0.75rem;
+    gap: 0.75rem;
+  }
+  
+  .campo-editor {
+    padding: 0.75rem;
+  }
+}
+
+/* ===== Animaciones ===== */
+.campo-editor {
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  to {
+    opacity: 1;
+    max-height: 200px;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+}
+
+/* ===== Estados especiales ===== */
+.campo-item:has(ion-checkbox[checked="true"]) {
+  border-color: #d4af37;
+  background: rgba(212, 175, 55, 0.05);
+}
+
+/* ===== Separadores ===== */
+.campo-item:not(:last-child) {
+  border-bottom: 1px solid #f0f0f0;
+}

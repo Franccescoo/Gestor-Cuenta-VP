@@ -18,6 +18,68 @@
     <a href="/historial-canjes" class="nav-item">HISTORIAL DE CANJES</a>
   </nav>
 
+  <!-- ✅ Icono de Notificaciones con Badge -->
+  <div class="notification-container" style="position: relative; margin-right: 20px;">
+    <div class="notification-icon" (click)="toggleNotificationsModal()" style="position: relative; cursor: pointer;">
+      <ion-icon name="notifications-outline" style="font-size: 28px; color: #fff;"></ion-icon>
+      <ion-badge 
+        *ngIf="(unreadCount$ | async) && (unreadCount$ | async)! > 0" 
+        color="danger" 
+        style="position: absolute; top: -5px; right: -10px; font-size: 12px;">
+        {{ unreadCount$ | async }}
+      </ion-badge>
+    </div>
+
+    <!-- ✅ Modal de Notificaciones -->
+    <div class="notifications-modal" *ngIf="showNotificationsModal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Notificaciones</h3>
+               <ion-button fill="clear" size="small" (click)="goToNotificationsPage()">
+                 Historial
+                 <ion-icon name="arrow-forward" slot="end"></ion-icon>
+               </ion-button>
+      </div>
+      
+      <div class="modal-content">
+        <!-- Lista de notificaciones -->
+        <div class="notification-item" 
+             *ngFor="let notificacion of notifications; trackBy: trackByFn" 
+             [class.unread]="!notificacion.leida"
+             (click)="markNotificationAsRead(notificacion)">
+          
+          <div class="notification-icon">
+            <ion-icon [name]="getNotificationIcon(notificacion.tipo)" 
+                      [color]="getNotificationColor(notificacion.tipo)">
+            </ion-icon>
+          </div>
+          
+          <div class="notification-content">
+            <div class="notification-header">
+              <h4>{{ notificacion.titulo }}</h4>
+              <span class="notification-time">{{ formatTime(notificacion.fechaCreacion) }}</span>
+            </div>
+            <p class="notification-message">{{ notificacion.mensaje }}</p>
+            
+            <div class="notification-footer">
+              <ion-chip [color]="getNotificationColor(notificacion.tipo)" size="small">
+                {{ notificacion.tipo }}
+              </ion-chip>
+              <ion-badge *ngIf="!notificacion.leida" color="danger" class="unread-badge">
+                No leída
+              </ion-badge>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Estado vacío -->
+        <div class="empty-state" *ngIf="notifications.length === 0">
+          <ion-icon name="notifications-off-outline"></ion-icon>
+          <p>No tienes notificaciones</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="auth-section" (click)="goToLogin()">
     <span class="register">CERRAR SESIÒN</span>
     <ion-icon name="person" class="user-icon"></ion-icon>
@@ -41,7 +103,16 @@
     <a href="/perfil" class="nav-item">PERFIL</a>
     <a href="/beneficios" class="nav-item">BENEFICIOS</a>
     <a href="/canjear-puntos" class="nav-item">CANJEAR PUNTOS</a>
-    <a href="/historial-canjes" class="nav-item">HISTORIAL DE CANJES</a>
+        <a href="/historial-canjes" class="nav-item">HISTORIAL DE CANJES</a>
+        <div class="nav-item" (click)="toggleNotificationsModal()" style="position: relative; cursor: pointer;">
+          NOTIFICACIONES
+          <ion-badge 
+            *ngIf="(unreadCount$ | async) && (unreadCount$ | async)! > 0" 
+            color="danger" 
+            style="margin-left: 8px; font-size: 11px;">
+            {{ unreadCount$ | async }}
+          </ion-badge>
+        </div>
   </nav>
 
     
