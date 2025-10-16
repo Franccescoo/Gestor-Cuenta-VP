@@ -9,7 +9,7 @@ import { RegistrarCanjeRequest } from '../models/RegistrarCanjeRequest.model';
 
 @Injectable({ providedIn: 'root' })
 export class CanjeService {
-  private baseUrl = 'http://localhost:8081/api';
+  private baseUrl = environment.apiBaseUrl;
 
   constructor(private http: HttpClient) {}
 

@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 import { UserPerfilDTOResponse, mapUserPerfilResponse } from '../models/UserPerfilDTOResponse.model';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
-  private apiUrl = 'http://localhost:8081/api/usuarios';
+  private apiUrl = `${environment.apiBaseUrl}/usuarios`;
 
   constructor(private http: HttpClient) {}
 

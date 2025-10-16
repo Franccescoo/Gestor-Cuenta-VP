@@ -1,0 +1,26 @@
+steps:
+  # 1. Compilar el proyecto y generar el JAR
+  - name: 'maven:3.9.2-eclipse-temurin-17'
+    entrypoint: 'mvn'
+    args: ['clean', 'package', '-DskipTests']
+
+  # 2. Construir la imagen Docker
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      [
+        'build',
+        '-t',
+        'us-central1-docker.pkg.dev/regal-creek-454315-j6/prestige-club-repo/gestor-clientes:latest',
+        '.'
+      ]
+
+  # 3. Subir la imagen Docker a Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      [
+        'push',
+        'us-central1-docker.pkg.dev/regal-creek-454315-j6/prestige-club-repo/gestor-clientes:latest'
+      ]
+
+images:
+  - 'us-central1-docker.pkg.dev/regal-creek-454315-j6/prestige-club-repo/gestor-clientes:latest'

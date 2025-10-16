@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 import { HistorialCanjeDetalle } from '../models/HistorialCanjeDetalle.model';
 
 @Injectable({
@@ -8,7 +9,7 @@ import { HistorialCanjeDetalle } from '../models/HistorialCanjeDetalle.model';
 })
 export class HistorialCanjeService {
 
-  private apiUrl = 'http://localhost:8081/api/historial-canje';
+  private apiUrl = `${environment.apiBaseUrl}/historial-canje`;
 
   constructor(private http: HttpClient) { }
 

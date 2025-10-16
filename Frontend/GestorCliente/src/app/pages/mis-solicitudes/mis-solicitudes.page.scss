@@ -76,6 +76,33 @@
     gap: 1rem;
     align-items: center;
   }
+
+  /* ✅ Botón de refrescar personalizado */
+  .refresh-button {
+    --background: linear-gradient(135deg, var(--gold) 0%, #b8941f 100%);
+    --color: var(--bg-0);
+    --box-shadow: 0 4px 16px rgba(212, 175, 55, 0.3);
+    --border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    transition: all 0.3s ease;
+
+    &:hover {
+      --background: linear-gradient(135deg, #b8941f 0%, var(--gold) 100%);
+      --box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+      transform: translateY(-2px);
+    }
+
+    &:active {
+      transform: translateY(0);
+      --box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
+    }
+
+    ion-icon {
+      font-size: 1.5rem;
+      color: var(--bg-0);
+    }
+  }
 }
 
 /* ===== TARJETAS PRINCIPALES ===== */

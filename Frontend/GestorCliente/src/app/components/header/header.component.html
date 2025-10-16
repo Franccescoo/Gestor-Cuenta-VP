@@ -17,10 +17,27 @@
     <a href="/contacto" class="nav-item">CONTACTO</a>
   </nav>
 
-  <div class="auth-section" (click)="goToLogin()">
+  <!-- ✅ Sección de autenticación dinámica -->
+  <div class="auth-section" *ngIf="!(isAuthenticated$ | async); else authenticatedSection" (click)="goToLogin()">
     <span>INGRESAR/</span><span class="register">REGISTRARSE</span>
     <ion-icon name="person" class="user-icon"></ion-icon>
   </div>
+
+  <!-- ✅ Sección para usuario autenticado -->
+  <ng-template #authenticatedSection>
+    <div class="user-section">
+      <div class="user-actions">
+        <button class="account-btn" (click)="goToAccount()">
+          <ion-icon name="person-circle-outline"></ion-icon>
+          <span>ENTRAR A MI CUENTA</span>
+        </button>
+        <button class="logout-btn" (click)="logout()">
+          <ion-icon name="log-out-outline"></ion-icon>
+          <span>CERRAR SESIÓN</span>
+        </button>
+      </div>
+    </div>
+  </ng-template>
 
   <!-- Botón Hamburguesa (visible < 993px) -->
   <div class="hamburger" (click)="toggleMenu()">
@@ -43,10 +60,31 @@
   </nav>
 
     
-  <div class="menu-login">
-    <a  href="/iniciar-sesion"><h3>Inicia Sesión</h3></a>
+  <!-- ✅ Menú de login dinámico -->
+  <div class="menu-login" *ngIf="!(isAuthenticated$ | async); else authenticatedMobileMenu">
+    <a href="/iniciar-sesion"><h3>Inicia Sesión</h3></a>
     <p class="register-text">¿No tienes cuenta? Regístrate</p>
   </div>
+
+  <!-- ✅ Menú para usuario autenticado -->
+  <ng-template #authenticatedMobileMenu>
+    <div class="menu-user">
+      <div class="user-info-mobile">
+        <h3>¡Bienvenido!</h3>
+        <p>Tu sesión está activa</p>
+      </div>
+      <div class="user-actions-mobile">
+        <a href="/menu" (click)="closeMenu()" class="menu-action">
+          <ion-icon name="person-circle-outline"></ion-icon>
+          <span>Entrar a Mi Cuenta</span>
+        </a>
+        <a href="#" (click)="logout(); closeMenu()" class="menu-action logout">
+          <ion-icon name="log-out-outline"></ion-icon>
+          <span>Cerrar Sesión</span>
+        </a>
+      </div>
+    </div>
+  </ng-template>
   
 </div>
 

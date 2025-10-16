@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 import { SendCredentialsResponse } from '../models/SendCredentialsResponse.model';
 
 /** ==== Helpers para decodificar el JWT (sin librerías externas) ==== */
@@ -44,7 +45,7 @@ export class AuthService {
   sendCredentialsByPhone(numero: string) {
     throw new Error('Method not implemented.');
   }
-  private baseUrl = 'http://localhost:8081/api/auth';
+  private baseUrl = `${environment.apiBaseUrl}/auth`;
   private readonly DEFAULT_ISS = 'AUTH-backend'; // ← Emisor esperado
   private readonly SKEW = 60;                    // tolerancia (seg) para reloj del cliente
 
@@ -62,6 +63,10 @@ export class AuthService {
           localStorage.setItem('token', res.jwt);
           if (res.sistema) localStorage.setItem('sistema', res.sistema);
           if (res.email)   localStorage.setItem('email', res.email);
+          
+          // ✅ Guardar timestamp de login para expiración automática
+          const loginTime = new Date().getTime();
+          localStorage.setItem('loginTime', loginTime.toString());
         }
         return res;
       })
@@ -77,6 +82,9 @@ export class AuthService {
   }
   logout(): void {
     localStorage.removeItem('token');
+    localStorage.removeItem('sistema');
+    localStorage.removeItem('email');
+    localStorage.removeItem('loginTime');
     // si guardas más cosas, límpialas aquí
   }
 
@@ -100,7 +108,22 @@ export class AuthService {
 
     if (typeof p.sistemaId !== 'number') return false;
 
+    // ✅ Verificar expiración automática de 24 horas
+    if (!this.isSessionValid()) return false;
+
     return true;
+  }
+
+  /** ✅ Verificar si la sesión es válida (no ha expirado por tiempo) */
+  private isSessionValid(): boolean {
+    const loginTime = localStorage.getItem('loginTime');
+    if (!loginTime) return false;
+
+    const loginTimestamp = parseInt(loginTime, 10);
+    const now = new Date().getTime();
+    const twentyFourHours = 24 * 60 * 60 * 1000; // 24 horas en milisegundos
+
+    return (now - loginTimestamp) < twentyFourHours;
   }
 
   /** Usa la validación real en vez de “existe token” */

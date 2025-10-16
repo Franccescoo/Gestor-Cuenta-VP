@@ -18,6 +18,22 @@
     <a href="/historial-canjes" class="nav-item">HISTORIAL DE CANJES</a>
   </nav>
 
+  <!-- ✅ Puntos y Nivel del Usuario -->
+  <div class="user-info" *ngIf="userDashboard$ | async as dashboard">
+    <div class="user-level" *ngIf="dashboard.nivel">
+      <ion-icon name="medal-outline" class="level-icon"></ion-icon>
+      <span class="level-text">{{ dashboard.nivel }}</span>
+    </div>
+    
+    <div class="user-points">
+      <div class="points-display">
+        <ion-icon name="diamond-outline" class="points-icon"></ion-icon>
+        <span class="points-value">{{ dashboard.puntos | number }}</span>
+        <span class="points-label">pts</span>
+      </div>
+    </div>
+  </div>
+
   <!-- ✅ Icono de Notificaciones con Badge -->
   <div class="notification-container" style="position: relative; margin-right: 20px;">
     <div class="notification-icon" (click)="toggleNotificationsModal()" style="position: relative; cursor: pointer;">
@@ -81,7 +97,7 @@
   </div>
 
   <div class="auth-section" (click)="goToLogin()">
-    <span class="register">CERRAR SESIÒN</span>
+    <span class="register">CERRAR SESIÓN</span>
     <ion-icon name="person" class="user-icon"></ion-icon>
   </div>
 
@@ -103,16 +119,29 @@
     <a href="/perfil" class="nav-item">PERFIL</a>
     <a href="/beneficios" class="nav-item">BENEFICIOS</a>
     <a href="/canjear-puntos" class="nav-item">CANJEAR PUNTOS</a>
-        <a href="/historial-canjes" class="nav-item">HISTORIAL DE CANJES</a>
-        <div class="nav-item" (click)="toggleNotificationsModal()" style="position: relative; cursor: pointer;">
-          NOTIFICACIONES
-          <ion-badge 
-            *ngIf="(unreadCount$ | async) && (unreadCount$ | async)! > 0" 
-            color="danger" 
-            style="margin-left: 8px; font-size: 11px;">
-            {{ unreadCount$ | async }}
-          </ion-badge>
-        </div>
+    <a href="/historial-canjes" class="nav-item">HISTORIAL DE CANJES</a>
+    
+    <!-- ✅ Información del Usuario en móvil -->
+    <div class="nav-item user-info-mobile" *ngIf="userDashboard$ | async as dashboard">
+      <div class="user-level-mobile" *ngIf="dashboard.nivel">
+        <ion-icon name="medal-outline" class="level-icon"></ion-icon>
+        <span>{{ dashboard.nivel }}</span>
+      </div>
+      <div class="user-points-mobile">
+        <ion-icon name="diamond-outline" class="points-icon"></ion-icon>
+        <span>{{ dashboard.puntos | number }} pts</span>
+      </div>
+    </div>
+    
+    <div class="nav-item" (click)="toggleNotificationsModal()" style="position: relative; cursor: pointer;">
+      NOTIFICACIONES
+      <ion-badge 
+        *ngIf="(unreadCount$ | async) && (unreadCount$ | async)! > 0" 
+        color="danger" 
+        style="margin-left: 8px; font-size: 11px;">
+        {{ unreadCount$ | async }}
+      </ion-badge>
+    </div>
   </nav>
 
     

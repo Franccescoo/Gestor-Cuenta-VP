@@ -44,6 +44,7 @@ public class SecurityConfig {
                     // --- PUBLICO: auth
                     auth.requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll();
                     auth.requestMatchers(HttpMethod.POST, "/api/auth/send-credentials").permitAll();
+                    auth.requestMatchers(HttpMethod.GET, "/api/auth/health-db").permitAll();
 
                     // --- PUBLICO: estáticos / imágenes (ajusta a tus rutas reales)
                     auth.requestMatchers(HttpMethod.GET, "/productos/**", "/files/**", "/assets/**").permitAll();
@@ -97,7 +98,9 @@ public class SecurityConfig {
         cfg.setAllowedOrigins(Arrays.asList(
                 "http://localhost:8100", // Ionic
                 "http://localhost:8080",  // backend / mismo host para imágenes
-                "http://localhost:8201"   // Frontend del back office (CalculoPuntos)
+                "http://localhost:8201",  // Frontend del back office (CalculoPuntos)
+                "https://prestige-club-2025.web.app",  // Frontend en producción
+                "https://betpoints-puntos.web.app"    // Frontend CalculoPuntos en producción
                 // agrega "http://localhost:4200" si usas ng serve
         ));
         cfg.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE","OPTIONS"));

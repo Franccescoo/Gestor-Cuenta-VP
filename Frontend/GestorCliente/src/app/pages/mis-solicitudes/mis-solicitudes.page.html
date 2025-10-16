@@ -14,7 +14,12 @@
           <p>Revisa el estado de tus solicitudes de modificación de perfil</p>
         </div>
       </div>
-
+      
+      <div class="header-actions">
+        <ion-fab-button (click)="refrescar()" class="refresh-button">
+          <ion-icon name="refresh-outline"></ion-icon>
+        </ion-fab-button>
+      </div>
     </div>
 
     <!-- Loading -->
@@ -103,18 +108,6 @@
               </div>
             </div>
 
-            <!-- Botón para nueva solicitud -->
-            <div *ngIf="solicitud.estado !== 'PENDIENTE'" 
-                 class="acciones">
-              <ion-button 
-                size="small" 
-                fill="outline" 
-                color="primary"
-                (click)="irASolicitarCambio()">
-                <ion-icon name="create-outline" slot="start"></ion-icon>
-                Nueva solicitud
-              </ion-button>
-            </div>
 
           </div>
         </ion-card-content>
@@ -123,11 +116,7 @@
     </div>
 
     <!-- Botón de refrescar -->
-    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-      <ion-fab-button (click)="refrescar()">
-        <ion-icon name="refresh-outline"></ion-icon>
-      </ion-fab-button>
-    </ion-fab>
+
 
   </div>
 </ion-content>

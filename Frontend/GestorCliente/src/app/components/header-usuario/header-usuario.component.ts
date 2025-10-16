@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuController } from '@ionic/angular';
 import { NotificationService } from 'src/app/Service/notification.service';
-import { Observable } from 'rxjs';
+import { DashboardService } from 'src/app/Service/DashboardService.service';
+import { Observable, BehaviorSubject, switchMap, catchError, of, startWith } from 'rxjs';
 
 @Component({
   selector: 'app-header-usuario',
@@ -25,10 +26,15 @@ export class HeaderUsuarioComponent  implements OnInit {
   showNotificationsModal = false;
   notifications: any[] = [];
 
+  // ✅ Dashboard completo del usuario (puntos + nivel)
+  userDashboard$!: Observable<any>;
+  private reload$ = new BehaviorSubject<void>(void 0);
+
   constructor(
     private menuController: MenuController,
     private router: Router,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private dashboardService: DashboardService
   ) { 
     // Suscribirse al contador de notificaciones
     this.unreadCount$ = this.notificationService.unreadCount$;
@@ -37,6 +43,9 @@ export class HeaderUsuarioComponent  implements OnInit {
     this.notificationService.notifications$.subscribe(notificaciones => {
       this.notifications = notificaciones;
     });
+
+    // ✅ Inicializar stream de dashboard del usuario
+    this.initializeUserDashboard();
   }
 
   ngOnInit() {
@@ -49,6 +58,28 @@ export class HeaderUsuarioComponent  implements OnInit {
         }
       }
     });
+  }
+
+  // ✅ Inicializar stream de dashboard del usuario
+  private initializeUserDashboard(): void {
+    this.userDashboard$ = this.reload$.pipe(
+      startWith(void 0),
+      switchMap(() => this.dashboardService.getMeTokenData()),
+      switchMap(({ playerId, sistemaId }) => 
+        this.dashboardService.getDashboard(playerId, sistemaId)
+      ),
+      catchError(() => of({
+        puntos: 0,
+        nivel: null,
+        nombre: null,
+        email: null
+      }))
+    );
+  }
+
+  // ✅ Método para recargar dashboard (opcional, para uso futuro)
+  refreshUserDashboard(): void {
+    this.reload$.next();
   }
 
 

@@ -1,0 +1,45 @@
+# Archivos de desarrollo
+src/main/resources/application-dev.properties
+src/main/resources/application-local.properties
+
+# Archivos de IDE
+.idea/
+*.iml
+.vscode/
+*.swp
+*.swo
+
+# Archivos de Git
+.git/
+.gitignore
+
+# Archivos de Maven
+.mvn/
+mvnw
+mvnw.cmd
+
+# Logs
+*.log
+logs/
+
+# Archivos temporales
+tmp/
+temp/
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Documentación
+README.md
+DEPLOY.md
+*.md
+
+# Archivos de configuración de despliegue
+cloudbuild.yaml
+cloudrun-deploy.yaml
+deploy.sh
+
+# Tests
+src/test/
+

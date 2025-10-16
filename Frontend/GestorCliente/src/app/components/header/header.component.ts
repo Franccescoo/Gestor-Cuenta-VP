@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/Service/auth.service';
+import { Observable, BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -14,15 +16,39 @@ export class HeaderComponent implements OnInit {
   cartItemCount: number = 0;
   currentIndex: number = 0;
   user: any = null;
-menuOpen = false;
+  menuOpen = false;
 
+  // ✅ Estado de autenticación
+  isAuthenticated$: Observable<boolean>;
+  private authState$ = new BehaviorSubject<boolean>(false);
 
   constructor(
     private menuController: MenuController,
     private router: Router,
-  ) { }
+    private authService: AuthService
+  ) { 
+    this.isAuthenticated$ = this.authState$.asObservable();
+  }
 
   ngOnInit() {
+    // ✅ Verificar estado de autenticación al inicializar
+    this.checkAuthState();
+    
+    // ✅ Verificar expiración de sesión cada minuto
+    setInterval(() => {
+      this.checkAuthState();
+    }, 60000); // 60 segundos
+  }
+
+  // ✅ Verificar estado de autenticación
+  private checkAuthState(): void {
+    const isAuth = this.authService.isAuthenticated();
+    this.authState$.next(isAuth);
+    
+    // Si no está autenticado, limpiar datos de sesión
+    if (!isAuth) {
+      this.authService.logout();
+    }
   }
 
 
@@ -47,6 +73,18 @@ closeMenu() {
 goToLogin() {
   // navega a tu ruta de login
   this.router.navigate(['/iniciar-sesion']);
+}
+
+// ✅ Ir a la cuenta del usuario
+goToAccount() {
+  this.router.navigate(['/menu']);
+}
+
+// ✅ Cerrar sesión
+logout() {
+  this.authService.logout();
+  this.authState$.next(false);
+  this.router.navigate(['/inicio']);
 }
 
 

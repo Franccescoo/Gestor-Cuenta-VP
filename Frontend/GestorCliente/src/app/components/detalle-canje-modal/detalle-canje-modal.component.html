@@ -14,18 +14,18 @@
     </div>
     <div class="info-card">
       <div class="beneficio-info">
-        <h4>{{ canje.beneficio?.nombre || 'Sin nombre' }}</h4>
-        <p class="descripcion">{{ canje.beneficio?.descripcion || 'Sin descripción' }}</p>
+        <h4>{{ canje.beneficio.nombre || 'Sin nombre' }}</h4>
+        <p class="descripcion">{{ canje.beneficio.descripcion || 'Sin descripción' }}</p>
         
         <div class="beneficio-details">
           <div class="detail-item">
             <span class="label">Categoría:</span>
-            <span class="value">{{ canje.categoria?.nombre || 'Sin categoría' }}</span>
+            <span class="value">{{ canje.categoria.nombre || 'Sin categoría' }}</span>
           </div>
           
           <div class="detail-item">
             <span class="label">Beneficio:</span>
-            <span class="value">{{ canje.beneficio?.nombre || 'Sin nombre' }}</span>
+            <span class="value">{{ canje.beneficio.nombre || 'Sin nombre' }}</span>
           </div>
           
           <div class="detail-item">
@@ -45,13 +45,13 @@
     </div>
     <div class="info-card">
       <div class="estado-info">
-        <div class="estado-badge" [ngClass]="canje.estado?.toLowerCase()">
+        <div class="estado-badge" [ngClass]="canje.estado.toLowerCase()">
           {{ canje.estado || 'Sin estado' }}
         </div>
         
         <div class="timeline">
           <div class="timeline-item">
-            <div class="timeline-icon" [ngClass]="canje.estado?.toLowerCase()">
+            <div class="timeline-icon" [ngClass]="canje.estado.toLowerCase()">
               <ion-icon name="time"></ion-icon>
             </div>
             <div class="timeline-content">
@@ -61,7 +61,7 @@
           </div>
           
           <div class="timeline-item" *ngIf="canje.fechaRespuesta">
-            <div class="timeline-icon" [ngClass]="canje.estado?.toLowerCase()">
+            <div class="timeline-icon" [ngClass]="canje.estado.toLowerCase()">
               <ion-icon [name]="getEstadoIcon()"></ion-icon>
             </div>
             <div class="timeline-content">

@@ -13,7 +13,9 @@ public class WebConfig implements WebMvcConfigurer {
                         "http://localhost:8100",  // Frontend Angular/Ionic
                         "http://localhost:4200",  // Otro frontend posible
                         "http://localhost:8080",  // Solo si es otro backend
-                        "http://localhost:8201"   // Frontend del back office (CalculoPuntos)
+                        "http://localhost:8201",  // Frontend del back office (CalculoPuntos)
+                        "https://prestige-club-2025.web.app",  // Frontend en producción
+                        "https://betpoints-puntos.web.app"    // Frontend CalculoPuntos en producción
                 )
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")

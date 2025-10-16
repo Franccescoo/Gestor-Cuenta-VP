@@ -73,7 +73,7 @@ public class MailjetService {
         String html = buildEmailHtmlPrestige(items, toEmail);      // ← pasa el email
         String text = buildCredentialsText(items, toEmail);         // ← idem
 
-        String fromEmail = "consultas.punto@gmail.com";
+        String fromEmail = "consultas.puntos@gmail.com";
         String fromName  = "Prestige Club";
 
         return enviarCorreo(fromEmail, fromName, toEmail, "", subject, html, text);
@@ -91,7 +91,7 @@ public class MailjetService {
         String html = buildEmailHtmlPrestige(List.of(unico), emailDestino); // ← usa el email
         String text = buildCredentialsText(List.of(unico), emailDestino);   // ← idem
 
-        String fromEmail = "consultas.punto@gmail.com";
+        String fromEmail = "consultas.puntos@gmail.com";
         String fromName  = "Prestige Club";
 
         return enviarCorreo(fromEmail, fromName, emailDestino, nombreUsuario, subject, html, text);
