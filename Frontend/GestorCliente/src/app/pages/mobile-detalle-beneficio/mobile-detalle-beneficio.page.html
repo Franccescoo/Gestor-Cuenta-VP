@@ -1,0 +1,124 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/mobile-beneficios"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Detalle del Beneficio</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-spinner *ngIf="cargando" name="crescent" class="loading-spinner"></ion-spinner>
+
+  <div *ngIf="!cargando && beneficio" class="detalle-container">
+    <!-- Header del beneficio -->
+    <ion-card class="beneficio-header-card">
+      <ion-card-content>
+        <div class="beneficio-header">
+          <div class="beneficio-info">
+            <h1>{{ beneficio.nombreBeneficio }}</h1>
+            <p class="categoria">{{ beneficio.categoria }}</p>
+            <ion-badge [color]="isBeneficioDisponible() ? 'success' : 'warning'" class="status-badge">
+              {{ getEstadoBeneficio() }}
+            </ion-badge>
+          </div>
+          <div class="beneficio-image" *ngIf="beneficio.imagenUrl">
+            <ion-img [src]="beneficio.imagenUrl" alt="Imagen del beneficio"></ion-img>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Código de promoción -->
+    <ion-card class="codigo-card" *ngIf="isBeneficioDisponible()">
+      <ion-card-header>
+        <ion-card-title>Tu Código de Promoción</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="codigo-container">
+          <div class="codigo-display">
+            <span class="codigo-text">{{ beneficio.codigoPromocion }}</span>
+          </div>
+          <ion-button 
+            expand="block" 
+            (click)="copiarCodigo()"
+            class="copiar-button">
+            <ion-icon name="copy-outline" slot="start"></ion-icon>
+            Copiar Código
+          </ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Información del beneficio -->
+    <ion-card class="info-card">
+      <ion-card-header>
+        <ion-card-title>Información del Beneficio</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="info-grid">
+          <div class="info-item">
+            <ion-icon name="calendar-outline"></ion-icon>
+            <div class="info-content">
+              <span class="info-label">Fecha de Canje</span>
+              <span class="info-value">{{ beneficiosService.formatFecha(beneficio.fechaCanje) }}</span>
+            </div>
+          </div>
+          
+          <div class="info-item" *ngIf="beneficio.diasRestantes > 0">
+            <ion-icon name="time-outline"></ion-icon>
+            <div class="info-content">
+              <span class="info-label">Disponible en</span>
+              <span class="info-value">{{ beneficio.diasRestantes }} días</span>
+            </div>
+          </div>
+          
+          <div class="info-item">
+            <ion-icon name="storefront-outline"></ion-icon>
+            <div class="info-content">
+              <span class="info-label">Tienda</span>
+              <span class="info-value">{{ beneficio.tiendaAplicable }}</span>
+            </div>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Descripción -->
+    <ion-card class="descripcion-card" *ngIf="beneficio.descripcion">
+      <ion-card-header>
+        <ion-card-title>Descripción</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>{{ beneficio.descripcion }}</p>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Acciones -->
+    <div class="acciones-container">
+      <ion-button 
+        expand="block" 
+        fill="outline"
+        (click)="mostrarInstrucciones()">
+        <ion-icon name="information-circle-outline" slot="start"></ion-icon>
+        Instrucciones de Uso
+      </ion-button>
+      
+      <ion-button 
+        expand="block" 
+        fill="outline"
+        (click)="mostrarTerminos()">
+        <ion-icon name="document-text-outline" slot="start"></ion-icon>
+        Términos y Condiciones
+      </ion-button>
+      
+      <ion-button 
+        expand="block" 
+        fill="outline"
+        (click)="contactarSoporte()">
+        <ion-icon name="help-circle-outline" slot="start"></ion-icon>
+        Contactar Soporte
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

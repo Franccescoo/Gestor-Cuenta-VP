@@ -17,17 +17,21 @@ spec:
       containerConcurrency: 100
       timeoutSeconds: 300
       containers:
-      - image: southamerica-east1-docker.pkg.dev/PROJECT_ID/prestige-club-repo/gestor-clientes:latest
+      - image: us-central1-docker.pkg.dev/PROJECT_ID/prestige-club-repo/gestor-clientes:latest
         ports:
         - name: http1
           containerPort: 8080
         env:
         # Configuración de base de datos
-        - name: SPRING_DATASOURCE_URL
-          value: "jdbc:postgresql://DB_HOST:5432/DB_NAME"
-        - name: SPRING_DATASOURCE_USERNAME
-          value: "DB_USER"
-        - name: SPRING_DATASOURCE_PASSWORD
+        - name: DB_HOST
+          value: "10.142.0.3"  # IP privada de tu Cloud SQL
+        - name: DB_PORT
+          value: "5432"
+        - name: DB_NAME
+          value: "calculadora"
+        - name: DB_USER
+          value: "administrador"
+        - name: DB_PASS
           valueFrom:
             secretKeyRef:
               name: db-password
@@ -46,7 +50,7 @@ spec:
         - name: SPRING_MAIL_PORT
           value: "587"
         - name: SPRING_MAIL_USERNAME
-          value: "your-email@gmail.com"
+          value: "consultas.puntos@gmail.com"
         - name: SPRING_MAIL_PASSWORD
           valueFrom:
             secretKeyRef:

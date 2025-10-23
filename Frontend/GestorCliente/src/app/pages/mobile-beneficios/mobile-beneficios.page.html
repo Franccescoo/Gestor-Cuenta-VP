@@ -1,0 +1,96 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Mis Beneficios</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="logout()" fill="clear">
+        <ion-icon name="log-out-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Header con información del usuario -->
+  <div class="user-header">
+    <ion-card>
+      <ion-card-content>
+        <div class="user-info">
+          <ion-avatar>
+            <ion-img src="assets/icon/foto-perfil.jfif"></ion-img>
+          </ion-avatar>
+          <div class="user-details">
+            <h2>{{ user?.nombre || 'Usuario' }}</h2>
+            <p>{{ user?.email }}</p>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Segmento para cambiar entre vistas -->
+  <ion-segment [(ngModel)]="segmentoActivo" (ionChange)="onSegmentChange($event)">
+    <ion-segment-button value="canjeados">
+      <ion-label>Canjeados</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="disponibles">
+      <ion-label>Disponibles</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <!-- Lista de beneficios -->
+  <div class="beneficios-container">
+    <ion-spinner *ngIf="cargando" name="crescent" class="loading-spinner"></ion-spinner>
+
+    <div *ngIf="!cargando && beneficios.length === 0" class="empty-state">
+      <ion-icon name="gift-outline" size="large" color="medium"></ion-icon>
+      <h3>No hay beneficios</h3>
+      <p *ngIf="segmentoActivo === 'canjeados'">
+        No tienes beneficios canjeados aún.
+      </p>
+      <p *ngIf="segmentoActivo === 'disponibles'">
+        No hay beneficios disponibles para canjear.
+      </p>
+    </div>
+
+    <ion-card *ngFor="let beneficio of beneficios" 
+              class="beneficio-card"
+              [class.disponible]="isBeneficioDisponible(beneficio)"
+              (click)="verDetalleBeneficio(beneficio)">
+      <ion-card-content>
+        <div class="beneficio-header">
+          <div class="beneficio-info">
+            <h3>{{ beneficio.nombreBeneficio }}</h3>
+            <p class="categoria">{{ beneficio.categoria }}</p>
+          </div>
+          <div class="beneficio-status">
+            <ion-badge [color]="isBeneficioDisponible(beneficio) ? 'success' : 'warning'">
+              {{ getEstadoBeneficio(beneficio) }}
+            </ion-badge>
+          </div>
+        </div>
+
+        <div class="beneficio-details">
+          <div class="detail-item">
+            <ion-icon name="calendar-outline"></ion-icon>
+            <span>Canjeado: {{ beneficiosService.formatFecha(beneficio.fechaCanje) }}</span>
+          </div>
+          
+          <div class="detail-item" *ngIf="beneficio.diasRestantes > 0">
+            <ion-icon name="time-outline"></ion-icon>
+            <span>Disponible en: {{ beneficio.diasRestantes }} días</span>
+          </div>
+        </div>
+
+        <div class="beneficio-actions" *ngIf="isBeneficioDisponible(beneficio)">
+          <ion-button 
+            fill="outline" 
+            size="small"
+            (click)="copiarCodigo(beneficio.codigoPromocion); $event.stopPropagation()">
+            <ion-icon name="copy-outline" slot="start"></ion-icon>
+            Ver código
+          </ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

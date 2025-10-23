@@ -110,6 +110,19 @@ const routes: Routes = [
     canActivate: [validarSesionRolGuard],
     data: { issuer: 'AUTH-backend' }
   },
+  // Rutas móviles para beneficios
+  {
+    path: 'mobile-login',
+    loadChildren: () => import('./pages/mobile-login/mobile-login.module').then( m => m.MobileLoginPageModule)
+  },
+  {
+    path: 'mobile-beneficios',
+    loadChildren: () => import('./pages/mobile-beneficios/mobile-beneficios.module').then( m => m.MobileBeneficiosPageModule)
+  },
+  {
+    path: 'mobile-detalle-beneficio/:id',
+    loadChildren: () => import('./pages/mobile-detalle-beneficio/mobile-detalle-beneficio.module').then( m => m.MobileDetalleBeneficioPageModule)
+  },
 
 
 

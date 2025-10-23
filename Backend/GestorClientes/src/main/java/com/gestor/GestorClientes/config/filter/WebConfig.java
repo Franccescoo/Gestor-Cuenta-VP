@@ -15,7 +15,8 @@ public class WebConfig implements WebMvcConfigurer {
                         "http://localhost:8080",  // Solo si es otro backend
                         "http://localhost:8201",  // Frontend del back office (CalculoPuntos)
                         "https://prestige-club-2025.web.app",  // Frontend en producción
-                        "https://betpoints-puntos.web.app"    // Frontend CalculoPuntos en producción
+                        "https://betpoints-puntos.web.app",    // Frontend CalculoPuntos en producción
+                        "https://prestigeclub.vip"             // Frontend principal en producción
                 )
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")

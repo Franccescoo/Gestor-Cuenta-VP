@@ -1,23 +1,7 @@
-<!-- Marcas asociadas -->
-<section class="brands-marquee">
-  <div class="marquee-track" aria-hidden="true">
-    <!-- Tira 1 -->
-    <div
-      class="brand brand-mask"
-      *ngFor="let b of brands"
-      [style.--logo]="'url(' + b.logo + ')'"
-      [attr.aria-label]="b.name"
-      role="img"
-    ></div>
-
-    <!-- Tira 2 (duplicada para loop perfecto) -->
-    <div
-      class="brand brand-mask"
-      *ngFor="let b of brands"
-      [style.--logo]="'url(' + b.logo + ')'"
-      [attr.aria-label]="b.name"
-      role="img"
-    ></div>
+<!-- Logo AltoTermal -->
+<section class="altoTermal-logo">
+  <div class="logo-container">
+    <img src="/assets/img/altoTermal.png" alt="AltoTermal" class="altoTermal-logo-img">
   </div>
 </section>
 

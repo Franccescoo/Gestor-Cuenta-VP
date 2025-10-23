@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { SolicitudCambioPerfil, CrearSolicitudRequest, AprobarSolicitudRequest, RechazarSolicitudRequest, EstadisticasSolicitudes } from '../models/SolicitudCambioPerfil.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SolicitudCambioPerfilService {
-  private apiUrl = 'http://localhost:8080/api/solicitudes-cambio-perfil';
+  private apiUrl = `${environment.apiBaseUrl}/solicitudes-cambio-perfil`;
 
   constructor(private http: HttpClient) {}
 

@@ -9,14 +9,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 32px 20px;
+  padding: 24px 20px;
   background: #000;
   color: #fff;
   border-bottom: 1px solid rgba(255, 255, 255, .06);
 
   .logo img {
-    padding-left: 90px;
-    height: 90px; /* ✅ Aumentado de 50px a 90px para consistencia */
+    padding-left: 40px;
+    height: 50px; /* ✅ Reducido para header más compacto */
     display: block;
     transition: transform 0.2s ease; /* ✅ Efecto hover suave */
     
@@ -179,7 +179,7 @@
     border-bottom: 1px solid rgba(255, 255, 255, .08);
 
     img { 
-      height: 60px; /* ✅ Aumentado de 36px a 60px para móvil */
+      height: 40px; /* ✅ Reducido para mantener proporción */
       transition: transform 0.2s ease;
     }
 

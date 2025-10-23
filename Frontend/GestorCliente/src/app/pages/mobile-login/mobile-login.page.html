@@ -1,0 +1,72 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Prestige Club</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="login-container">
+    <!-- Logo o imagen de la marca -->
+    <div class="logo-section">
+      <ion-img src="assets/icon/logo-casino.png" alt="Prestige Club" class="logo"></ion-img>
+      <h1>Prestige Club</h1>
+      <p>Accede a tus beneficios canjeados</p>
+    </div>
+
+    <!-- Formulario de login -->
+    <ion-card class="login-card">
+      <ion-card-content>
+        <form (ngSubmit)="onLogin()">
+          <!-- Email -->
+          <ion-item>
+            <ion-label position="stacked">Email</ion-label>
+            <ion-input 
+              type="email" 
+              [(ngModel)]="credentials.email" 
+              name="email"
+              placeholder="tu@email.com"
+              required>
+            </ion-input>
+          </ion-item>
+
+          <!-- Contraseña -->
+          <ion-item>
+            <ion-label position="stacked">Contraseña</ion-label>
+            <ion-input 
+              type="password" 
+              [(ngModel)]="credentials.password" 
+              name="password"
+              placeholder="Tu contraseña"
+              required>
+            </ion-input>
+          </ion-item>
+
+          <!-- Botón de login -->
+          <ion-button 
+            expand="block" 
+            type="submit" 
+            class="login-button"
+            [disabled]="!credentials.email || !credentials.password">
+            Iniciar Sesión
+          </ion-button>
+
+          <!-- Enlace de ayuda -->
+          <ion-button 
+            fill="clear" 
+            expand="block" 
+            (click)="onForgotPassword()"
+            class="help-button">
+            ¿Olvidaste tu contraseña?
+          </ion-button>
+        </form>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Información adicional -->
+    <div class="info-section">
+      <ion-text color="medium">
+        <p>Accede con las credenciales que te proporcionamos por email para ver tus beneficios canjeados.</p>
+      </ion-text>
+    </div>
+  </div>
+</ion-content>

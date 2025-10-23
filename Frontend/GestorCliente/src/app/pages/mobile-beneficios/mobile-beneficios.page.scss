@@ -1,0 +1,167 @@
+.user-header {
+  padding: 16px;
+  
+  .user-info {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    
+    ion-avatar {
+      width: 50px;
+      height: 50px;
+    }
+    
+    .user-details {
+      flex: 1;
+      
+      h2 {
+        margin: 0 0 4px 0;
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: var(--ion-color-dark);
+      }
+      
+      p {
+        margin: 0;
+        color: var(--ion-color-medium);
+        font-size: 0.9rem;
+      }
+    }
+  }
+}
+
+ion-segment {
+  margin: 16px;
+  --background: var(--ion-color-light);
+  border-radius: 10px;
+}
+
+.beneficios-container {
+  padding: 0 16px 16px;
+}
+
+.loading-spinner {
+  display: block;
+  margin: 40px auto;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  
+  ion-icon {
+    margin-bottom: 16px;
+  }
+  
+  h3 {
+    color: var(--ion-color-medium);
+    margin: 0 0 8px 0;
+  }
+  
+  p {
+    color: var(--ion-color-medium);
+    margin: 0;
+    font-size: 0.9rem;
+  }
+}
+
+.beneficio-card {
+  margin-bottom: 16px;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  &.disponible {
+    border-left: 4px solid var(--ion-color-success);
+  }
+  
+  &:not(.disponible) {
+    border-left: 4px solid var(--ion-color-warning);
+    opacity: 0.8;
+  }
+}
+
+.beneficio-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+  
+  .beneficio-info {
+    flex: 1;
+    
+    h3 {
+      margin: 0 0 4px 0;
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: var(--ion-color-dark);
+    }
+    
+    .categoria {
+      margin: 0;
+      color: var(--ion-color-medium);
+      font-size: 0.9rem;
+    }
+  }
+  
+  .beneficio-status {
+    margin-left: 12px;
+  }
+}
+
+.beneficio-details {
+  margin-bottom: 12px;
+  
+  .detail-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+    
+    ion-icon {
+      font-size: 1rem;
+      color: var(--ion-color-medium);
+    }
+    
+    span {
+      font-size: 0.9rem;
+      color: var(--ion-color-medium);
+    }
+  }
+}
+
+.beneficio-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+  
+  ion-button {
+    --border-radius: 8px;
+    font-size: 0.8rem;
+  }
+}
+
+// Responsive
+@media (max-width: 480px) {
+  .user-header {
+    padding: 12px;
+  }
+  
+  .beneficios-container {
+    padding: 0 12px 12px;
+  }
+  
+  .beneficio-header {
+    flex-direction: column;
+    gap: 8px;
+    
+    .beneficio-status {
+      margin-left: 0;
+      align-self: flex-start;
+    }
+  }
+}

@@ -7,7 +7,7 @@
     <div class="hero-section">
       <div class="hero-content">
         <h1 class="hero-title">ÚNETE A NUESTRO CLUB</h1>
-        <p class="hero-subtitle">Un programa que es cómodamente conseguir</p>
+        <p class="hero-subtitle">Y EXPERIMENTA EL VERDADERO PRESTIGIO...</p>
       </div>
       <div class="hero-image">
         <img src="/assets/prestige/principal.png" alt="Prestige Club Members" />
@@ -65,15 +65,12 @@
             <p class="point-range">{{ getPointRange(getCurrentCard().level) }}</p>
             <p class="card-description">{{ getCardDescription(getCurrentCard().level) }}</p>
 
-            <div class="benefits-dropdown">
-              <button class="benefits-button" (click)="toggleBenefits()">
-                Beneficios {{ getCurrentCard().level }}
-                <ion-icon name="chevron-down" [class.rotated]="showBenefits"></ion-icon>
-              </button>
-              <div class="benefits-list" [class.show]="showBenefits">
-                <ul>
-                  <li *ngFor="let benefit of getCardBenefits(getCurrentCard().level)">{{ benefit }}</li>
-                </ul>
+            <div class="benefits-section">
+              <h3 class="benefits-title">Beneficios {{ getCurrentCard().level }}</h3>
+              <div class="benefits-buttons">
+                <button class="benefit-button" *ngFor="let benefit of getCardBenefits(getCurrentCard().level)">
+                  {{ benefit }}
+                </button>
               </div>
             </div>
           </div>

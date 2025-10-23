@@ -75,8 +75,10 @@ export class EmailVerificationService {
       // Usar la primera credencial como contraseña principal
       const mainPassword = credentials.length > 0 ? credentials[0].password : this.generatePassword();
       
-      // URL de login (ajustar según tu dominio)
-      const loginUrl = 'http://localhost:8100/login'; // URL local para desarrollo
+      // URL de login (se ajusta automáticamente según el environment)
+      const loginUrl = environment.production 
+        ? 'https://prestige-club-2025.web.app/login' 
+        : 'http://localhost:8100/login';
 
       const verificationData: VerificationData = {
         user_email: userEmail,

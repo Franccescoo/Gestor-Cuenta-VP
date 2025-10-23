@@ -41,10 +41,18 @@ public class SecurityConfig {
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 .authorizeHttpRequests(auth -> {
+                    // --- PUBLICO: health checks
+                    auth.requestMatchers(HttpMethod.GET, "/actuator/health").permitAll();
+                    auth.requestMatchers(HttpMethod.GET, "/actuator/info").permitAll();
+                    
                     // --- PUBLICO: auth
                     auth.requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll();
                     auth.requestMatchers(HttpMethod.POST, "/api/auth/send-credentials").permitAll();
                     auth.requestMatchers(HttpMethod.GET, "/api/auth/health-db").permitAll();
+
+                    // --- PUBLICO: autenticación móvil
+                    auth.requestMatchers(HttpMethod.POST, "/api/mobile/auth/login").permitAll();
+                    auth.requestMatchers(HttpMethod.GET, "/api/mobile/auth/verify").permitAll();
 
                     // --- PUBLICO: estáticos / imágenes (ajusta a tus rutas reales)
                     auth.requestMatchers(HttpMethod.GET, "/productos/**", "/files/**", "/assets/**").permitAll();
@@ -100,7 +108,8 @@ public class SecurityConfig {
                 "http://localhost:8080",  // backend / mismo host para imágenes
                 "http://localhost:8201",  // Frontend del back office (CalculoPuntos)
                 "https://prestige-club-2025.web.app",  // Frontend en producción
-                "https://betpoints-puntos.web.app"    // Frontend CalculoPuntos en producción
+                "https://betpoints-puntos.web.app",    // Frontend CalculoPuntos en producción
+                "https://prestigeclub.vip"             // Frontend principal en producción
                 // agrega "http://localhost:4200" si usas ng serve
         ));
         cfg.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE","OPTIONS"));

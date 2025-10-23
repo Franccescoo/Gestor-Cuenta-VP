@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { Client, IMessage } from '@stomp/stompjs';
 import * as SockJS from 'sockjs-client';
 import { Notificacion } from '../models/Notificacion.model';
+import { environment } from 'src/environments/environment';
 
 /**
  * Servicio para gestionar notificaciones en tiempo real.
@@ -21,8 +22,8 @@ import { Notificacion } from '../models/Notificacion.model';
   providedIn: 'root'
 })
 export class NotificationService {
-  private apiUrl = 'http://localhost:8080/api/notificaciones';
-  private wsUrl = 'http://localhost:8080/ws';
+  private apiUrl = `${environment.apiBaseUrl}/notificaciones`;
+  private wsUrl = `${environment.filesBase}/ws`;
   
   private stompClient: Client | null = null;
   private subscription: any = null;

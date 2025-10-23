@@ -4,70 +4,57 @@
   width: 100%;
 }
 
-/* contenedor negro con línea dorada como en tu UI */
-.brands-marquee {
+/* Logo AltoTermal estático y grande */
+.altoTermal-logo {
   background: #000;
   border-bottom: 1px solid var(--gold);
-  overflow: hidden;
-  position: relative;
-  padding: 30px 0; /* altura compacta */
-
-  /* velocidad: ajusta la duración con esta variable */
-  --speed: 50s;
-}
-
-/* pista que se desplaza */
-.marquee-track {
+  padding: 20px 0;
   display: flex;
-  gap: 80px;
-  width: max-content;
-  padding-inline: 40px;
-  animation: marquee var(--speed) linear infinite;
+  align-items: center;
+  justify-content: center;
 }
 
-/* pausa al pasar el mouse */
-.brands-marquee:hover .marquee-track {
-  animation-play-state: paused;
+.logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* cada logo (mismo dorado/mascara que ya usas) */
-.brand {
-  width: 170px;   /* tamaño uniforme */
-  height: 42px;
-  flex: 0 0 auto;
-  opacity: .95;
-  transition: transform .2s ease, opacity .2s ease;
+.altoTermal-logo-img {
+  width: 300px;
+  height: auto;
+  max-height: 80px;
+  object-fit: contain;
+  filter: brightness(1.1) contrast(1.05);
+  transition: transform 0.3s ease, filter 0.3s ease;
 
   &:hover {
-    transform: translateY(-2px);
-    opacity: 1;
+    transform: scale(1.05);
+    filter: brightness(1.2) contrast(1.1);
   }
 }
 
-/* máscara dorada (no necesita <img>) */
-.brand-mask {
-  background: var(--gold);
-  -webkit-mask-image: var(--logo);
-  mask-image: var(--logo);
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-  -webkit-mask-size: contain;
-  mask-size: contain;
-}
-
-/* animación izquierda -> derecha (o cambia a -100% para la otra dirección) */
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); } /* 2 tiras = 50% para loop perfecto */
-}
-
-/* responsive */
+/* Responsive */
 @media (max-width: 780px) {
-  .brands-marquee { --speed: 22s; } /* un pelín más rápido en mobile */
-  .marquee-track { gap: 48px; }
-  .brand { width: 140px; height: 35px; }
+  .altoTermal-logo {
+    padding: 15px 0;
+  }
+  
+  .altoTermal-logo-img {
+    width: 250px;
+    max-height: 60px;
+  }
+}
+
+@media (max-width: 480px) {
+  .altoTermal-logo {
+    padding: 12px 0;
+  }
+  
+  .altoTermal-logo-img {
+    width: 200px;
+    max-height: 50px;
+  }
 }
 
 /* ===== FOOTER ===== */
